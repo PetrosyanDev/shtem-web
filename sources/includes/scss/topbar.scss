@@ -2,6 +2,12 @@ $top-bar-height: 55px;
 $top-bar-item-width: 135px;
 $top-menu-item-line-weight: 4px;
 
+$current: #2177d4;
+$not-current: #333;
+
+$current-bg: #2177d4;
+$not-current-bg: #99c0ea;
+
 div.top-bar {
     height: $top-bar-height;
     background-color: $white;
@@ -18,4 +24,38 @@ img.top-bar-logo {
 
 div.top-menu-item {
     width: $top-bar-item-width;
+}
+
+div.top-menu-item-text {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+div.top-menu-item-text a {
+    width: 100% !important;
+    text-decoration: none !important;
+    color: $not-current;
+    transition: all .4s;
+}
+
+div.top-menu-item-text a.current {
+    color: $current !important;
+}
+
+div.top-menu-item-text:has(a:hover)+div.top-menu-item-line {
+    background-color: $current !important;
+}
+
+div.top-menu-item-line {
+    height: $top-menu-item-line-weight;
+    width: 100%;
+    border-radius: 50rem;
+}
+
+.bg-nav-item-current {
+    background-color: $current-bg;
+}
+
+.bg-nav-item-noncurrent {
+    background-color: $not-current-bg;
 }

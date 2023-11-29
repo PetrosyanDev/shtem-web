@@ -8,7 +8,7 @@
                 >{{$itm.Name}}</a
             >
         </div>
-        <div class="{{if $itm.IsCurrent}}bg-accent-blue-500{{else}} bg-accent-blue-200{{end}} top-menu-item-line"></div>
+        <div class="{{if $itm.IsCurrent}}bg-nav-item-current{{else}}bg-nav-item-noncurrent{{end}} top-menu-item-line"></div>
     </div>
     {{end}}
 </div>

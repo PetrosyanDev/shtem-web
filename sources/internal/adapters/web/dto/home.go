@@ -10,8 +10,8 @@ func HomeData() *domain.Page {
 	)
 	pb := newPageBuilder().
 		AddHeader(title, description).
-		AddTopMenuItem("Home", "/", true).
-		AddTopMenuItem("Shtems", "/shtems", false).
-		AddTopMenuItem("About", "/about", false)
+		AddTopMenuItem("HOME", "/", true).
+		AddTopMenuItem("SHTEMS", "/shtems", false).
+		AddTopMenuItem("ABOUT", "/about", false)
 	return pb.Page()
 }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const name = 'Alex'
+const name = 'Vue'
 </script>
 
-<template>HELLO {{ name }}</template>
+<template>Hello from {{ name }}</template>
 
 <style></style>

@@ -6,7 +6,7 @@
     "build": "run-p type-check \"build-only {@}\" --",
     "build-only": "vite build",
     "sass": "sass --no-source-map ./sources/includes/scss/main.scss:./assets/css/main.css",
-    "minify:css": "minify ./assets/css/main.css > ./assets/css/main.min.css && rm ./assets/css/main.css ",
+    "minify:css": "minify ./assets/css/main.css > ./assets/css/main.min.css",
     "js:main": "cp ./dist/main.min.js ./assets/js/main.min.js",
     "js:bootstrap": "cp ./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js ./assets/js/bootstrap.bundle.min.js",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
