@@ -1,10 +1,16 @@
 package domain
 
-type Page struct {
-	Header Header
+type TopMenuItem struct {
+	Name      string
+	Link      string
+	IsCurrent bool
 }
 
-type Header struct {
-	Title       string
-	Description string
+type TopMenu struct {
+	CurrentName string
+	Items       []TopMenuItem
+}
+
+type Body struct {
+	TopMenu TopMenu
 }

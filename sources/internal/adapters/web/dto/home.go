@@ -9,6 +9,9 @@ func HomeData() *domain.Page {
 		description = "Welcome to shtemaran.am"
 	)
 	pb := newPageBuilder().
-		AddHeader(title, description)
+		AddHeader(title, description).
+		AddTopMenuItem("Home", "/", true).
+		AddTopMenuItem("Shtems", "/shtems", false).
+		AddTopMenuItem("About", "/about", false)
 	return pb.Page()
 }

@@ -1,1 +1,13 @@
 @import "./bootstrap.scss";
+
+$page-max-width: 1400px;
+
+html {
+    scroll-behavior: smooth;
+}
+
+div.global-container {
+    max-width: $page-max-width;
+}
+
+@import 'topbar.scss';

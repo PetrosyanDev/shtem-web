@@ -1,0 +1,16 @@
+{{define "top-menu"}}
+
+<div class="d-none d-lg-flex justify-content-center align-items-end gap-4 top-menu">
+    {{range $i, $itm := .Body.TopMenu.Items}}
+    <div class="top-menu-item">
+        <div class="text-center top-menu-item-text">
+            <a name="{{$itm.Name}}" id="#top-menu-{{$i}}" class="btn btn-link{{if $itm.IsCurrent}} current{{end}}" href="{{$itm.Link}}" role="button"
+                >{{$itm.Name}}</a
+            >
+        </div>
+        <div class="{{if $itm.IsCurrent}}bg-accent-blue-500{{else}} bg-accent-blue-200{{end}} top-menu-item-line"></div>
+    </div>
+    {{end}}
+</div>
+
+{{end}}

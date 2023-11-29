@@ -1,0 +1,21 @@
+{{define "top-nav-bar"}}
+
+<nav>
+    <div class="container-fluid sticky-top">
+        <div class="row flex-nowrap top-bar shadow-sm">
+            <div class="d-none d-xl-flex col-1 flex-fill"></div>
+            <div class="col flex-fill global-container">
+                <div class="row" style="height: 100%">
+                    <div class="col-2 d-flex align-items-center justify-content-center">
+                        <img class="top-bar-logo" src="/assets/svg/logo-32.svg" alt="Logo" />
+                    </div>
+                    <div class="col-8">{{template "top-menu" .}}</div>
+                    <div class="col-2"></div>
+                </div>
+            </div>
+            <div class="d-none d-xl-flex col-1 flex-fill"></div>
+        </div>
+    </div>
+</nav>
+
+{{end}}

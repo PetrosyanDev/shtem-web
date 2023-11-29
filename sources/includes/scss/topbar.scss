@@ -1,0 +1,21 @@
+$top-bar-height: 55px;
+$top-bar-item-width: 135px;
+$top-menu-item-line-weight: 4px;
+
+div.top-bar {
+    height: $top-bar-height;
+    background-color: $white;
+}
+
+div.top-menu {
+    height: $top-bar-height;
+    width: 100%;
+}
+
+img.top-bar-logo {
+    height: $top-bar-height - 10px !important;
+}
+
+div.top-menu-item {
+    width: $top-bar-item-width;
+}

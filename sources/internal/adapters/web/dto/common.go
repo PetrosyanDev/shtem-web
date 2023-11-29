@@ -21,6 +21,16 @@ func (b *pageBuilder) AddHeader(title, description string) *pageBuilder {
 	return b
 }
 
+func (b *pageBuilder) AddTopMenuItem(name, link string, isCurrent bool) *pageBuilder {
+	b.page.Body.TopMenu.Items = append(b.page.Body.TopMenu.Items, domain.TopMenuItem{
+		Name: name, Link: link, IsCurrent: isCurrent,
+	})
+	if isCurrent {
+		b.page.Body.TopMenu.CurrentName = name
+	}
+	return b
+}
+
 func (b *pageBuilder) Page() *domain.Page {
 	return b.page
 }
