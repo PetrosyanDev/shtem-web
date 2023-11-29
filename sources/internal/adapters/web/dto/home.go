@@ -5,7 +5,7 @@ import "shtem-web/sources/internal/core/domain"
 
 func HomeData() *domain.Page {
 	const (
-		title       = "Shtemaran.am - Learing Fast | The best way to save up time"
+		title       = "shtemaran.am • Learning Fast | The Best Way to Save Time"
 		description = "Welcome to shtemaran.am"
 	)
 	pb := newPageBuilder().

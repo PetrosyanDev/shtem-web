@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-const faviconFile = "img/logo-32.png"
+const faviconFile = "svg/logo-32.svg"
 
 func NewWEBRouter(handler ports.WEBHandler) *gin.Engine {
 
