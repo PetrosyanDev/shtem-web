@@ -3,14 +3,26 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
-// https://vitejs.dev/config/
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      input: 'sources/includes/ts/main.ts',
+      output: {
+        entryFileNames: 'main.min.js',
+        compact: true
+      },
+      external: [/^node:.*/]
+    }
+  },
   plugins: [
-    vue(),
+    vue({
+      reactivityTransform: true
+    })
   ],
+  base: './',
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./sources/includes', import.meta.url))
     }
   }
 })
