@@ -11871,7 +11871,6 @@ div.top-bar {
 
 img.top-bar-logo, svg.top-bar-logo {
   height: 65px !important;
-  min-width: 150px;
   max-width: 190px;
   fill: white !important;
 }
@@ -11896,7 +11895,6 @@ div.top-menu-item {
 
 div.top-menu-item-text {
   width: 100%;
-  margin-bottom: 5px;
 }
 
 div.top-menu-item-text a {
@@ -11923,7 +11921,7 @@ div.top-menu-item:hover .top-menu-item-text a {
 }
 
 div.top-menu-item-line {
-  height: 4px;
+  height: 2px;
   width: 100%;
   border-radius: 50rem;
   transition: all 0.4s;

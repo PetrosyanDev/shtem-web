@@ -1,8 +1,8 @@
 $top-bar-height: 65px;
 $top-bar-item-width: 135px;
-$top-menu-item-line-weight: 4px;
+$top-menu-item-line-weight: 2px;
 
-$top-bg-color: rgb(80, 134, 136);
+$top-bg-color: #508688;
 
 $current: #ffffff;
 $current-bg: #ffffff;
@@ -48,7 +48,7 @@ div.top-menu-item {
 
 div.top-menu-item-text {
     width: 100%;
-    margin-bottom: 5px;
+    // margin-bottom: 5px;
 }
 
 div.top-menu-item-text a {
@@ -60,14 +60,11 @@ div.top-menu-item-text a {
 
 div.top-menu-item-text a.current {
     color: $current !important;
+    margin-bottom: 3px;
 }
 
 div.top-menu-item:hover {
     cursor: pointer;
-}
-
-div.top-menu-item:hover .top-menu-item-line {
-    background-color: $current !important;
 }
 
 div.top-menu-item:hover .top-menu-item-text a {
