@@ -1,8 +1,8 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
-import App from '@/views/App.vue'
+import MainQuiz from '@/views/MainQuiz.vue'
 
-const app = createApp(App)
-app.use(createPinia())
-app.mount('#question')
+const quiz = createApp(MainQuiz)
+quiz.use(createPinia())
+quiz.mount('#question')

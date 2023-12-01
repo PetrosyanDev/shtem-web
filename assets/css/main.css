@@ -11897,10 +11897,6 @@ div.top-menu-item-text {
   width: 100%;
 }
 
-div.top-menu-item-text:focus {
-  color: white;
-}
-
 div.top-menu-item-text a {
   width: 100% !important;
   text-decoration: none !important;
@@ -11956,4 +11952,17 @@ button.top-button {
 
 .dropdown-item.active, .dropdown-item:active {
   background-color: #508688;
+}
+
+div.question-body {
+  box-shadow: 0px 0px 30px 5px rgba(0, 0, 0, 0.1);
+  padding: 30px 0px;
+}
+
+div.question-title {
+  text-align: center;
+}
+
+div.question-text {
+  text-align: center;
 }
