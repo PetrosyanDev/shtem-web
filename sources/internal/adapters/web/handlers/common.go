@@ -19,6 +19,18 @@ func (h *webHandler) Home(page string) gin.HandlerFunc {
 	}
 }
 
+func (h *webHandler) Shtems(page string) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		h.webService.Home(ctx, page, dto.ShtemsData())
+	}
+
+}
+func (h *webHandler) About(page string) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		h.webService.Home(ctx, page, dto.AboutData())
+	}
+}
+
 func (h *webHandler) Page404() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		h.webService.Page404(ctx, dto.NotFoundData())

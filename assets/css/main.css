@@ -11865,7 +11865,7 @@ div.global-container {
 
 div.top-bar {
   height: 65px;
-  background-color: rgb(80, 134, 136);
+  background-color: #508688;
   box-shadow: 0 0 10px 5px rgba(80, 134, 136, 0.4);
 }
 
@@ -11897,6 +11897,10 @@ div.top-menu-item-text {
   width: 100%;
 }
 
+div.top-menu-item-text:focus {
+  color: white;
+}
+
 div.top-menu-item-text a {
   width: 100% !important;
   text-decoration: none !important;
@@ -11906,14 +11910,11 @@ div.top-menu-item-text a {
 
 div.top-menu-item-text a.current {
   color: #ffffff !important;
+  margin-bottom: 3px;
 }
 
 div.top-menu-item:hover {
   cursor: pointer;
-}
-
-div.top-menu-item:hover .top-menu-item-line {
-  background-color: #ffffff !important;
 }
 
 div.top-menu-item:hover .top-menu-item-text a {
@@ -11954,5 +11955,5 @@ button.top-button {
 }
 
 .dropdown-item.active, .dropdown-item:active {
-  background-color: rgb(80, 134, 136);
+  background-color: #508688;
 }

@@ -17,6 +17,8 @@ func NewWEBRouter(handler ports.WEBHandler) *gin.Engine {
 	middlewares.ApplyCommonMiddlewares(r)
 
 	r.GET("/", handler.Home("quiz.html"))
+	r.GET("/shtems", handler.Shtems("quiz.html"))
+	r.GET("/about", handler.About("quiz.html"))
 
 	r.StaticFileFS("/favicon.ico", faviconFile, handler.Static())
 
