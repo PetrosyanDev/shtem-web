@@ -5,12 +5,16 @@
         <div class="row flex-nowrap">
             <div class="d-none d-xl-flex col-1 flex-fill"></div>
             <div class="col flex-fill global-container">
-                <div class="mt-5 w-100 bg-light bg-gradient rounded question-body">
-                    <div class="question-title">
-                        <h2>Համար {{ num }}</h2>
-                    </div>
-                    <div class="question-text">
-                        <p>{{ text }}</p>
+                <div class="row">
+                    <div class="col col-md-10 mx-auto bg-light bg-gradient rounded question-body">
+                        <div class="w-100">
+                            <div class="question-title">
+                                <h4>Համար {{ num }}</h4>
+                            </div>
+                            <div class="question-text">
+                                <p>{{ text }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

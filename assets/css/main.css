@@ -11956,7 +11956,7 @@ button.top-button {
 
 div.question-body {
   box-shadow: 0px 0px 30px 5px rgba(0, 0, 0, 0.1);
-  padding: 30px 0px;
+  padding: 30px;
 }
 
 div.question-title {
@@ -11964,5 +11964,6 @@ div.question-title {
 }
 
 div.question-text {
+  margin-top: 30px;
   text-align: center;
 }
