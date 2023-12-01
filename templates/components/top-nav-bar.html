@@ -2,15 +2,18 @@
 
 <nav>
     <div class="container-fluid sticky-top">
-        <div class="row flex-nowrap top-bar shadow-sm">
+        <div class="row flex-nowrap top-bar">
             <div class="d-none d-xl-flex col-1 flex-fill"></div>
             <div class="col flex-fill global-container">
                 <div class="row" style="height: 100%">
-                    <div class="col-2 d-flex align-items-center justify-content-center">
-                        <img class="top-bar-logo" src="/assets/svg/logo-32.svg" alt="Logo" />
-                    </div>
+                    <div class="col-2">{{template "top-logo"}}</div>
                     <div class="col-8">{{template "top-menu" .}}</div>
-                    <div class="col-2"></div>
+                    <div class="col-2">
+                        <div class="d-flex justify-content-end align-items-center top-right">
+                            <div class="d-none d-sm-flex d-lg-none me-2 text-white">{{.Body.TopMenu.CurrentName}}</div>
+                            {{template "top-menu-mob" .}} {{template "top-user" .}}
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="d-none d-xl-flex col-1 flex-fill"></div>
