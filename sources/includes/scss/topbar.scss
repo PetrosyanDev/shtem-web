@@ -1,29 +1,49 @@
-$top-bar-height: 55px;
+$top-bar-height: 65px;
 $top-bar-item-width: 135px;
 $top-menu-item-line-weight: 4px;
 
-$current: #2177d4;
-$not-current: #333;
+$top-bg-color: rgb(80, 134, 136);
 
-$current-bg: #2177d4;
-$not-current-bg: #99c0ea;
+$current: #ffffff;
+$current-bg: #ffffff;
+
+$not-current:#d0d0d0;
+$not-current-bg: #d0d0d0;
+
+// MAIN
 
 div.top-bar {
     height: $top-bar-height;
-    background-color: $white;
+    background-color: $top-bg-color;
+    box-shadow: 0 0 10px 5px rgba(80, 134, 136,0.4);
 }
+
+// LOGO
+
+img.top-bar-logo, svg.top-bar-logo {
+    height: $top-bar-height !important;
+    max-width: 190px;
+    fill: white !important;
+}
+
+img.top-bar-icon, svg.top-bar-icon {
+    height: $top-bar-height - 30px !important;
+}
+
+// LINKS
 
 div.top-menu {
     height: $top-bar-height;
     width: 100%;
 }
 
-img.top-bar-logo {
-    height: $top-bar-height - 10px !important;
-}
-
 div.top-menu-item {
     width: $top-bar-item-width;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 div.top-menu-item-text {
@@ -42,14 +62,23 @@ div.top-menu-item-text a.current {
     color: $current !important;
 }
 
-div.top-menu-item-text:has(a:hover)+div.top-menu-item-line {
+div.top-menu-item:hover {
+    cursor: pointer;
+}
+
+div.top-menu-item:hover .top-menu-item-line {
     background-color: $current !important;
+}
+
+div.top-menu-item:hover .top-menu-item-text a {
+    color: $current !important;
 }
 
 div.top-menu-item-line {
     height: $top-menu-item-line-weight;
     width: 100%;
     border-radius: 50rem;
+    transition: all .4s;
 }
 
 .bg-nav-item-current {
@@ -58,4 +87,28 @@ div.top-menu-item-line {
 
 .bg-nav-item-noncurrent {
     background-color: $not-current-bg;
+}
+
+// MOBILE/USER
+
+div.top-right {
+    height: $top-bar-height;
+    width: 100%;
+}
+
+div.top-right button svg {
+    height: 100%;
+}
+
+div.top-right button svg path {
+    fill: white !important;
+}
+
+button.top-button {
+    background-color: transparent;
+    border: none;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    background-color: $top-bg-color;
 }
