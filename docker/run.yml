@@ -1,0 +1,20 @@
+# Erik Petrosyan ©
+version: '3.8'
+
+services:
+    shtem-web:
+        image: ${IMG}:${TAG}
+        user: erik:erik
+        deploy:
+            replicas: 1
+        environment:
+            - GIN_MODE=${MODE}
+        networks:
+            - erik_internal_net
+        ports:
+            - '2222:2222'
+        command: ./cmd/web/app
+
+networks:
+    erik_internal_net:
+        driver: overlay
