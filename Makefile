@@ -79,6 +79,10 @@ deploy-dev: build
 	ssh ${DEV_HOST} -p ${SSH_PORT} "rm -f ${DEPLOY_DIR}/secrets.json"
 	@echo "DEPLOYED on STAGING! VERSION is: ${RELEASE_VERSION}"
 
+deploy-dev-unbuild:
+	ssh ${DEV_HOST} -p ${SSH_PORT} "IMG=${IMAGE} TAG=${RELEASE_VERSION} MODE=debug docker stack deploy -c ${DEPLOY_DIR}/docker/run.yml erik --with-registry-auth"
+	@echo "DEPLOYED on STAGING! VERSION is: ${RELEASE_VERSION}"
+
 ## Deploying on Production (without build)
 deploy-prd: build
 	ssh ${PRD_HOST} -p ${SSH_PORT} "mkdir -p ${DEPLOY_DIR}/docker"
