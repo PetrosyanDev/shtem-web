@@ -11,8 +11,6 @@ services:
             - GIN_MODE=${MODE}
         networks:
             - erik_internal_net
-        ports:
-            - '2222:2222'
         command: ./cmd/web/app
 
 networks:
