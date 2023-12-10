@@ -72,11 +72,8 @@ build: sass vue-compile js-bootstrap minify test pull
 	@echo "BUILT IMAGE: ${IMAGE}:${RELEASE_VERSION}"
 
 ## Building and Deploying on Staging
-deploy-dev: build
-	ssh ${DEV_HOST} -p ${SSH_PORT} "docker pull ${REGISTRY}/${IMAGE}:${RELEASE_VERSION}"
-	scp -P ${SSH_PORT} secrets/dev.json ${DEV_HOST}:${DEV_BASE}/${DEPLOY_DIR}/secrets.json
-	ssh ${DEV_HOST} -p ${SSH_PORT} "REPO=${REGISTRY} IMG=${IMAGE} TAG=${RELEASE_VERSION} DIR=${DEV_BASE}/${DEPLOY_DIR} MODE=debug NONS=${NONSENCE} docker stack deploy -c ${DEPLOY_DIR}/docker/run.yml imedcs --with-registry-auth"
-	ssh ${DEV_HOST} -p ${SSH_PORT} "rm -f ${DEPLOY_DIR}/secrets.json"
+deploy-dev: 
+	ssh ${DEV_HOST} -p ${SSH_PORT} "IMG=${IMAGE} TAG=${RELEASE_VERSION} DIR=${DEV_BASE}/${DEPLOY_DIR} MODE=debug NONS=${NONSENCE} docker stack deploy -c ${DEPLOY_DIR}/docker/run.yml erik --with-registry-auth"
 	@echo "DEPLOYED on STAGING! VERSION is: ${RELEASE_VERSION}"
 
 deploy-dev-unbuild:
