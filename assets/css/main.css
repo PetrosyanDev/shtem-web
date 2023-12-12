@@ -11855,6 +11855,18 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.position-timer {
+  position: relative;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+
+@media (min-width: 562px) {
+  .position-timer {
+    position: absolute;
+    margin-left: 1rem;
+  }
+}
 html {
   scroll-behavior: smooth;
 }
