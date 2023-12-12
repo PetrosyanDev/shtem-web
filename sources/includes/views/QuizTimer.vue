@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex gap-1 align-items-center my-4">
+    <div class="d-flex gap-1 align-items-center">
         <img style="width: 20px; height: 20px" :src="'/assets/svg/stopwatch.svg'" alt="" />
         <p class="m-0">{{ formattedTime }}</p>
     </div>
