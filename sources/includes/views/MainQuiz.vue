@@ -104,7 +104,7 @@ const clearSelected = (divSelected: any) => {
 
 const onOptionClicked = (choice: any, item: any) => {
     if (canClick) {
-        const divContainer = itemsRef[item + 1]
+        const divContainer = itemsRef[item]
         const optionID = item + 1
         console.log(currentQuestion.value.answers[0], optionID)
         if (currentQuestion.value.answers[0] == optionID) {
