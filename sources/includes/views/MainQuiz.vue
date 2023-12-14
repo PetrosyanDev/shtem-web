@@ -74,6 +74,7 @@ function loadQuestion() {
             if (data.error) {
                 currentQuestion.value.text = data.error
                 currentQuestion.value.options = []
+                currentQuestion.value.q_number += 1
                 return
             }
             currentQuestion.value.text = data.data.text
@@ -82,6 +83,7 @@ function loadQuestion() {
             currentQuestion.value.q_number += 1
         })
         .catch((error) => {
+            currentQuestion.value.q_number += 1
             currentQuestion.value.text = error
             currentQuestion.value.options = []
         })
