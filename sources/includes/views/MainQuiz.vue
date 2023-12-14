@@ -3,30 +3,25 @@
         <div class="row flex-nowrap">
             <div class="d-none d-xl-flex col-1 flex-fill"></div>
             <div class="col flex-fill global-container">
-                <div class="col col-md-10 mx-auto bg-light bg-gradient rounded question-body">
+                <div v-if="currentQuestion.text" class="col col-md-10 mx-auto bg-light bg-gradient rounded question-body">
                     <div class="w-100">
                         <div class="queston-title">
                             <QuizTimer class="position-timer"></QuizTimer>
-                            <h4 class="text-center m-0">Բաժին {{ bajin }} Մաս {{ mas }} Համար {{ q_number }}</h4>
+                            <h4 class="text-center m-0">Բաժին {{ currentQuestion.bajin }} Մաս {{ currentQuestion.mas }} Համար {{ currentQuestion.q_number }}</h4>
                         </div>
                         <div class="question-text">
-                            <p>{{ text }}</p>
+                            <p>{{ currentQuestion.text }}</p>
                         </div>
                     </div>
                     <div class="mt-4 question-answer row gap-2">
-                        <div v-for="(item, index) in answers" :key="item">
-                            <label v-if="q_answer === (index + 1).toString()" :for="(index + 1).toString()" class="col-12 btn border rounded border-success text-start">
-                                <input type="radio" name="question" :id="(index + 1).toString()" :value="(index + 1).toString()" v-model="q_answer" style="display: none" />
-                                {{ item }}
-                            </label>
-                            <label v-else :for="(index + 1).toString()" class="col-12 btn border rounded text-start">
-                                <input type="radio" name="question" :id="(index + 1).toString()" :value="(index + 1).toString()" v-model="q_answer" style="display: none" />
-                                {{ item }}
-                            </label>
+                        <div v-for="(choice, item) in currentQuestion.options" :key="item">
+                            <label class="col-12 btn rounded border" :ref="optionChosen" @click="onOptionClicked(choice, item)"> {{ choice }}{{ item }} </label>
                         </div>
-                        <div v-if="q_answer !== ''" class="d-flex justify-content-center">
-                            <button @click="nextQuestion" type="button" class="col-12 col-md-6 col-lg-4 btn btn-primary mt-3">Next</button>
-                        </div>
+                    </div>
+                </div>
+                <div v-else class="col col-md-10 mx-auto bg-light bg-gradient rounded question-body justify-content-center">
+                    <div class="w-100 d-flex justify-content-center">
+                        <div class="spinner-border text-default" role="status"></div>
                     </div>
                 </div>
             </div>
@@ -36,58 +31,121 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeMount } from 'vue'
+import { ref, onMounted } from 'vue'
 import QuizTimer from './QuizTimer.vue'
 
-var shtemaran = window.location.href.split('/').pop()
-let bajin: number = 1
-let mas: number = 1
-let q_number: number = 1
-
-onBeforeMount(() => {
-    GetNextQuestion()
+const currentQuestion = ref({
+    shtemaran: window.location.href.split('/').pop(),
+    bajin: 1,
+    mas: 1,
+    q_number: 0,
+    text: '',
+    options: [''],
+    answers: [0]
 })
 
-let text = ''
-let answers = [
-    '1) Տղամարդը անբարիացակամ վերաբերմունք դրսևորեց իր նոր հարևանների նկատմամբ:',
-    '2) Բանջար քաղող աղջիկների բույլը վետվետում էր լանջերն ի վեր:',
-    '3) Նա ամբողջ օրն անցկացնում էր թեթևաբարո կանանց և զեխ գինարբուքների մեջ:',
-    '4) Գեղջկուհու` արևից ու քամուց թրծված դեմքը խոսում էր նրա հոգսաշատ կյանքի մասին:'
-]
-let q_answer = ref('')
+let canClick = true
 
-const nextQuestion = () => {
-    // Handle the logic for moving to the next question
-    console.log('Selected Answer:', q_answer.value)
+function loadQuestion() {
+    canClick = true
 
-    q_answer.value = ''
-    q_number += 1
-}
+    // Other
 
-function GetNextQuestion() {
     var payload = {
-        shtemaran: shtemaran,
-        bajin: bajin,
-        mas: mas,
-        number: q_number
+        shtemaran: currentQuestion.value.shtemaran,
+        bajin: currentQuestion.value.bajin,
+        mas: currentQuestion.value.mas,
+        number: currentQuestion.value.q_number + 1
     }
 
-    const options = {
+    const opts = {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
             'X-Shtem-Api-Key': 'someKey'
         },
         body: JSON.stringify(payload)
     }
 
-    fetch('http://localhost:9998/api/v1/questions/find', options)
+    console.log(opts.body)
+
+    fetch('https://shtemaran.am/api/v1/questions/find', opts)
         .then((responce) => responce.json())
         .then((data) => {
-            console.log(data)
+            if (data.error) {
+                currentQuestion.value.text = data.error
+                currentQuestion.value.options = []
+                return
+            }
+            currentQuestion.value.text = data.data.text
+            currentQuestion.value.options = data.data.options
+            currentQuestion.value.answers = data.data.answers
+            currentQuestion.value.q_number += 1
+        })
+        .catch((error) => {
+            currentQuestion.value.text = error
+            currentQuestion.value.options = []
         })
 }
+
+let itemsRef: any = []
+const optionChosen = (element: any) => {
+    if (element) {
+        itemsRef.push(element)
+    }
+}
+
+const clearSelected = (divSelected: any) => {
+    setTimeout(() => {
+        divSelected.classList.remove('border-success')
+        divSelected.classList.remove('border-danger')
+        loadQuestion()
+    }, 1000)
+}
+
+const onOptionClicked = (choice: any, item: any) => {
+    if (canClick) {
+        const divContainer = itemsRef[item + 1]
+        const optionID = item + 1
+        console.log(currentQuestion.value.answers[0], optionID)
+        if (currentQuestion.value.answers[0] == optionID) {
+            console.log('you are correct')
+            divContainer.classList.add('border-success')
+        } else {
+            console.log('you are wrong')
+            divContainer.classList.add('border-danger')
+            setTimeout(() => {
+                divContainer.classList.remove('border-danger')
+            }, 500)
+            return
+        }
+        canClick = false
+        // TODO go to next question
+        clearSelected(divContainer)
+        console.log(choice, item)
+    } else {
+        // Cant select option
+        console.log('cant select question')
+    }
+}
+
+onMounted(() => {
+    loadQuestion()
+})
+
+// const nextQuestion = () => {
+//     console.log('Selected Answer:', q_answer.value)
+
+//     if (q_answer.value == answers[0].toString()) {
+//         q_answer.value = ''
+//         GetQuestion()
+//     } else {
+//         const element = document.querySelector('.border-success.selectedd')
+//         if (element) {
+//             element.classList.remove('border-success')
+//             element.classList.add('border-danger')
+//         }
+//     }
+// }
 </script>
 
 <style></style>
