@@ -11867,6 +11867,10 @@ textarea.form-control-lg {
     margin-left: 1rem;
   }
 }
+.text-default {
+  color: #508688;
+}
+
 html {
   scroll-behavior: smooth;
 }
