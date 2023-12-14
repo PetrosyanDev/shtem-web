@@ -14,8 +14,8 @@
                         </div>
                     </div>
                     <div class="mt-4 question-answer row gap-2">
-                        <div v-for="(choice, item) in currentQuestion.options" :key="item">
-                            <label class="col-12 btn rounded border" :ref="optionChosen" @click="onOptionClicked(choice, item)"> {{ choice }}{{ item }} </label>
+                        <div class="question-answer" v-for="(choice, item) in currentQuestion.options" :key="item">
+                            <label class="col-12 btn rounded border" :ref="optionChosen" @click="onOptionClicked(choice, item)"> {{ choice }} </label>
                         </div>
                     </div>
                 </div>

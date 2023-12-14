@@ -11871,6 +11871,10 @@ textarea.form-control-lg {
   color: #508688;
 }
 
+.question-answer {
+  text-align: left;
+}
+
 html {
   scroll-behavior: smooth;
 }
