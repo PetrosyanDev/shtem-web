@@ -21,13 +21,13 @@ func (h *webHandler) Home(page string) gin.HandlerFunc {
 
 func (h *webHandler) Shtems(page string) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		h.webService.Home(ctx, page, dto.ShtemsData())
+		h.webService.Shtems(ctx, page, dto.ShtemsData())
 	}
 
 }
 func (h *webHandler) About(page string) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		h.webService.Home(ctx, page, dto.AboutData())
+		h.webService.About(ctx, page, dto.AboutData())
 	}
 }
 
