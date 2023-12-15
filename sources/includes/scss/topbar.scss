@@ -63,11 +63,7 @@ div.top-menu-item-text a.current {
     margin-bottom: 3px;
 }
 
-div.top-menu-item:hover {
-    cursor: pointer;
-}
-
-div.top-menu-item:hover .top-menu-item-text a {
+div.top-menu-item .top-menu-item-text a:hover {
     color: $current !important;
 }
 

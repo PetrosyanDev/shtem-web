@@ -4,9 +4,7 @@
     {{range $i, $itm := .Body.TopMenu.Items}}
     <div class="top-menu-item">
         <div class="text-center top-menu-item-text">
-            <a name="{{$itm.Name}}" id="#top-menu-{{$i}}" class="btn btn-link{{if $itm.IsCurrent}} current{{end}}" href="{{$itm.Link}}" role="button"
-                >{{$itm.Name}}</a
-            >
+            <a name="{{$itm.Name}}" id="#top-menu-{{$i}}" class="btn btn-link{{if $itm.IsCurrent}} current{{end}}" href="{{$itm.Link}}" role="button">{{$itm.Name}}</a>
         </div>
         {{if $itm.IsCurrent}}
         <div class="bg-nav-item-current top-menu-item-line"></div>
