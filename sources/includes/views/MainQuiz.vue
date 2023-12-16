@@ -7,7 +7,7 @@
                     <div class="w-100">
                         <div class="queston-title">
                             <QuizTimer class="position-timer"></QuizTimer>
-                            <h4 class="text-center m-0">Բաժին {{ currentQuestion.bajin }} Մաս {{ currentQuestion.mas }} Համար {{ currentQuestion.q_number }}</h4>
+                            <h4 class="text-center m-0">Բաժին {{ currentQuestion.bajin }} Մաս {{ currentQuestion.mas }} Համար {{ currentQuestion.number }}</h4>
                         </div>
                         <div class="question-text">
                             <p>{{ currentQuestion.text }}</p>
@@ -32,21 +32,18 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import Question from './Models'
 import QuizTimer from './QuizTimer.vue'
 
-const currentQuestion = ref({
-    shtemaran: window.location.href.split('/').pop(),
-    bajin: 1,
-    mas: 1,
-    q_number: 0,
-    text: '',
-    options: [''],
-    answers: [0]
-})
-
 let canClick = true
+let questionCounter = ref(0)
 
-function loadQuestion() {
+const shtemName: string = window.location.href.split('/').pop() || ''
+// const bajinCounter: string = window.location.href.split('/')[window.location.href.split('/').length - 2] || ''
+const currentQuestion = ref(new Question(shtemName, 1, 1, 0, '', [''], [0]))
+let Questions: Question[] = []
+
+function loadBajin() {
     canClick = true
 
     // Other
@@ -54,8 +51,8 @@ function loadQuestion() {
     var payload = {
         shtemaran: currentQuestion.value.shtemaran,
         bajin: currentQuestion.value.bajin,
-        mas: currentQuestion.value.mas,
-        number: currentQuestion.value.q_number + 1
+        mas: 1,
+        number: 1
     }
 
     const opts = {
@@ -66,27 +63,39 @@ function loadQuestion() {
         body: JSON.stringify(payload)
     }
 
-    console.log(opts.body)
-
-    fetch('https://shtemaran.am/api/v1/questions/find', opts)
+    fetch('https://shtemaran.am/api/v1/questions/findBajin', opts)
         .then((responce) => responce.json())
         .then((data) => {
             if (data.error) {
                 currentQuestion.value.text = data.error
                 currentQuestion.value.options = []
-                currentQuestion.value.q_number += 1
+                currentQuestion.value.number += 1
                 return
             }
-            currentQuestion.value.text = data.data.text
-            currentQuestion.value.options = data.data.options
-            currentQuestion.value.answers = data.data.answers
-            currentQuestion.value.q_number += 1
+            Questions = data.data
+            loadQuestion()
         })
         .catch((error) => {
-            currentQuestion.value.q_number += 1
+            currentQuestion.value.number += 1
             currentQuestion.value.text = error
             currentQuestion.value.options = []
         })
+}
+
+const loadQuestion = () => {
+    canClick = true
+
+    itemsRef = []
+
+    if (Questions.length > questionCounter.value) {
+        // load question
+        currentQuestion.value = Questions[questionCounter.value]
+        questionCounter.value++
+    } else {
+        currentQuestion.value.text = 'Out of questions'
+        currentQuestion.value.options = []
+        currentQuestion.value.number += 1
+    }
 }
 
 let itemsRef: any = []
@@ -108,12 +117,9 @@ const onOptionClicked = (choice: any, item: any) => {
     if (canClick) {
         const divContainer = itemsRef[item]
         const optionID = item + 1
-        console.log(currentQuestion.value.answers[0], optionID)
         if (currentQuestion.value.answers[0] == optionID) {
-            console.log('you are correct')
             divContainer.classList.add('border-success')
         } else {
-            console.log('you are wrong')
             divContainer.classList.add('border-danger')
             setTimeout(() => {
                 divContainer.classList.remove('border-danger')
@@ -123,7 +129,6 @@ const onOptionClicked = (choice: any, item: any) => {
         canClick = false
         // TODO go to next question
         clearSelected(divContainer)
-        console.log(choice, item)
     } else {
         // Cant select option
         console.log('cant select question')
@@ -131,23 +136,8 @@ const onOptionClicked = (choice: any, item: any) => {
 }
 
 onMounted(() => {
-    loadQuestion()
+    loadBajin()
 })
-
-// const nextQuestion = () => {
-//     console.log('Selected Answer:', q_answer.value)
-
-//     if (q_answer.value == answers[0].toString()) {
-//         q_answer.value = ''
-//         GetQuestion()
-//     } else {
-//         const element = document.querySelector('.border-success.selectedd')
-//         if (element) {
-//             element.classList.remove('border-success')
-//             element.classList.add('border-danger')
-//         }
-//     }
-// }
 </script>
 
 <style></style>
