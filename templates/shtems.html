@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+    {{ template "header" .}}
+    <body>
+        {{template "top-nav-bar" .}}
+
+        <div class="container-lg mt-5">
+            <h1>Shtemarans:</h1>
+            <div class="row row-cols-sm-2 row-cols-lg-3 g-3 mt-2">
+                {{ range .Body.Shtems }}
+                <a href="/shtems/{{.Name}}" class="text-decoration-none">
+                    <div class="col pe-3">
+                        <div class="border rounded p-3">{{.Name}}</div>
+                    </div>
+                </a>
+                {{end}}
+            </div>
+        </div>
+
+        {{template "scripts" .}}
+    </body>
+</html>

@@ -57,8 +57,11 @@ minify:
 	npm run minify:css
 
 ## Running on Local Machine
-run: sass vue-compile js-bootstrap minify test
+
+nrun:
 	go run shtem-web/...
+
+run: sass vue-compile js-bootstrap minify test nrun
 
 ## Running on Local Machine with TLS
 # run-tls: sass vue-compile js-bootstrap minify test
@@ -73,12 +76,12 @@ build: sass vue-compile js-bootstrap minify test pull
 
 ## Building and Deploying on Staging
 deploy-dev: build
-	ssh ${DEV_HOST} -p ${SSH_PORT} -i ${IDENTITY} "docker service rm erik_${DEPLOY_DIR}"
+	ssh ${DEV_HOST} -p ${SSH_PORT} "docker service rm erik_${DEPLOY_DIR}"
 	ssh ${DEV_HOST} -p ${SSH_PORT} "IMG=${IMAGE} TAG=${RELEASE_VERSION} DIR=${DEV_BASE}/${DEPLOY_DIR} MODE=debug NONS=${NONSENCE} docker stack deploy -c ${DEPLOY_DIR}/docker/run.yml erik --with-registry-auth"
 	@echo "DEPLOYED on STAGING! VERSION is: ${RELEASE_VERSION}"
 
 deploy-dev-unbuild:
-	ssh ${DEV_HOST} -p ${SSH_PORT} -i ${IDENTITY} "docker service rm erik_${DEPLOY_DIR}"
+	ssh ${DEV_HOST} -p ${SSH_PORT} "docker service rm erik_${DEPLOY_DIR}"
 	ssh ${DEV_HOST} -p ${SSH_PORT} "IMG=${IMAGE} TAG=${RELEASE_VERSION} MODE=debug docker stack deploy -c ${DEPLOY_DIR}/docker/run.yml erik --with-registry-auth"
 	@echo "DEPLOYED on STAGING! VERSION is: ${RELEASE_VERSION}"
 
