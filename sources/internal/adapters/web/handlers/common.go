@@ -23,8 +23,14 @@ func (h *webHandler) Shtems(page string) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		h.webService.Shtems(ctx, page, dto.ShtemsData())
 	}
-
 }
+
+func (h *webHandler) Quiz(page string) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		h.webService.Shtems(ctx, page, dto.QuizData())
+	}
+}
+
 func (h *webHandler) About(page string) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		h.webService.About(ctx, page, dto.AboutData())

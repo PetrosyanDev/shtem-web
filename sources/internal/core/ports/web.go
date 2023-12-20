@@ -19,6 +19,7 @@ type WEBService interface {
 type WEBHandler interface {
 	Home(page string) gin.HandlerFunc
 	Shtems(page string) gin.HandlerFunc
+	Quiz(page string) gin.HandlerFunc
 	About(page string) gin.HandlerFunc
 	Page404() gin.HandlerFunc
 	Static() http.FileSystem
