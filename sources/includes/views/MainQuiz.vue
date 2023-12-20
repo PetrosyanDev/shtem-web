@@ -110,7 +110,7 @@ const clearSelected = (divSelected: any) => {
         divSelected.classList.remove('border-success')
         divSelected.classList.remove('border-danger')
         loadQuestion()
-    }, 1000)
+    }, 500)
 }
 
 const onOptionClicked = (choice: any, item: any) => {
