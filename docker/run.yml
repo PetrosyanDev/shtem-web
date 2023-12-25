@@ -9,6 +9,8 @@ services:
             replicas: 1
         environment:
             - GIN_MODE=${MODE}
+        secrets:
+            - web_shtem_app_cfg
         networks:
             - erik_internal_net
         command: ./cmd/web/app --cfg /run/secrets/web_shtem_app_cfg
