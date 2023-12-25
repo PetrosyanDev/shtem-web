@@ -6,7 +6,7 @@
                 <div v-if="currentQuestion.text" class="col col-md-10 mx-auto bg-light bg-gradient rounded question-body">
                     <div class="w-100">
                         <div class="queston-title">
-                            <QuizTimer class="position-timer"></QuizTimer>
+                            <Stopwatch class="position-timer" :minutes="true" ref="stopwatchRef" />
                             <h4 class="text-center m-0">Բաժին {{ currentQuestion.bajin }} Մաս {{ currentQuestion.mas }} Համար {{ currentQuestion.number }}</h4>
                         </div>
                         <div class="question-text">
@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import Question from './Models'
-import QuizTimer from './QuizTimer.vue'
+import Stopwatch from './StopWatch.vue'
 
 let canClick = true
 let questionCounter = ref(0)
@@ -42,6 +42,8 @@ const shtemName: string = window.location.href.split('/').pop() || ''
 // const bajinCounter: string = window.location.href.split('/')[window.location.href.split('/').length - 2] || ''
 const currentQuestion = ref(new Question(shtemName, 1, 1, 0, '', [''], [0]))
 let Questions: Question[] = []
+
+const stopwatchRef = ref<InstanceType<typeof Stopwatch> | null>(null)
 
 function loadBajin() {
     canClick = true
@@ -91,10 +93,17 @@ const loadQuestion = () => {
         // load question
         currentQuestion.value = Questions[questionCounter.value]
         questionCounter.value++
+        if (stopwatchRef.value) {
+            stopwatchRef.value.reset()
+            stopwatchRef.value.start()
+        }
     } else {
         currentQuestion.value.text = 'Out of questions'
         currentQuestion.value.options = []
         currentQuestion.value.number += 1
+        if (stopwatchRef.value) {
+            stopwatchRef.value.reset()
+        }
     }
 }
 
