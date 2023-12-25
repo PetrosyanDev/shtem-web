@@ -11,7 +11,12 @@ services:
             - GIN_MODE=${MODE}
         networks:
             - erik_internal_net
-        command: ./cmd/web/app
+        command: ./cmd/api/app --cfg /run/secrets/api_shtem_app_cfg
+
+secrets:
+    api_shtem_app_cfg:
+        name: api_shtem_app_cfg_v1
+        file: ${DIR}/secrets.json
 
 networks:
     erik_internal_net:
