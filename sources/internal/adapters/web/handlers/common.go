@@ -2,6 +2,7 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
 	"shtem-web/sources/internal/adapters/web/dto"
 	"shtem-web/sources/internal/core/ports"
@@ -10,7 +11,8 @@ import (
 )
 
 type webHandler struct {
-	webService ports.WEBService
+	webService       ports.WEBService
+	questionsService ports.QuestionsService
 }
 
 func (h *webHandler) Home(page string) gin.HandlerFunc {
@@ -20,8 +22,14 @@ func (h *webHandler) Home(page string) gin.HandlerFunc {
 }
 
 func (h *webHandler) Shtems(page string) gin.HandlerFunc {
+
+	names, err := h.questionsService.GetShtemNames()
+	if err != nil {
+		log.Printf("Error while geting shtems: %s", err)
+	}
+
 	return func(ctx *gin.Context) {
-		h.webService.Shtems(ctx, page, dto.ShtemsData())
+		h.webService.Shtems(ctx, page, dto.ShtemsData(names))
 	}
 }
 
@@ -47,6 +55,6 @@ func (h *webHandler) Static() http.FileSystem {
 	return h.webService.Static()
 }
 
-func NewWEBHandler(webService ports.WEBService) *webHandler {
-	return &webHandler{webService}
+func NewWEBHandler(webService ports.WEBService, questionsService ports.QuestionsService) *webHandler {
+	return &webHandler{webService, questionsService}
 }
