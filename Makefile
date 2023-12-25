@@ -76,15 +76,19 @@ build: sass vue-compile js-bootstrap minify test pull
 
 ## Building and Deploying on Staging
 deploy-dev: build
+	scp -P ${SSH_PORT} secrets/dev.json ${PRD_HOST}:${PRD_BASE}/${DEPLOY_DIR}/secrets.json
+
 	ssh ${DEV_HOST} -p ${SSH_PORT} "docker service rm erik_${DEPLOY_DIR}"
-	ssh ${DEV_HOST} -p ${SSH_PORT} "IMG=${IMAGE} TAG=${RELEASE_VERSION} DIR=${DEV_BASE}/${DEPLOY_DIR} MODE=debug NONS=${NONSENCE} docker stack deploy -c ${DEPLOY_DIR}/docker/run.yml erik --with-registry-auth"
+	ssh ${DEV_HOST} -p ${SSH_PORT} "IMG=${IMAGE} TAG=${RELEASE_VERSION} DIR=${DEV_BASE}/${DEPLOY_DIR} MODE=debug docker stack deploy -c ${DEPLOY_DIR}/docker/run.yml erik --with-registry-auth"
+
+	ssh ${PRD_HOST} -p ${SSH_PORT} "rm -f ${DEPLOY_DIR}/secrets.json"
 	@echo "DEPLOYED on STAGING! VERSION is: ${RELEASE_VERSION}"
 
 deploy-dev-unbuild:     
 	scp -P ${SSH_PORT} secrets/dev.json ${PRD_HOST}:${PRD_BASE}/${DEPLOY_DIR}/secrets.json
 
-	ssh ${DEV_HOST} -p ${SSH_PORT} "docker service rm erik_${DEPLOY_DIR}"
-	ssh ${DEV_HOST} -p ${SSH_PORT} "IMG=${IMAGE} TAG=${RELEASE_VERSION} MODE=debug docker stack deploy -c ${DEPLOY_DIR}/docker/run.yml erik --with-registry-auth"
+	# ssh ${DEV_HOST} -p ${SSH_PORT} "docker service rm erik_${DEPLOY_DIR}"
+	ssh ${DEV_HOST} -p ${SSH_PORT} "IMG=${IMAGE} TAG=${RELEASE_VERSION} DIR=${DEV_BASE}/${DEPLOY_DIR} MODE=debug docker stack deploy -c ${DEPLOY_DIR}/docker/run.yml erik --with-registry-auth"
 	
 	ssh ${PRD_HOST} -p ${SSH_PORT} "rm -f ${DEPLOY_DIR}/secrets.json"
 	@echo "DEPLOYED on STAGING! VERSION is: ${RELEASE_VERSION}"
