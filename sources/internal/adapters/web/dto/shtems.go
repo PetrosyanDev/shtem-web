@@ -17,9 +17,9 @@ func ShtemsData(shtemNames []string) *domain.Page {
 
 	pb := newPageBuilder().
 		AddHeader(title, description).
-		AddTopMenuItem("HOME", "/", false).
-		AddTopMenuItem("SHTEMS", "/shtems", true).
-		AddTopMenuItem("ABOUT", "/about", false).
+		AddTopMenuItem("ԳԼԽԱՎՈՐ", "/", false).
+		AddTopMenuItem("ՇՏԵՄԵՐ", "/shtems", true).
+		AddTopMenuItem("ԻՄ ՄԱՍԻՆ", "/about", false).
 		AddShtemNames(shtemNames)
 
 	return pb.Page()
