@@ -9,8 +9,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-const faviconFile = "svg/logo-32.svg"
-const analyticFile = "google6cb2fd08c6c6526b.html"
+const (
+	faviconFile = "svg/logo-32.svg"
+)
 
 func NewWEBRouter(handler ports.WEBHandler) *gin.Engine {
 
@@ -23,7 +24,7 @@ func NewWEBRouter(handler ports.WEBHandler) *gin.Engine {
 	r.GET("/about", handler.About("about.html"))
 
 	r.StaticFileFS("/favicon.ico", faviconFile, handler.Static())
-	r.StaticFileFS("/google6cb2fd08c6c6526b.html", analyticFile, handler.Static())
+	r.StaticFileFS("/robots.txt", "robots.txt", handler.Static())
 
 	st := r.Group("/assets", middlewares.PreventListing(handler.Page404(), "/assets", "/assets/"))
 	{
