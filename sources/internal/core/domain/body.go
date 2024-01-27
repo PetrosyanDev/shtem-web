@@ -11,11 +11,13 @@ type TopMenu struct {
 	Items       []TopMenuItem
 }
 
-type Shtem struct {
-	Name string
-}
-
 type Body struct {
 	TopMenu TopMenu
-	Shtems  []Shtem
+	Shtems  []Shtemaran
+}
+
+type Shtemaran struct {
+	Name        string
+	Description string
+	LinkName    string
 }
