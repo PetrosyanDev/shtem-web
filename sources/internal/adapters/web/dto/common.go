@@ -59,10 +59,12 @@ func (b *pageBuilder) AddTopMenuItem(name, link string, isCurrent bool) *pageBui
 	return b
 }
 
-func (b *pageBuilder) AddShtemNames(names []string) *pageBuilder {
-	for _, n := range names {
-		b.page.Body.Shtems = append(b.page.Body.Shtems, domain.Shtem{
-			Name: n,
+func (b *pageBuilder) AddShtemNames(shtems []*domain.Shtemaran) *pageBuilder {
+	for _, n := range shtems {
+		b.page.Body.Shtems = append(b.page.Body.Shtems, domain.Shtemaran{
+			Name:        n.Name,
+			Description: n.Description,
+			LinkName:    n.LinkName,
 		})
 	}
 
