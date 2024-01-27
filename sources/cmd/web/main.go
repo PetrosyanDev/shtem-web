@@ -49,7 +49,7 @@ func main() {
 	shtemsRepository := repositories.NewShtemsRepository(shtemsDB)
 
 	log.Println("init services")
-	webService, err := services.NewWEBService(embeds.Assets, templatesRepo)
+	webService, err := services.NewWEBService(embeds.Assets, embeds.Uploads, templatesRepo)
 	if err != nil {
 		log.Fatalf("failed to create WEB service (%v)", err)
 	}

@@ -10,7 +10,10 @@
                 {{ range .Body.Shtems }}
                 <a href="/shtems/{{.LinkName}}" class="text-decoration-none">
                     <div class="col pe-3">
-                        <div class="border rounded p-3">{{.Name}}</div>
+                        <div class="border rounded p-3">
+                            <img src="/uploads/covers/hayoc.jpg" alt="{{.Name}}" style="width: 100%" />
+                            <div class="shtem-name">{{.Name}}</div>
+                        </div>
                     </div>
                 </a>
                 {{end}}

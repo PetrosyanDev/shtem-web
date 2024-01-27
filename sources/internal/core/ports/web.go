@@ -14,6 +14,7 @@ type WEBService interface {
 	About(ctx *gin.Context, page string, data *domain.Page)
 	Page404(ctx *gin.Context, data *domain.Page)
 	Static() http.FileSystem
+	StaticUploads() http.FileSystem
 }
 
 type WEBHandler interface {
@@ -23,4 +24,5 @@ type WEBHandler interface {
 	About(page string) gin.HandlerFunc
 	Page404() gin.HandlerFunc
 	Static() http.FileSystem
+	StaticUploads() http.FileSystem
 }

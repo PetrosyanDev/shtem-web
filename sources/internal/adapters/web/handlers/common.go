@@ -73,6 +73,10 @@ func (h *webHandler) Static() http.FileSystem {
 	return h.webService.Static()
 }
 
+func (h *webHandler) StaticUploads() http.FileSystem {
+	return h.webService.StaticUploads()
+}
+
 func NewWEBHandler(webService ports.WEBService, shtemsService ports.ShtemsService) *webHandler {
 	return &webHandler{webService, shtemsService}
 }

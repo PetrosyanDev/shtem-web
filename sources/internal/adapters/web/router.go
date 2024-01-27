@@ -26,6 +26,10 @@ func NewWEBRouter(handler ports.WEBHandler) *gin.Engine {
 	r.StaticFileFS("/favicon.ico", faviconFile, handler.Static())
 	r.StaticFileFS("/robots.txt", "robots.txt", handler.Static())
 
+	up := r.Group("/uploads", middlewares.PreventListing(handler.Page404(), "/uploads", "/uploads/"))
+	{
+		up.StaticFS("/", handler.StaticUploads())
+	}
 	st := r.Group("/assets", middlewares.PreventListing(handler.Page404(), "/assets", "/assets/"))
 	{
 		st.StaticFS("/", handler.Static())
