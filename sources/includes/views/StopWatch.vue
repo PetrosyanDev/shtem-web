@@ -66,7 +66,7 @@ export default defineComponent({
             }
 
             if (props.minutes) {
-                return `${minutes}:${seconds}:${milliseconds}`
+                return `${minutes}:${seconds}`
             }
 
             return `${seconds}:${milliseconds}`

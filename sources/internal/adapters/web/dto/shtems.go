@@ -25,7 +25,6 @@ func ShtemsData(shtemNames []string) *domain.Page {
 		AddTwitterTAG(title, description, path, socImage).
 		AddTopMenuItem("ԳԼԽԱՎՈՐ", "/", false).
 		AddTopMenuItem("ՇՏԵՄԵՐ", "/shtems", true).
-		AddTopMenuItem("ԻՄ ՄԱՍԻՆ", "/about", false).
 		AddShtemNames(shtemNames)
 
 	return pb.Page()
