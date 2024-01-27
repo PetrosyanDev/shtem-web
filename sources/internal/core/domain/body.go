@@ -20,4 +20,5 @@ type Shtemaran struct {
 	Name        string
 	Description string
 	LinkName    string
+	Image       string
 }

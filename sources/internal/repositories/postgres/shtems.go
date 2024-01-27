@@ -3,6 +3,7 @@ package postgresrepository
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	postgresclient "shtem-web/sources/internal/clients/postgres"
 	"shtem-web/sources/internal/core/domain"
@@ -13,11 +14,13 @@ var shtemsTableComponents = struct {
 	name        string
 	description string
 	link_name   string
+	image       string
 }{
 	id:          "id",
 	name:        "name",
 	description: "description",
 	link_name:   "link_name",
+	image:       "image",
 }
 
 var shtemsTableName = "shtems"
@@ -31,10 +34,11 @@ func (q *shtemsDB) GetShtemNames() ([]*domain.Shtemaran, domain.Error) {
 	var shtemarans []*domain.Shtemaran
 
 	// FIND DISTINCT SHTEMARAN NAMES
-	query := fmt.Sprintf("SELECT %s, %s, %s FROM %s",
+	query := fmt.Sprintf("SELECT %s, %s, %s, %s FROM %s",
 		shtemsTableComponents.name,
 		shtemsTableComponents.description,
 		shtemsTableComponents.link_name,
+		shtemsTableComponents.image,
 		shtemsTableName, // TABLE NAME
 	)
 
@@ -46,13 +50,22 @@ func (q *shtemsDB) GetShtemNames() ([]*domain.Shtemaran, domain.Error) {
 
 	for rows.Next() {
 		var shtem domain.Shtemaran
+		var name, description, linkName, image sql.NullString
+
 		if err := rows.Scan(
-			&shtem.Name,
-			&shtem.Description,
-			&shtem.LinkName,
+			&name,
+			&description,
+			&linkName,
+			&image,
 		); err != nil {
 			return nil, domain.NewError().SetError(err)
 		}
+
+		shtem.Name = name.String
+		shtem.Description = description.String
+		shtem.LinkName = linkName.String
+		shtem.Image = image.String
+
 		shtemarans = append(shtemarans, &shtem)
 	}
 

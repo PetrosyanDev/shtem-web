@@ -1,0 +1,28 @@
+.shtem-name {
+    text-align: center;
+    font-size: 18px;
+    margin: 20px 0 20px 0;
+    text-overflow: ellipsis;
+}
+
+.shtem-content>img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+@media screen and (max-width: 992px ) {
+    .shtem-content>img {
+        height: 500px;
+    }
+}
+@media screen and (max-width: 768px ) {
+    .shtem-content>img {
+        height: 400px;
+    }
+}
+@media screen and (max-width: 576px ) {
+    .shtem-content>img {
+        height: 450px;
+    }
+}

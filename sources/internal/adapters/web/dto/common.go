@@ -65,6 +65,7 @@ func (b *pageBuilder) AddShtemNames(shtems []*domain.Shtemaran) *pageBuilder {
 			Name:        n.Name,
 			Description: n.Description,
 			LinkName:    n.LinkName,
+			Image:       n.Image,
 		})
 	}
 

@@ -29,8 +29,6 @@ func (h *webHandler) Shtems(page string) gin.HandlerFunc {
 			log.Printf("Error while geting shtems: %s", err)
 		}
 
-		log.Println(names)
-
 		h.webService.Shtems(ctx, page, dto.ShtemsData(names))
 	}
 }
