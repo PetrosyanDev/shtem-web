@@ -22,13 +22,15 @@ func (h *webHandler) Home(page string) gin.HandlerFunc {
 }
 
 func (h *webHandler) Shtems(page string) gin.HandlerFunc {
-
-	names, err := h.shtemsService.GetShtemNames()
-	if err != nil {
-		log.Printf("Error while geting shtems: %s", err)
-	}
-
 	return func(ctx *gin.Context) {
+
+		names, err := h.shtemsService.GetShtemNames()
+		if err != nil {
+			log.Printf("Error while geting shtems: %s", err)
+		}
+
+		log.Println(names)
+
 		h.webService.Shtems(ctx, page, dto.ShtemsData(names))
 	}
 }
