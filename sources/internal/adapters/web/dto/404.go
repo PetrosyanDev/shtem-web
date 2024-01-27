@@ -13,6 +13,8 @@ func NotFoundData() *domain.Page {
 	)
 
 	pb := newPageBuilder().
-		AddHeader(title, description, app)
+		AddHeader(title, description, app).
+		AddTopMenuItem("ԳԼԽԱՎՈՐ", "/", false).
+		AddTopMenuItem("ՇՏԵՄԵՐ", "/shtems", false)
 	return pb.Page()
 }
