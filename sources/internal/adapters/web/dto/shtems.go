@@ -9,7 +9,7 @@ type ShtemsResponse struct {
 	Data []string `json:"data"`
 }
 
-func ShtemsData(shtemNames []string) *domain.Page {
+func ShtemsData(shtemNames []*domain.Shtemaran) *domain.Page {
 	const (
 		title       = "shtemaran.am • Learning Fast | The Best Way to Save Time"
 		description = "Welcome to shtemaran.am"

@@ -11,8 +11,8 @@ import (
 )
 
 type webHandler struct {
-	webService       ports.WEBService
-	questionsService ports.QuestionsService
+	webService    ports.WEBService
+	shtemsService ports.ShtemsService
 }
 
 func (h *webHandler) Home(page string) gin.HandlerFunc {
@@ -23,7 +23,7 @@ func (h *webHandler) Home(page string) gin.HandlerFunc {
 
 func (h *webHandler) Shtems(page string) gin.HandlerFunc {
 
-	names, err := h.questionsService.GetShtemNames()
+	names, err := h.shtemsService.GetShtemNames()
 	if err != nil {
 		log.Printf("Error while geting shtems: %s", err)
 	}
@@ -55,6 +55,6 @@ func (h *webHandler) Static() http.FileSystem {
 	return h.webService.Static()
 }
 
-func NewWEBHandler(webService ports.WEBService, questionsService ports.QuestionsService) *webHandler {
-	return &webHandler{webService, questionsService}
+func NewWEBHandler(webService ports.WEBService, shtemsService ports.ShtemsService) *webHandler {
+	return &webHandler{webService, shtemsService}
 }

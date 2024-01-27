@@ -19,7 +19,6 @@ func QuizData() *domain.Page {
 		AddOpenGraphTAG(title, description, path, socImage).
 		AddTwitterTAG(title, description, path, socImage).
 		AddTopMenuItem("HOME", "/", false).
-		AddTopMenuItem("SHTEMS", "/shtems", true).
-		AddTopMenuItem("ABOUT", "/about", false)
+		AddTopMenuItem("SHTEMS", "/shtems", true)
 	return pb.Page()
 }
