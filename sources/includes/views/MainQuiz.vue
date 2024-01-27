@@ -1,9 +1,8 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid global-container">
         <div class="row flex-nowrap">
-            <div class="d-none d-xl-flex col-1 flex-fill"></div>
-            <div class="col flex-fill global-container">
-                <div v-if="currentQuestion.text" class="col col-md-10 mx-auto bg-light bg-gradient rounded question-body">
+            <div class="col flex-fill">
+                <div v-if="currentQuestion.text" class="col mx-auto bg-light bg-gradient rounded question-body">
                     <div class="w-100">
                         <div class="queston-title">
                             <Stopwatch class="position-timer" :minutes="true" ref="stopwatchRef" />
@@ -19,13 +18,12 @@
                         </div>
                     </div>
                 </div>
-                <div v-else class="col col-md-10 mx-auto bg-light bg-gradient rounded question-body justify-content-center">
+                <div v-else class="col mx-auto bg-light bg-gradient rounded question-body justify-content-center">
                     <div class="w-100 d-flex justify-content-center">
                         <div class="spinner-border text-default" role="status"></div>
                     </div>
                 </div>
             </div>
-            <div class="d-none d-xl-flex col-1 flex-fill"></div>
         </div>
     </div>
 </template>
