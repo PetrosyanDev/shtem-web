@@ -1,8 +1,25 @@
 {{define "header"}}
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{.Header.Title}}</title>
+    <meta charset="utf-8" content="text/html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="{{.Header.Description}} " />
+    <meta name="keywords" content="{{.Header.Keywords}}" />
+    <meta name="author" content="Erik Petrosyan&copy;" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="apple-mobile-web-app-title" content="shtemaran.am" />
+    <meta name="apple-mobile-web-app-capable" content="{{.Header.AppCapable}}" />
+    <meta property="og:url" content="{{.Header.OpenGraphTAG.URL}}" />
+    <meta property="og:type" content="{{.Header.OpenGraphTAG.Type}}" />
+    <meta property="og:title" content="{{.Header.OpenGraphTAG.Title}} " />
+    <meta property="og:description" content="{{.Header.OpenGraphTAG.Description}} " />
+    <meta property="og:image" content="{{.Header.OpenGraphTAG.Image}}" />
+    <meta name="twitter:card" content="{{.Header.TwitterTAG.Card}}" />
+    <meta property="twitter:domain" content="{{.Header.TwitterTAG.Domain}}" />
+    <meta property="twitter:url" content="{{.Header.TwitterTAG.URL}}" />
+    <meta name="twitter:title" content="{{.Header.TwitterTAG.Title}} " />
+    <meta name="twitter:description" content="{{.Header.TwitterTAG.Description}} " />
+    <meta name="twitter:image" content="{{.Header.TwitterTAG.Image}}" />
     <link rel="stylesheet" href="/assets/css/main.min.css" rel="preload" />
 </head>
 {{end}}

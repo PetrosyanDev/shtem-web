@@ -7,9 +7,15 @@ func HomeData() *domain.Page {
 	const (
 		title       = "shtemaran.am • Learning Fast | The Best Way to Save Time"
 		description = "Welcome to shtemaran.am"
+		app         = "no"
+		path        = ""
+		socImage    = headerDefaultSocialImage
 	)
+	kwds := []string{}
 	pb := newPageBuilder().
-		AddHeader(title, description).
+		AddHeader(title, description, app, kwds...).
+		AddOpenGraphTAG(title, description, path, socImage).
+		AddTwitterTAG(title, description, path, socImage).
 		AddTopMenuItem("ԳԼԽԱՎՈՐ", "/", true).
 		AddTopMenuItem("ՇՏԵՄԵՐ", "/shtems", false).
 		AddTopMenuItem("ԻՄ ՄԱՍԻՆ", "/about", false)
