@@ -8,8 +8,12 @@ html {
 
 div.global-container {
     max-width: $page-max-width;
+    margin-left: auto;
+    margin-right: auto;
+
 }
 
 @import 'topbar.scss';
 @import 'quiz.scss';
 @import 'shtems.scss';
+@import 'singleShtem.scss';
