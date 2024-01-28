@@ -6,7 +6,9 @@
                     <div class="w-100">
                         <div class="queston-title">
                             <Stopwatch class="position-timer" :minutes="true" ref="stopwatchRef" />
-                            <h4 class="text-center m-0">Բաժին {{ currentQuestion.bajin }} Մաս {{ currentQuestion.mas }} Համար {{ currentQuestion.number }}</h4>
+                            <h4 class="text-center m-0">
+                                Բաժին {{ currentQuestion.bajin }} Մաս {{ currentQuestion.mas }} Համար {{ currentQuestion.number }}
+                            </h4>
                         </div>
                         <div class="question-text">
                             <p>{{ currentQuestion.text }}</p>
@@ -14,7 +16,9 @@
                     </div>
                     <div class="mt-4 question-answer row gap-2">
                         <div class="question-answer" v-for="(choice, item) in currentQuestion.options" :key="item">
-                            <label class="col-12 btn rounded border" :ref="optionChosen" @click="onOptionClicked(choice, item)"> {{ choice }} </label>
+                            <label class="col-12 btn rounded border" :ref="optionChosen" @click="onOptionClicked(choice, item)">
+                                {{ choice }}
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -36,7 +40,7 @@ import Stopwatch from './StopWatch.vue'
 let canClick = true
 let questionCounter = ref(0)
 
-const shtemName: string = window.location.href.split('/').pop() || ''
+const shtemName: string = window.location.href.split('/')[window.location.href.split('/').length - 2] || ''
 // const bajinCounter: string = window.location.href.split('/')[window.location.href.split('/').length - 2] || ''
 const currentQuestion = ref(new Question(shtemName, 1, 1, 0, '', [''], [0]))
 let Questions: Question[] = []

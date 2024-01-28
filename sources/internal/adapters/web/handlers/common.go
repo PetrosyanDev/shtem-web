@@ -55,6 +55,28 @@ func (h *webHandler) Quiz(page string) gin.HandlerFunc {
 	}
 }
 
+func (h *webHandler) SingleShtem(page string) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+
+		names, err := h.shtemsService.GetShtemNames()
+		if err != nil {
+			log.Printf("Error while geting shtems: %s", err)
+			return
+		}
+
+		shtemName := ctx.Param("shtemName")
+
+		for _, val := range names {
+			if val.LinkName == shtemName {
+				h.webService.Shtems(ctx, page, dto.QuizData())
+				return
+			}
+		}
+
+		h.webService.Page404(ctx, dto.NotFoundData())
+	}
+}
+
 func (h *webHandler) About(page string) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		h.webService.About(ctx, page, dto.AboutData())
