@@ -12,6 +12,9 @@ type shtemsRepository struct {
 func (p *shtemsRepository) GetShtemNames() ([]*domain.Shtemaran, domain.Error) {
 	return p.db.GetShtemNames()
 }
+func (p *shtemsRepository) GetShtemByLinkName(name string) (*domain.Shtemaran, domain.Error) {
+	return p.db.GetShtemByLinkName(name)
+}
 
 func NewShtemsRepository(db postgresrepository.ShtemsDB) *shtemsRepository {
 	return &shtemsRepository{db}
