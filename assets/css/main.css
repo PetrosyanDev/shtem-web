@@ -11881,6 +11881,8 @@ html {
 
 div.global-container {
   max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 div.top-bar {
@@ -12033,4 +12035,13 @@ div.question-text {
   .shtem-content > img {
     height: 450px;
   }
+}
+.cover-image {
+  width: 100%;
+  height: 500px;
+  object-fit: contain;
+}
+
+.book-detail-image {
+  width: 250px;
 }
