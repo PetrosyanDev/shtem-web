@@ -2,35 +2,9 @@
 <html lang="en">
     {{ template "header" .}}
     <body>
-        {{template "top-nav-bar" .}}
-
-        <div class="container-fluid global-container mt-5">
-            <div class="row g-3">
-                <div class="col">
-                    <h1 style="font-size: 30px">Շտեմարաններ:</h1>
-                </div>
-                <div class="col-sm-5">
-                    <form class="form-inline input-group">
-                        <input class="form-control" type="text" placeholder="Search" aria-label="Search" />
-                        <span class="input-group-text border-0" id="search-addon">
-                            <i class="fas fa-search"></i>
-                        </span>
-                    </form>
-                </div>
-            </div>
-            <div class="row row-cols-sm-2 row-cols-lg-3 g-3 mt-2 mb-4">
-                {{ range .Body.Shtems }}
-                <a href="/shtems/{{.LinkName}}" class="text-decoration-none">
-                    <div class="col">
-                        <div class="shtem-content border rounded">
-                            <img src="/uploads/covers/{{.Image}}" alt="{{.Name}}" />
-                            <div class="shtem-name">{{.Name}}</div>
-                        </div>
-                    </div>
-                </a>
-                {{end}}
-            </div>
+        <div style="min-height: 100vh; flex-direction: column; display: flex; justify-content: space-between">
+            {{template "top-nav-bar" .}}{{template "shtems" .}} {{template "footer" .}}
         </div>
-        {{template "footer" .}} {{template "scripts" .}}
+        {{template "scripts" .}}
     </body>
 </html>

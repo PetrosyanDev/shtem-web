@@ -1,0 +1,11 @@
+{{define "shtems"}}
+<div class="container-fluid global-container mt-5">
+    <div class="row g-3">
+        <div class="col">
+            <h1 style="font-size: 30px">Շտեմարաններ:</h1>
+        </div>
+        <div class="col-sm-5">{{template "search" .}}</div>
+    </div>
+    <div class="row row-cols-sm-2 row-cols-lg-3 g-3 mt-2 mb-4">{{template "listShtems" .}}</div>
+</div>
+{{end}}
