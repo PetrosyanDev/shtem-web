@@ -13,14 +13,18 @@ var shtemsTableComponents = struct {
 	id          string
 	name        string
 	description string
+	author      string
 	link_name   string
 	image       string
+	pdf         string
 }{
 	id:          "id",
 	name:        "name",
 	description: "description",
+	author:      "author",
 	link_name:   "link_name",
 	image:       "image",
+	pdf:         "pdf",
 }
 
 var shtemsTableName = "shtems"
@@ -34,11 +38,13 @@ func (q *shtemsDB) GetShtemByLinkName(name string) (*domain.Shtemaran, domain.Er
 
 	var result *domain.Shtemaran
 
-	query := fmt.Sprintf("SELECT %s, %s, %s, %s FROM %s WHERE %s=$1 LIMIT 1",
+	query := fmt.Sprintf("SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s=$1 LIMIT 1",
 		shtemsTableComponents.name,
 		shtemsTableComponents.description,
+		shtemsTableComponents.author,
 		shtemsTableComponents.link_name,
 		shtemsTableComponents.image,
+		shtemsTableComponents.pdf,
 		shtemsTableName,                 // TABLE NAME
 		shtemsTableComponents.link_name, // LINK NAME
 	)
@@ -50,21 +56,26 @@ func (q *shtemsDB) GetShtemByLinkName(name string) (*domain.Shtemaran, domain.Er
 	defer rows.Close()
 
 	if rows.Next() {
-		var (
-			name        string
-			description string
-			linkName    string
-			image       string
-		)
-		if err := rows.Scan(&name, &description, &linkName, &image); err != nil {
+		var name, description, author, linkName, image, pdf sql.NullString
+
+		if err := rows.Scan(
+			&name,
+			&description,
+			&author,
+			&linkName,
+			&image,
+			&pdf,
+		); err != nil {
 			return nil, domain.NewError().SetError(err)
 		}
 
 		result = &domain.Shtemaran{
-			Name:        name,
-			Description: description,
-			LinkName:    linkName,
-			Image:       image,
+			Name:        name.String,
+			Description: description.String,
+			Author:      author.String,
+			LinkName:    linkName.String,
+			Image:       image.String,
+			PDF:         pdf.String,
 		}
 	}
 
@@ -75,11 +86,13 @@ func (q *shtemsDB) GetShtemNames() ([]*domain.Shtemaran, domain.Error) {
 	var shtemarans []*domain.Shtemaran
 
 	// FIND DISTINCT SHTEMARAN NAMES
-	query := fmt.Sprintf("SELECT %s, %s, %s, %s FROM %s",
+	query := fmt.Sprintf("SELECT %s, %s, %s, %s, %s, %s FROM %s",
 		shtemsTableComponents.name,
 		shtemsTableComponents.description,
+		shtemsTableComponents.author,
 		shtemsTableComponents.link_name,
 		shtemsTableComponents.image,
+		shtemsTableComponents.pdf,
 		shtemsTableName, // TABLE NAME
 	)
 
@@ -90,24 +103,27 @@ func (q *shtemsDB) GetShtemNames() ([]*domain.Shtemaran, domain.Error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		var shtem domain.Shtemaran
-		var name, description, linkName, image sql.NullString
+		var name, description, author, linkName, image, pdf sql.NullString
 
 		if err := rows.Scan(
 			&name,
+			&author,
 			&description,
 			&linkName,
 			&image,
+			&pdf,
 		); err != nil {
 			return nil, domain.NewError().SetError(err)
 		}
 
-		shtem.Name = name.String
-		shtem.Description = description.String
-		shtem.LinkName = linkName.String
-		shtem.Image = image.String
-
-		shtemarans = append(shtemarans, &shtem)
+		shtemarans = append(shtemarans, &domain.Shtemaran{
+			Name:        name.String,
+			Description: description.String,
+			Author:      author.String,
+			LinkName:    linkName.String,
+			Image:       image.String,
+			PDF:         pdf.String,
+		})
 	}
 
 	if err := rows.Err(); err != nil {

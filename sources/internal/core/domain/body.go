@@ -12,13 +12,16 @@ type TopMenu struct {
 }
 
 type Body struct {
-	TopMenu TopMenu
-	Shtems  []Shtemaran
+	TopMenu      TopMenu
+	Shtems       []Shtemaran
+	CurrentShtem Shtemaran
 }
 
 type Shtemaran struct {
 	Name        string
 	Description string
+	Author      string
 	LinkName    string
 	Image       string
+	PDF         string
 }

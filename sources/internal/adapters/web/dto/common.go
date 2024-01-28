@@ -64,9 +64,25 @@ func (b *pageBuilder) AddShtemNames(shtems []*domain.Shtemaran) *pageBuilder {
 		b.page.Body.Shtems = append(b.page.Body.Shtems, domain.Shtemaran{
 			Name:        n.Name,
 			Description: n.Description,
+			Author:      n.Author,
 			LinkName:    n.LinkName,
 			Image:       n.Image,
+			PDF:         n.PDF,
 		})
+	}
+
+	return b
+}
+
+func (b *pageBuilder) AddSingleShtem(shtemaran *domain.Shtemaran) *pageBuilder {
+
+	b.page.Body.CurrentShtem = domain.Shtemaran{
+		Name:        shtemaran.Name,
+		Description: shtemaran.Description,
+		Author:      shtemaran.Author,
+		LinkName:    shtemaran.LinkName,
+		Image:       shtemaran.Image,
+		PDF:         shtemaran.PDF,
 	}
 
 	return b

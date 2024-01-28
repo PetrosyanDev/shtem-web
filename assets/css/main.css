@@ -12045,3 +12045,14 @@ div.question-text {
 .book-detail-image {
   width: 250px;
 }
+
+@media screen and (max-width: 992px) {
+  .book-detail-image {
+    width: 350px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .book-detail-image {
+    width: 250px;
+  }
+}
