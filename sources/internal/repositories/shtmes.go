@@ -16,6 +16,10 @@ func (p *shtemsRepository) GetShtemByLinkName(name string) (*domain.Shtemaran, d
 	return p.db.GetShtemByLinkName(name)
 }
 
+func (p *shtemsRepository) AllURLs() (*domain.SiteMapURLs, domain.Error) {
+	return p.db.AllURLs()
+}
+
 func NewShtemsRepository(db postgresrepository.ShtemsDB) *shtemsRepository {
 	return &shtemsRepository{db}
 }
