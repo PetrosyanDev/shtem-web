@@ -18,14 +18,15 @@ func NewWEBRouter(handler ports.WEBHandler) *gin.Engine {
 	r := gin.Default()
 	middlewares.ApplyCommonMiddlewares(r)
 
+	r.GET("/sitemap.xml", handler.SiteMapForAll())
+	r.StaticFileFS("/favicon.ico", faviconFile, handler.Static())
+	r.StaticFileFS("/robots.txt", "robots.txt", handler.Static())
+
 	r.GET("/", handler.Home("home.html"))
 	r.GET("/shtems", handler.Shtems("allShtems.html"))
 	r.GET("/shtems/:shtemName", handler.SingleShtem("singleShtem.html"))
 	r.GET("/shtems/:shtemName/quiz", handler.Quiz("quiz.html"))
 	r.GET("/about", handler.About("about.html"))
-
-	r.StaticFileFS("/favicon.ico", faviconFile, handler.Static())
-	r.StaticFileFS("/robots.txt", "robots.txt", handler.Static())
 
 	up := r.Group("/uploads", middlewares.PreventListing(handler.Page404(), "/uploads", "/uploads/"))
 	{
