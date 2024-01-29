@@ -7,6 +7,7 @@ import (
 	"fmt"
 	postgresclient "shtem-web/sources/internal/clients/postgres"
 	"shtem-web/sources/internal/core/domain"
+	"time"
 )
 
 var shtemsTableComponents = struct {
@@ -131,6 +132,90 @@ func (q *shtemsDB) GetShtemNames() ([]*domain.Shtemaran, domain.Error) {
 	}
 
 	return shtemarans, nil
+}
+
+func (q *shtemsDB) GetShtemURLs() ([]string, domain.Error) {
+	var links []string
+
+	// FIND DISTINCT SHTEMARAN NAMES
+	query := fmt.Sprintf("SELECT %s FROM %s",
+		shtemsTableComponents.link_name,
+		shtemsTableName, // TABLE NAME
+	)
+
+	rows, err := q.db.Query(q.ctx, query)
+	if err != nil {
+		return nil, domain.NewError().SetError(err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var linkName sql.NullString
+
+		if err := rows.Scan(
+			&linkName,
+		); err != nil {
+			return nil, domain.NewError().SetError(err)
+		}
+
+		links = append(links, linkName.String)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, domain.NewError().SetError(err)
+	}
+
+	return links, nil
+}
+
+func (p *shtemsDB) AllURLs() (*domain.SiteMapURLs, domain.Error) {
+
+	siteMap := new(domain.SiteMapURLs)
+
+	// MAIN COMPONENTS
+	siteMapHome := domain.SiteMapURL{
+		Loc:        domain.BaseUrl,
+		ChangeFreq: domain.SiteMapFreqDaily,
+		LastMod:    time.Now().UTC().Format("2006-01-02"),
+		Priority:   domain.SiteMapPriorityHighest,
+	}
+
+	siteMapShtems := domain.SiteMapURL{
+		Loc:        domain.ShtemsUrl,
+		ChangeFreq: domain.SiteMapFreqWeekly,
+		LastMod:    time.Now().UTC().Format("2006-01-02"),
+		Priority:   domain.SiteMapPriorityHigh,
+	}
+
+	siteMap.URLs = append(siteMap.URLs, siteMapHome, siteMapShtems)
+
+	// SHTEMARANS
+
+	allSingleShtemsURLs, err := p.GetShtemURLs()
+	if err != nil {
+		return nil, err
+	}
+
+	for _, url := range allSingleShtemsURLs {
+		siteMap.URLs = append(siteMap.URLs, domain.SiteMapURL{
+			Loc:        domain.ShtemsUrl + url,
+			ChangeFreq: domain.SiteMapFreqMonthly,
+			LastMod:    time.Now().UTC().Format("2006-01-02"),
+			Priority:   domain.SiteMapPriorityMedium,
+		})
+	}
+
+	// SHTEMARAN QUIZES
+	for _, url := range allSingleShtemsURLs {
+		siteMap.URLs = append(siteMap.URLs, domain.SiteMapURL{
+			Loc:        domain.ShtemsUrl + url + "/quiz",
+			ChangeFreq: domain.SiteMapFreqMonthly,
+			LastMod:    time.Now().UTC().Format("2006-01-02"),
+			Priority:   domain.SiteMapPriorityMedium,
+		})
+	}
+
+	return siteMap, nil
 }
 
 func NewShtemsDB(ctx context.Context, db *postgresclient.PostgresDB) *shtemsDB {
