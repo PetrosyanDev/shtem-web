@@ -5,6 +5,7 @@ import (
 	"encoding/xml"
 	"shtem-web/sources/internal/core/domain"
 	"shtem-web/sources/internal/repositories"
+	"time"
 )
 
 type shtemsService struct {
@@ -14,6 +15,9 @@ type shtemsService struct {
 func (q *shtemsService) GetShtems() ([]*domain.Shtemaran, domain.Error) {
 	return q.shtemsRepository.GetShtems()
 }
+func (q *shtemsService) GetShtemsByCategoryId(c_id int64) ([]*domain.Shtemaran, domain.Error) {
+	return q.shtemsRepository.GetShtemsByCategoryId(c_id)
+}
 func (q *shtemsService) GetShtemLinkNames() ([]string, domain.Error) {
 	return q.shtemsRepository.GetShtemLinkNames()
 }
@@ -22,9 +26,49 @@ func (q *shtemsService) GetShtemByLinkName(name string) (*domain.Shtemaran, doma
 }
 func (q *shtemsService) GetSiteMap() ([]byte, domain.Error) {
 
-	siteMap, err := q.shtemsRepository.AllURLs()
+	siteMap := new(domain.SiteMapURLs)
+
+	// MAIN COMPONENTS
+	siteMapHome := domain.SiteMapURL{
+		Loc:        domain.BaseUrl,
+		ChangeFreq: domain.SiteMapFreqDaily,
+		LastMod:    time.Now().UTC().Format("2006-01-02"),
+		Priority:   domain.SiteMapPriorityHighest,
+	}
+
+	siteMapShtems := domain.SiteMapURL{
+		Loc:        domain.ShtemsUrl,
+		ChangeFreq: domain.SiteMapFreqWeekly,
+		LastMod:    time.Now().UTC().Format("2006-01-02"),
+		Priority:   domain.SiteMapPriorityHigh,
+	}
+
+	siteMap.URLs = append(siteMap.URLs, siteMapHome, siteMapShtems)
+
+	// SHTEMARANS
+
+	allSingleShtemsURLs, err := q.shtemsRepository.GetShtemLinkNames()
 	if err != nil {
 		return nil, err
+	}
+
+	for _, url := range allSingleShtemsURLs {
+		siteMap.URLs = append(siteMap.URLs, domain.SiteMapURL{
+			Loc:        domain.ShtemsUrl + url,
+			ChangeFreq: domain.SiteMapFreqMonthly,
+			LastMod:    time.Now().UTC().Format("2006-01-02"),
+			Priority:   domain.SiteMapPriorityMedium,
+		})
+	}
+
+	// SHTEMARAN QUIZES
+	for _, url := range allSingleShtemsURLs {
+		siteMap.URLs = append(siteMap.URLs, domain.SiteMapURL{
+			Loc:        domain.ShtemsUrl + url + "/quiz",
+			ChangeFreq: domain.SiteMapFreqMonthly,
+			LastMod:    time.Now().UTC().Format("2006-01-02"),
+			Priority:   domain.SiteMapPriorityMedium,
+		})
 	}
 
 	siteMap.XMLNS = domain.SiteMapXMLNS
