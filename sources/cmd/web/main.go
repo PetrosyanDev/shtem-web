@@ -38,6 +38,7 @@ func main() {
 		log.Fatalf("failed to connect with PostgresDB (%v)", err)
 	}
 	shtemsDB := postgresrepository.NewShtemsDB(appCtx, postgresDB)
+	categoriesDB := postgresrepository.NewCategoriesDB(appCtx, postgresDB)
 
 	log.Println("init repositories")
 
@@ -47,6 +48,7 @@ func main() {
 	}
 
 	shtemsRepository := repositories.NewShtemsRepository(shtemsDB)
+	categoriesRepository := repositories.NewCategoriesRepository(categoriesDB)
 
 	log.Println("init services")
 	webService, err := services.NewWEBService(embeds.Assets, embeds.Uploads, templatesRepo)
@@ -55,9 +57,10 @@ func main() {
 	}
 
 	shtemsService := services.NewShtemsService(shtemsRepository)
+	categoriesService := services.NewCategoriesService(categoriesRepository)
 
 	log.Println("init handlers")
-	webHandler := handlers.NewWEBHandler(webService, shtemsService)
+	webHandler := handlers.NewWEBHandler(webService, shtemsService, categoriesService)
 
 	webRouter := web.NewWEBRouter(webHandler)
 	webApp, err := web.NewWEBServer(webRouter, opts...)
