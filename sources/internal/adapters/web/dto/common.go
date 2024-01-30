@@ -3,7 +3,6 @@ package dto
 
 import (
 	"fmt"
-	"log"
 	"shtem-web/sources/internal/core/domain"
 )
 
@@ -75,14 +74,18 @@ func (b *pageBuilder) AddShtemNames(shtems []*domain.Shtemaran) *pageBuilder {
 	return b
 }
 
-func (b *pageBuilder) AddCategories(cateories []*domain.Category) *pageBuilder {
-	for _, n := range cateories {
-		log.Println(n)
-		b.page.Body.Categories = append(b.page.Body.Categories, domain.Category{
-			Name:        n.Name,
-			Description: n.Description,
-		})
+func (b *pageBuilder) AddCategories(categories domain.Categories) *pageBuilder {
+
+	newMap := make(domain.CategoriesTpl)
+
+	for key, value := range categories {
+		newMap[key] = make([]domain.Shtemaran, len(value))
+
+		for i, shtem := range value {
+			newMap[key][i] = *shtem // Dereference the pointer
+		}
 	}
+	b.page.Body.Categories = newMap
 
 	return b
 }
