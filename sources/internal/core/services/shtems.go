@@ -11,8 +11,11 @@ type shtemsService struct {
 	shtemsRepository repositories.ShtemsRepository
 }
 
-func (q *shtemsService) GetShtemNames() ([]*domain.Shtemaran, domain.Error) {
-	return q.shtemsRepository.GetShtemNames()
+func (q *shtemsService) GetShtems() ([]*domain.Shtemaran, domain.Error) {
+	return q.shtemsRepository.GetShtems()
+}
+func (q *shtemsService) GetShtemLinkNames() ([]string, domain.Error) {
+	return q.shtemsRepository.GetShtemLinkNames()
 }
 func (q *shtemsService) GetShtemByLinkName(name string) (*domain.Shtemaran, domain.Error) {
 	return q.shtemsRepository.GetShtemByLinkName(name)
