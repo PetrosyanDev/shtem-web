@@ -9,8 +9,11 @@ type shtemsRepository struct {
 	db postgresrepository.ShtemsDB
 }
 
-func (p *shtemsRepository) GetShtemNames() ([]*domain.Shtemaran, domain.Error) {
-	return p.db.GetShtemNames()
+func (p *shtemsRepository) GetShtems() ([]*domain.Shtemaran, domain.Error) {
+	return p.db.GetShtems()
+}
+func (p *shtemsRepository) GetShtemLinkNames() ([]string, domain.Error) {
+	return p.db.GetShtemLinkNames()
 }
 func (p *shtemsRepository) GetShtemByLinkName(name string) (*domain.Shtemaran, domain.Error) {
 	return p.db.GetShtemByLinkName(name)
