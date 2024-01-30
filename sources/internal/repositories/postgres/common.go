@@ -8,7 +8,12 @@ type QuestionsDB interface {
 }
 
 type ShtemsDB interface {
-	GetShtemNames() ([]*domain.Shtemaran, domain.Error)
+	GetShtems() ([]*domain.Shtemaran, domain.Error)
+	GetShtemLinkNames() ([]string, domain.Error)
 	GetShtemByLinkName(name string) (*domain.Shtemaran, domain.Error)
 	AllURLs() (*domain.SiteMapURLs, domain.Error)
+}
+
+type CategoriesDB interface {
+	GetCategories() ([]*domain.Category, domain.Error)
 }

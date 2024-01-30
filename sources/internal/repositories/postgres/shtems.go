@@ -10,6 +10,8 @@ import (
 	"time"
 )
 
+var shtemsTableName = "shtems"
+
 var shtemsTableComponents = struct {
 	id          string
 	name        string
@@ -18,17 +20,17 @@ var shtemsTableComponents = struct {
 	link_name   string
 	image       string
 	pdf         string
+	category    string
 }{
-	id:          "id",
-	name:        "name",
-	description: "description",
-	author:      "author",
-	link_name:   "link_name",
-	image:       "image",
-	pdf:         "pdf",
+	id:          shtemsTableName + ".id",
+	name:        shtemsTableName + ".name",
+	description: shtemsTableName + ".description",
+	author:      shtemsTableName + ".author",
+	link_name:   shtemsTableName + ".link_name",
+	image:       shtemsTableName + ".image",
+	pdf:         shtemsTableName + ".pdf",
+	category:    shtemsTableName + ".category",
 }
-
-var shtemsTableName = "shtems"
 
 type shtemsDB struct {
 	ctx context.Context
@@ -39,7 +41,12 @@ func (q *shtemsDB) GetShtemByLinkName(name string) (*domain.Shtemaran, domain.Er
 
 	var result *domain.Shtemaran
 
-	query := fmt.Sprintf("SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s=$1 LIMIT 1",
+	query := fmt.Sprintf(`
+		SELECT %s, %s, %s, %s, %s, %s, %s 
+		FROM %s 
+		WHERE %s=$1
+		LIMIT 1`,
+		shtemsTableComponents.id,
 		shtemsTableComponents.name,
 		shtemsTableComponents.description,
 		shtemsTableComponents.author,
@@ -57,9 +64,11 @@ func (q *shtemsDB) GetShtemByLinkName(name string) (*domain.Shtemaran, domain.Er
 	defer rows.Close()
 
 	if rows.Next() {
+		var id int64
 		var name, description, author, linkName, image, pdf sql.NullString
 
 		if err := rows.Scan(
+			&id,
 			&name,
 			&description,
 			&author,
@@ -71,6 +80,7 @@ func (q *shtemsDB) GetShtemByLinkName(name string) (*domain.Shtemaran, domain.Er
 		}
 
 		result = &domain.Shtemaran{
+			Id:          id,
 			Name:        name.String,
 			Description: description.String,
 			Author:      author.String,
@@ -83,11 +93,13 @@ func (q *shtemsDB) GetShtemByLinkName(name string) (*domain.Shtemaran, domain.Er
 	return result, nil
 }
 
-func (q *shtemsDB) GetShtemNames() ([]*domain.Shtemaran, domain.Error) {
+func (q *shtemsDB) GetShtems() ([]*domain.Shtemaran, domain.Error) {
 	var shtemarans []*domain.Shtemaran
 
 	// FIND DISTINCT SHTEMARAN NAMES
-	query := fmt.Sprintf("SELECT %s, %s, %s, %s, %s, %s FROM %s",
+	query := fmt.Sprintf(`
+		SELECT %s, %s, %s, %s, %s, %s 
+		FROM %s`,
 		shtemsTableComponents.name,
 		shtemsTableComponents.description,
 		shtemsTableComponents.author,
@@ -132,6 +144,97 @@ func (q *shtemsDB) GetShtemNames() ([]*domain.Shtemaran, domain.Error) {
 	}
 
 	return shtemarans, nil
+}
+
+func (q *shtemsDB) GetShtemLinkNames() ([]string, domain.Error) {
+	var linkNames []string
+
+	// FIND DISTINCT SHTEMARAN NAMES
+	query := fmt.Sprintf(`
+		SELECT DISTINCT %s, 
+		FROM %s`,
+		shtemsTableComponents.link_name,
+		shtemsTableName, // TABLE NAME
+	)
+
+	rows, err := q.db.Query(q.ctx, query)
+	if err != nil {
+		return nil, domain.NewError().SetError(err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var linkName sql.NullString
+
+		if err := rows.Scan(
+			&linkName,
+		); err != nil {
+			return nil, domain.NewError().SetError(err)
+		}
+
+		linkNames = append(linkNames, linkName.String)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, domain.NewError().SetError(err)
+	}
+
+	return linkNames, nil
+}
+
+func (q *shtemsDB) GetShtemsByCategoryId(c_id int64) (*domain.Shtemaran, domain.Error) {
+	var shtemaran *domain.Shtemaran
+
+	// FIND DISTINCT SHTEMARAN NAMES
+	query := fmt.Sprintf(`
+		SELECT %s, %s, %s, %s, %s
+		FROM %s
+		JOIN %s
+		ON %s = $1
+		LIMIT 1`,
+		shtemsTableComponents.name,
+		shtemsTableComponents.description,
+		shtemsTableComponents.author,
+		shtemsTableComponents.link_name,
+		shtemsTableComponents.image,
+		shtemsTableName,                // TABLE NAME
+		categoriesTableName,            // JOIN TABLE NAME
+		shtemsTableComponents.category, // MATCH
+	)
+
+	rows, err := q.db.Query(q.ctx, query, c_id)
+	if err != nil {
+		return nil, domain.NewError().SetError(err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var name, description, author, linkName, image sql.NullString
+
+		if err := rows.Scan(
+			&name,
+			&author,
+			&description,
+			&linkName,
+			&image,
+		); err != nil {
+			return nil, domain.NewError().SetError(err)
+		}
+
+		shtemaran = &domain.Shtemaran{
+			Name:        name.String,
+			Author:      author.String,
+			Description: description.String,
+			LinkName:    linkName.String,
+			Image:       image.String,
+		}
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, domain.NewError().SetError(err)
+	}
+
+	return shtemaran, nil
 }
 
 func (q *shtemsDB) GetShtemURLs() ([]string, domain.Error) {
