@@ -9,11 +9,12 @@ type QuestionsDB interface {
 
 type ShtemsDB interface {
 	GetShtems() ([]*domain.Shtemaran, domain.Error)
+	GetShtemsByCategoryId(c_id int64) ([]*domain.Shtemaran, domain.Error)
 	GetShtemLinkNames() ([]string, domain.Error)
 	GetShtemByLinkName(name string) (*domain.Shtemaran, domain.Error)
-	AllURLs() (*domain.SiteMapURLs, domain.Error)
 }
 
 type CategoriesDB interface {
 	GetCategories() ([]*domain.Category, domain.Error)
+	GetCategoriesWithShtems() (domain.Categories, domain.Error)
 }

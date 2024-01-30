@@ -12,6 +12,9 @@ type categoriesRepository struct {
 func (p *categoriesRepository) GetCategories() ([]*domain.Category, domain.Error) {
 	return p.db.GetCategories()
 }
+func (p *categoriesRepository) GetCategoriesWithShtems() (domain.Categories, domain.Error) {
+	return p.db.GetCategoriesWithShtems()
+}
 
 func NewCategoriesRepository(db postgresrepository.CategoriesDB) *categoriesRepository {
 	return &categoriesRepository{db}

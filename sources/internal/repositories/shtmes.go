@@ -12,15 +12,14 @@ type shtemsRepository struct {
 func (p *shtemsRepository) GetShtems() ([]*domain.Shtemaran, domain.Error) {
 	return p.db.GetShtems()
 }
+func (p *shtemsRepository) GetShtemsByCategoryId(c_id int64) ([]*domain.Shtemaran, domain.Error) {
+	return p.db.GetShtemsByCategoryId(c_id)
+}
 func (p *shtemsRepository) GetShtemLinkNames() ([]string, domain.Error) {
 	return p.db.GetShtemLinkNames()
 }
 func (p *shtemsRepository) GetShtemByLinkName(name string) (*domain.Shtemaran, domain.Error) {
 	return p.db.GetShtemByLinkName(name)
-}
-
-func (p *shtemsRepository) AllURLs() (*domain.SiteMapURLs, domain.Error) {
-	return p.db.AllURLs()
 }
 
 func NewShtemsRepository(db postgresrepository.ShtemsDB) *shtemsRepository {

@@ -7,7 +7,6 @@ import (
 	"fmt"
 	postgresclient "shtem-web/sources/internal/clients/postgres"
 	"shtem-web/sources/internal/core/domain"
-	"time"
 )
 
 var shtemsTableName = "shtems"
@@ -151,7 +150,7 @@ func (q *shtemsDB) GetShtemLinkNames() ([]string, domain.Error) {
 
 	// FIND DISTINCT SHTEMARAN NAMES
 	query := fmt.Sprintf(`
-		SELECT DISTINCT %s, 
+		SELECT DISTINCT %s
 		FROM %s`,
 		shtemsTableComponents.link_name,
 		shtemsTableName, // TABLE NAME
@@ -182,16 +181,15 @@ func (q *shtemsDB) GetShtemLinkNames() ([]string, domain.Error) {
 	return linkNames, nil
 }
 
-func (q *shtemsDB) GetShtemsByCategoryId(c_id int64) (*domain.Shtemaran, domain.Error) {
-	var shtemaran *domain.Shtemaran
+func (q *shtemsDB) GetShtemsByCategoryId(c_id int64) ([]*domain.Shtemaran, domain.Error) {
+	var shtemarans []*domain.Shtemaran
 
 	// FIND DISTINCT SHTEMARAN NAMES
 	query := fmt.Sprintf(`
 		SELECT %s, %s, %s, %s, %s
 		FROM %s
 		JOIN %s
-		ON %s = $1
-		LIMIT 1`,
+		ON %s = $1`,
 		shtemsTableComponents.name,
 		shtemsTableComponents.description,
 		shtemsTableComponents.author,
@@ -221,104 +219,20 @@ func (q *shtemsDB) GetShtemsByCategoryId(c_id int64) (*domain.Shtemaran, domain.
 			return nil, domain.NewError().SetError(err)
 		}
 
-		shtemaran = &domain.Shtemaran{
+		shtemarans = append(shtemarans, &domain.Shtemaran{
 			Name:        name.String,
 			Author:      author.String,
 			Description: description.String,
 			LinkName:    linkName.String,
 			Image:       image.String,
-		}
+		})
 	}
 
 	if err := rows.Err(); err != nil {
 		return nil, domain.NewError().SetError(err)
 	}
 
-	return shtemaran, nil
-}
-
-func (q *shtemsDB) GetShtemURLs() ([]string, domain.Error) {
-	var links []string
-
-	// FIND DISTINCT SHTEMARAN NAMES
-	query := fmt.Sprintf("SELECT %s FROM %s",
-		shtemsTableComponents.link_name,
-		shtemsTableName, // TABLE NAME
-	)
-
-	rows, err := q.db.Query(q.ctx, query)
-	if err != nil {
-		return nil, domain.NewError().SetError(err)
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		var linkName sql.NullString
-
-		if err := rows.Scan(
-			&linkName,
-		); err != nil {
-			return nil, domain.NewError().SetError(err)
-		}
-
-		links = append(links, linkName.String)
-	}
-
-	if err := rows.Err(); err != nil {
-		return nil, domain.NewError().SetError(err)
-	}
-
-	return links, nil
-}
-
-func (p *shtemsDB) AllURLs() (*domain.SiteMapURLs, domain.Error) {
-
-	siteMap := new(domain.SiteMapURLs)
-
-	// MAIN COMPONENTS
-	siteMapHome := domain.SiteMapURL{
-		Loc:        domain.BaseUrl,
-		ChangeFreq: domain.SiteMapFreqDaily,
-		LastMod:    time.Now().UTC().Format("2006-01-02"),
-		Priority:   domain.SiteMapPriorityHighest,
-	}
-
-	siteMapShtems := domain.SiteMapURL{
-		Loc:        domain.ShtemsUrl,
-		ChangeFreq: domain.SiteMapFreqWeekly,
-		LastMod:    time.Now().UTC().Format("2006-01-02"),
-		Priority:   domain.SiteMapPriorityHigh,
-	}
-
-	siteMap.URLs = append(siteMap.URLs, siteMapHome, siteMapShtems)
-
-	// SHTEMARANS
-
-	allSingleShtemsURLs, err := p.GetShtemURLs()
-	if err != nil {
-		return nil, err
-	}
-
-	for _, url := range allSingleShtemsURLs {
-		siteMap.URLs = append(siteMap.URLs, domain.SiteMapURL{
-			Loc:        domain.ShtemsUrl + url,
-			ChangeFreq: domain.SiteMapFreqMonthly,
-			LastMod:    time.Now().UTC().Format("2006-01-02"),
-			Priority:   domain.SiteMapPriorityMedium,
-		})
-	}
-
-	// SHTEMARAN QUIZES
-	for _, url := range allSingleShtemsURLs {
-		siteMap.URLs = append(siteMap.URLs, domain.SiteMapURL{
-			Loc:        domain.ShtemsUrl + url + "/quiz",
-			ChangeFreq: domain.SiteMapFreqMonthly,
-			LastMod:    time.Now().UTC().Format("2006-01-02"),
-			Priority:   domain.SiteMapPriorityMedium,
-		})
-	}
-
-	return siteMap, nil
+	return shtemarans, nil
 }
 
 func NewShtemsDB(ctx context.Context, db *postgresclient.PostgresDB) *shtemsDB {
