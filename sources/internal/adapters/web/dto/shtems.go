@@ -9,7 +9,7 @@ type ShtemsResponse struct {
 	Data []string `json:"data"`
 }
 
-func ShtemsData(shtemNames []*domain.Shtemaran) *domain.Page {
+func ShtemsData(shtemNames []*domain.Shtemaran, categories []*domain.Category) *domain.Page {
 	const (
 		title       = "shtemaran.am • Learning Fast | The Best Way to Save Time"
 		description = "Welcome to shtemaran.am"
@@ -25,7 +25,8 @@ func ShtemsData(shtemNames []*domain.Shtemaran) *domain.Page {
 		AddTwitterTAG(title, description, path, socImage).
 		AddTopMenuItem("ԳԼԽԱՎՈՐ", "/", false).
 		AddTopMenuItem("ՇՏԵՄԵՐ", "/shtems", true).
-		AddShtemNames(shtemNames)
+		AddShtemNames(shtemNames).
+		AddCategories(categories)
 
 	return pb.Page()
 

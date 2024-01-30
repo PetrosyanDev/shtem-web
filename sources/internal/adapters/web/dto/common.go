@@ -3,6 +3,7 @@ package dto
 
 import (
 	"fmt"
+	"log"
 	"shtem-web/sources/internal/core/domain"
 )
 
@@ -68,6 +69,18 @@ func (b *pageBuilder) AddShtemNames(shtems []*domain.Shtemaran) *pageBuilder {
 			LinkName:    n.LinkName,
 			Image:       n.Image,
 			PDF:         n.PDF,
+		})
+	}
+
+	return b
+}
+
+func (b *pageBuilder) AddCategories(cateories []*domain.Category) *pageBuilder {
+	for _, n := range cateories {
+		log.Println(n)
+		b.page.Body.Categories = append(b.page.Body.Categories, domain.Category{
+			Name:        n.Name,
+			Description: n.Description,
 		})
 	}
 

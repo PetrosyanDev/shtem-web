@@ -2,7 +2,6 @@
 package handlers
 
 import (
-	"log"
 	"net/http"
 	"shtem-web/sources/internal/adapters/web/dto"
 	"shtem-web/sources/internal/core/ports"
@@ -11,63 +10,14 @@ import (
 )
 
 type webHandler struct {
-	webService    ports.WEBService
-	shtemsService ports.ShtemsService
+	webService        ports.WEBService
+	shtemsService     ports.ShtemsService
+	categoriesService ports.CategoriesService
 }
 
 func (h *webHandler) Home(page string) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		h.webService.Home(ctx, page, dto.HomeData())
-	}
-}
-
-func (h *webHandler) Shtems(page string) gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-
-		names, err := h.shtemsService.GetShtemNames()
-		if err != nil {
-			log.Printf("Error while geting shtems: %s", err)
-		}
-
-		h.webService.Shtems(ctx, page, dto.ShtemsData(names))
-	}
-}
-
-func (h *webHandler) Quiz(page string) gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-
-		names, err := h.shtemsService.GetShtemNames()
-		if err != nil {
-			log.Printf("Error while geting shtems: %s", err)
-			return
-		}
-
-		shtemName := ctx.Param("shtemName")
-
-		for _, val := range names {
-			if val.LinkName == shtemName {
-				h.webService.Shtems(ctx, page, dto.QuizData())
-				return
-			}
-		}
-
-		h.webService.Page404(ctx, dto.NotFoundData())
-	}
-}
-
-func (h *webHandler) SingleShtem(page string) gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-
-		shtemName := ctx.Param("shtemName")
-
-		shtemaran, err := h.shtemsService.GetShtemByLinkName(shtemName)
-		if err != nil {
-			log.Printf("Error while geting shtems: %s", err)
-			h.webService.Page404(ctx, dto.NotFoundData())
-			return
-		}
-
-		h.webService.SingleShtem(ctx, page, dto.SingleShtemData(shtemaran))
 	}
 }
 
@@ -91,6 +41,10 @@ func (h *webHandler) StaticUploads() http.FileSystem {
 	return h.webService.StaticUploads()
 }
 
-func NewWEBHandler(webService ports.WEBService, shtemsService ports.ShtemsService) *webHandler {
-	return &webHandler{webService, shtemsService}
+func NewWEBHandler(
+	webService ports.WEBService,
+	shtemsService ports.ShtemsService,
+	categoriesService ports.CategoriesService,
+) *webHandler {
+	return &webHandler{webService, shtemsService, categoriesService}
 }
