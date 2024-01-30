@@ -11,9 +11,12 @@ type TopMenu struct {
 	Items       []TopMenuItem
 }
 
+type Categories map[Category][]*Shtemaran
+type CategoriesTpl map[Category][]Shtemaran
+
 type Body struct {
 	TopMenu      TopMenu
 	Shtems       []Shtemaran
-	Categories   []Category
+	Categories   CategoriesTpl
 	CurrentShtem Shtemaran
 }
