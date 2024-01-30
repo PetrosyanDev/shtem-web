@@ -1,4 +1,6 @@
-{{define "listShtems"}} {{ range .Body.Shtems }}
+{{define "listShtems"}} {{ range $category, $shtems := .Body.Categories}}
+<li>{{$category.Name}}</li>
+{{ range $shtems }}
 <a href="/shtems/{{.LinkName}}" class="text-decoration-none">
     <div class="col">
         <div class="shtem-content border rounded">
@@ -7,4 +9,4 @@
         </div>
     </div>
 </a>
-{{end}} {{end}}
+{{end}} {{end}} {{end}}
