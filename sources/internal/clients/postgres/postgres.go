@@ -51,6 +51,10 @@ func connect(ctx context.Context, cfg *configs.Configs) (*pgx.Conn, error) {
 		return nil, err
 	}
 
+	connConfig.RuntimeParams = map[string]string{
+		"application_name": "pgx-simplequery",
+	}
+
 	conn, err := pgx.ConnectConfig(ctx, connConfig)
 	if err != nil {
 		return nil, err

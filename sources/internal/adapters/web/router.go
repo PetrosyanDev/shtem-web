@@ -26,7 +26,7 @@ func NewWEBRouter(handler ports.WEBHandler) *gin.Engine {
 	r.GET("/shtems", handler.Shtems("allShtems.html"))
 	r.GET("/shtems/:shtemName", handler.SingleShtem("singleShtem.html"))
 	r.GET("/shtems/:shtemName/quiz", handler.Quiz("quiz.html"))
-	r.GET("/category/:categoryName", handler.Quiz("quiz.html"))
+	r.GET("/category/:categoryName", handler.Category("singleCategory.html"))
 	r.GET("/about", handler.About("about.html"))
 
 	up := r.Group("/uploads", middlewares.PreventListing(handler.Page404(), "/uploads", "/uploads/"))
