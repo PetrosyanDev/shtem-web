@@ -34,12 +34,12 @@ func (h *webHandler) Category(page string) gin.HandlerFunc {
 
 		categoryName := ctx.Param("categoryName")
 
-		// category, err := h.categoriesService.GetShtemsByCategoryLinkName(categoryName)
-		// if err != nil {
-		// 	log.Printf("Error while geting shtems: %s", err)
-		// 	h.webService.Page404(ctx, dto.NotFoundData())
-		// 	return
-		// }
+		category, err := h.categoriesService.GetCategoryByLinkName(categoryName)
+		if err != nil {
+			log.Printf("Error while geting shtems: %s", err)
+			h.webService.Page404(ctx, dto.NotFoundData())
+			return
+		}
 
 		shtemarans, err := h.categoriesService.GetShtemsByCategoryLinkName(categoryName)
 		if err != nil {
@@ -48,6 +48,6 @@ func (h *webHandler) Category(page string) gin.HandlerFunc {
 			return
 		}
 
-		h.webService.Category(ctx, page, dto.CategoryData(nil, shtemarans))
+		h.webService.Category(ctx, page, dto.CategoryData(category, shtemarans))
 	}
 }

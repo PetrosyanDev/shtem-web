@@ -59,6 +59,20 @@ func (b *pageBuilder) AddTopMenuItem(name, link string, isCurrent bool) *pageBui
 	return b
 }
 
+func (b *pageBuilder) AddSingleShtem(shtemaran *domain.Shtemaran) *pageBuilder {
+
+	b.page.Body.CurrentShtem = domain.Shtemaran{
+		Name:        shtemaran.Name,
+		Description: shtemaran.Description,
+		Author:      shtemaran.Author,
+		LinkName:    shtemaran.LinkName,
+		Image:       shtemaran.Image,
+		PDF:         shtemaran.PDF,
+	}
+
+	return b
+}
+
 func (b *pageBuilder) AddShtemNames(shtems []*domain.Shtemaran) *pageBuilder {
 	for _, n := range shtems {
 		b.page.Body.Shtems = append(b.page.Body.Shtems, domain.Shtemaran{
@@ -73,6 +87,8 @@ func (b *pageBuilder) AddShtemNames(shtems []*domain.Shtemaran) *pageBuilder {
 
 	return b
 }
+
+// CATEGORIES
 
 func (b *pageBuilder) AddCategories(categories domain.Categories) *pageBuilder {
 
@@ -90,15 +106,12 @@ func (b *pageBuilder) AddCategories(categories domain.Categories) *pageBuilder {
 	return b
 }
 
-func (b *pageBuilder) AddSingleShtem(shtemaran *domain.Shtemaran) *pageBuilder {
+func (b *pageBuilder) AddSingleCategory(category *domain.Category) *pageBuilder {
 
-	b.page.Body.CurrentShtem = domain.Shtemaran{
-		Name:        shtemaran.Name,
-		Description: shtemaran.Description,
-		Author:      shtemaran.Author,
-		LinkName:    shtemaran.LinkName,
-		Image:       shtemaran.Image,
-		PDF:         shtemaran.PDF,
+	b.page.Body.CurrentCategory = domain.Category{
+		Name:        category.Name,
+		Description: category.Description,
+		LinkName:    category.LinkName,
 	}
 
 	return b
@@ -106,6 +119,21 @@ func (b *pageBuilder) AddSingleShtem(shtemaran *domain.Shtemaran) *pageBuilder {
 
 func (b *pageBuilder) Page() *domain.Page {
 	return b.page
+}
+
+func (b *pageBuilder) AddCategoryShtemNames(shtems []*domain.Shtemaran) *pageBuilder {
+	for _, n := range shtems {
+		b.page.Body.CurrentCategoryShtems = append(b.page.Body.CurrentCategoryShtems, domain.Shtemaran{
+			Name:        n.Name,
+			Description: n.Description,
+			Author:      n.Author,
+			LinkName:    n.LinkName,
+			Image:       n.Image,
+			PDF:         n.PDF,
+		})
+	}
+
+	return b
 }
 
 func newPageBuilder() *pageBuilder {

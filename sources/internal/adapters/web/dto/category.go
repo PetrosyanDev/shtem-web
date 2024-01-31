@@ -19,7 +19,9 @@ func CategoryData(category *domain.Category, shtemarans []*domain.Shtemaran) *do
 		AddOpenGraphTAG(title, description, path, socImage).
 		AddTwitterTAG(title, description, path, socImage).
 		AddTopMenuItem("ԳԼԽԱՎՈՐ", "/", false).
-		AddTopMenuItem("ՇՏԵՄԵՐ", "/shtems", false)
+		AddTopMenuItem("ՇՏԵՄԵՐ", "/shtems", false).
+		AddSingleCategory(category).
+		AddCategoryShtemNames(shtemarans)
 
 	return pb.Page()
 
