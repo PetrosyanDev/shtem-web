@@ -3,9 +3,9 @@
     <div class="row row-cols-2 gx-2 gy-4">
         {{ range $category, $shtems := .Body.Categories}}
         <section class="col-12 px-3 px-lg-0">
-            <div class="category-content">
+            <div class="category-content d-flex justify-content-between">
                 <h2 class="h3 text-left">{{$category.Name}}</h2>
-                <p>{{$category.Description}}</p>
+                <a href="/category/{{$category.LinkName}}">Տեսնել Բոլորը</a>
             </div>
             <div class="linear-product-listing position-relative">
                 <div class="items d-flex overflow-scroll-x">
