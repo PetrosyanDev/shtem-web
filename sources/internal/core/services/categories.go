@@ -12,6 +12,9 @@ type categoriesService struct {
 func (q *categoriesService) GetCategories() ([]*domain.Category, domain.Error) {
 	return q.categoriesRepository.GetCategories()
 }
+func (q *categoriesService) GetCategoryByLinkName(c_link_name string) (*domain.Category, domain.Error) {
+	return q.categoriesRepository.GetCategoryByLinkName(c_link_name)
+}
 func (q *categoriesService) GetCategoriesWithShtems() (domain.Categories, domain.Error) {
 	return q.categoriesRepository.GetCategoriesWithShtems()
 }

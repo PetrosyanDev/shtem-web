@@ -15,8 +15,10 @@ type Categories map[Category][]*Shtemaran
 type CategoriesTpl map[Category][]Shtemaran
 
 type Body struct {
-	TopMenu      TopMenu
-	Shtems       []Shtemaran
-	Categories   CategoriesTpl
-	CurrentShtem Shtemaran
+	TopMenu               TopMenu
+	Shtems                []Shtemaran
+	Categories            CategoriesTpl
+	CurrentShtem          Shtemaran
+	CurrentCategory       Category
+	CurrentCategoryShtems []Shtemaran
 }
