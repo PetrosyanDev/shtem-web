@@ -2,12 +2,12 @@
     display: block;
     border-radius: 3px;
     position: relative;
-    box-shadow: 0px 6px 12px rgba(0,0,0,0.2);
+    box-shadow: 0px 6px 12px rgba(0,0,0,0.1);
     transition: transform 200ms ease-in, box-shadow 200ms ease-in;
 }
 
 .product-image:hover {
-    box-shadow: 0px 11px 18px rgba(0,0,0,0.2);
+    box-shadow: 0px 11px 18px rgba(0,0,0,0.1);
     transform: scale(1.025);
 }
 
