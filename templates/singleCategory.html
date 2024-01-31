@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en">
+    {{ template "header" .}}
+    <body>
+        {{template "top-nav-bar" .}}
+        <div style="min-height: 90vh; flex-direction: column; display: flex; justify-content: space-between">
+            {{template "single-category" .}} {{template "footer" .}}
+        </div>
+        {{template "scripts" .}}
+    </body>
+</html>

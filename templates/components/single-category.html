@@ -1,0 +1,36 @@
+{{define "single-category"}}
+<div>
+    <div class="container-fluid bg-light p-5 justify-content-center">
+        <div class="d-flex global-container">
+            <h1 class="h2 bold">{{.Body.CurrentCategory.Name}}</h1>
+        </div>
+    </div>
+    <div class="container-fluid global-container bg-white my-5">
+        <div class="row row-cols-2 gx-2 gy-4 rounded">
+            {{range .Body.CurrentCategoryShtems}}
+            <div class="col-12 px-3 px-lg-0">
+                <div class="row bg-light py-3">
+                    <div class="col-5 p-5">
+                        <div class="mx-auto book-category-detail-image">
+                            <img src="/uploads/covers/{{.Image}}" class="w-100" alt="Book Photo" />
+                        </div>
+                    </div>
+                    <div class="col-7 p-5">
+                        <div class="mb-4">
+                            <h1 class="h2">{{.Name}}</h1>
+                            <div class="text-gray text-sm">
+                                <span>{{.Author}} (Հեղինակ) </span>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <h3 class="h4 mb-2">Նկարագրություն</h3>
+                            <p>{{.Description}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{end}}
+        </div>
+    </div>
+</div>
+{{end}}
