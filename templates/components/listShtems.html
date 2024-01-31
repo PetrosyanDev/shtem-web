@@ -1,12 +1,32 @@
-{{define "listShtems"}} {{ range $category, $shtems := .Body.Categories}}
-<li>{{$category.Name}}</li>
-{{ range $shtems }}
-<a href="/shtems/{{.LinkName}}" class="text-decoration-none">
-    <div class="col">
-        <div class="shtem-content border rounded">
-            <img src="/uploads/covers/{{.Image}}" alt="{{.Name}}" />
-            <div class="shtem-name">{{.Name}}</div>
-        </div>
+{{define "listShtems"}}
+<div class="mt-2 mb-4">
+    <div class="row row-cols-2 gx-2 gy-4">
+        {{ range $category, $shtems := .Body.Categories}}
+        <section class="col-12 px-3 px-md-0">
+            <div class="category-content">
+                <h2 class="h3 text-left">{{$category.Name}}</h2>
+                <p>{{$category.Description}}</p>
+            </div>
+            <div class="linear-product-listing position-relative">
+                <div class="items d-flex overflow-scroll-x">
+                    {{ range $shtems }}
+                    <!-- prettier-ignore -->
+                    <a 
+                        href="/shtems/{{.LinkName}}" 
+                        class="cover my-2 me-2 scroll-snap text-decoration-none d-flex flex-column" >
+
+                        <div class="product-image">
+                            <img src="/uploads/covers/{{.Image}}" alt="{{.Name}}" />
+                            <div class="d-flex justify-content-center">
+                                <div class="shtem-name">{{.Name}}</div>
+                            </div>
+                        </div>
+                    </a>
+                    {{end}}
+                </div>
+            </div>
+        </section>
+        {{end}}
     </div>
-</a>
-{{end}} {{end}} {{end}}
+</div>
+{{end}}
