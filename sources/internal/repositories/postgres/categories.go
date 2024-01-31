@@ -32,11 +32,12 @@ func (q *categoriesDB) GetCategories() ([]*domain.Category, domain.Error) {
 
 	// FIND DISTINCT SHTEMARAN NAMES
 	query := fmt.Sprintf(`
-		SELECT %s, %s, %s
+		SELECT %s, %s, %s, %s
 		FROM %s`,
 		categoriesTableComponents.c_id,
 		categoriesTableComponents.name,
 		categoriesTableComponents.description,
+		categoriesTableComponents.link_name,
 		categoriesTableName, // TABLE NAME
 	)
 
@@ -48,12 +49,13 @@ func (q *categoriesDB) GetCategories() ([]*domain.Category, domain.Error) {
 
 	for rows.Next() {
 		var id int64
-		var name, description sql.NullString
+		var name, description, link_name sql.NullString
 
 		if err := rows.Scan(
 			&id,
 			&name,
 			&description,
+			&link_name,
 		); err != nil {
 			return nil, domain.NewError().SetError(err)
 		}
@@ -62,6 +64,7 @@ func (q *categoriesDB) GetCategories() ([]*domain.Category, domain.Error) {
 			C_id:        id,
 			Name:        name.String,
 			Description: description.String,
+			LinkName:    link_name.String,
 		})
 	}
 
@@ -70,6 +73,56 @@ func (q *categoriesDB) GetCategories() ([]*domain.Category, domain.Error) {
 	}
 
 	return categories, nil
+}
+func (q *categoriesDB) GetCategoryByLinkName(c_link_name string) (*domain.Category, domain.Error) {
+	var category *domain.Category
+
+	// FIND DISTINCT SHTEMARAN NAMES
+	query := fmt.Sprintf(`
+		SELECT %s, %s, %s, %s
+		FROM %s
+		WHERE %s = $1
+		LIMIT 1`,
+		categoriesTableComponents.c_id,
+		categoriesTableComponents.name,
+		categoriesTableComponents.description,
+		categoriesTableComponents.link_name,
+		categoriesTableName,                 // TABLE NAME
+		categoriesTableComponents.link_name, // WHERE
+	)
+
+	rows, err := q.db.Query(q.ctx, query, c_link_name)
+	if err != nil {
+		return nil, domain.NewError().SetError(err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var id int64
+		var name, description, link_name sql.NullString
+
+		if err := rows.Scan(
+			&id,
+			&name,
+			&description,
+			&link_name,
+		); err != nil {
+			return nil, domain.NewError().SetError(err)
+		}
+
+		category = &domain.Category{
+			C_id:        id,
+			Name:        name.String,
+			Description: description.String,
+			LinkName:    link_name.String,
+		}
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, domain.NewError().SetError(err)
+	}
+
+	return category, nil
 }
 
 func (q *categoriesDB) GetCategoriesWithShtems() (domain.Categories, domain.Error) {
@@ -168,7 +221,7 @@ func (q *categoriesDB) GetShtemsByCategoryLinkName(c_linkName string) ([]*domain
 	var result []*domain.Shtemaran
 
 	query := fmt.Sprintf(`
-		SELECT %s, %s, %s, %s, %s, %s 
+		SELECT %s, %s, %s, %s, %s, %s
 		FROM %s
 		JOIN %s
 		ON %s = %s
@@ -196,7 +249,7 @@ func (q *categoriesDB) GetShtemsByCategoryLinkName(c_linkName string) ([]*domain
 	}
 	defer rows.Close()
 
-	if rows.Next() {
+	for rows.Next() {
 		var id int64
 		var name, description, author, linkName, image sql.NullString
 
@@ -211,14 +264,16 @@ func (q *categoriesDB) GetShtemsByCategoryLinkName(c_linkName string) ([]*domain
 			return nil, domain.NewError().SetError(err)
 		}
 
-		result = append(result, &domain.Shtemaran{
+		s := &domain.Shtemaran{
 			Id:          id,
 			Name:        name.String,
 			Description: description.String,
 			Author:      author.String,
 			LinkName:    linkName.String,
 			Image:       image.String,
-		})
+		}
+
+		result = append(result, s)
 	}
 
 	return result, nil
