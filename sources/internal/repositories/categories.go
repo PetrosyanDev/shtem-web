@@ -12,6 +12,9 @@ type categoriesRepository struct {
 func (p *categoriesRepository) GetCategories() ([]*domain.Category, domain.Error) {
 	return p.db.GetCategories()
 }
+func (p *categoriesRepository) GetCategoryByLinkName(c_link_name string) (*domain.Category, domain.Error) {
+	return p.db.GetCategoryByLinkName(c_link_name)
+}
 func (p *categoriesRepository) GetCategoriesWithShtems() (domain.Categories, domain.Error) {
 	return p.db.GetCategoriesWithShtems()
 }
