@@ -14,10 +14,12 @@ var categoriesTableComponents = struct {
 	c_id        string
 	name        string
 	description string
+	link_name   string
 }{
 	c_id:        categoriesTableName + ".c_id",
 	name:        categoriesTableName + ".name",
 	description: categoriesTableName + ".description",
+	link_name:   categoriesTableName + ".link_name",
 }
 
 type categoriesDB struct {
@@ -79,6 +81,7 @@ func (q *categoriesDB) GetCategoriesWithShtems() (domain.Categories, domain.Erro
 			COUNT(%s) AS arraysCount,
 			%s AS category,
 			%s AS c_description,
+			%s AS c_link_name,
 			ARRAY_AGG(%s) AS names,
 			ARRAY_AGG(%s) AS descriptions,
 			ARRAY_AGG(%s) AS link_names,
@@ -92,6 +95,7 @@ func (q *categoriesDB) GetCategoriesWithShtems() (domain.Categories, domain.Erro
 		categoriesTableComponents.name,
 		categoriesTableComponents.name,
 		categoriesTableComponents.description,
+		categoriesTableComponents.link_name,
 		shtemsTableComponents.name,
 		shtemsTableComponents.description,
 		shtemsTableComponents.link_name,
@@ -116,7 +120,7 @@ func (q *categoriesDB) GetCategoriesWithShtems() (domain.Categories, domain.Erro
 
 	for rows.Next() {
 		var arraysCount int
-		var category string
+		var category, c_link_name string
 		var c_description sql.NullString
 		var names, descriptions, link_names, images, authors []sql.NullString
 
@@ -124,6 +128,7 @@ func (q *categoriesDB) GetCategoriesWithShtems() (domain.Categories, domain.Erro
 			&arraysCount,
 			&category,
 			&c_description,
+			&c_link_name,
 			&names,
 			&descriptions,
 			&link_names,
@@ -137,6 +142,7 @@ func (q *categoriesDB) GetCategoriesWithShtems() (domain.Categories, domain.Erro
 			c := domain.Category{
 				Name:        category,
 				Description: c_description.String,
+				LinkName:    c_link_name,
 			}
 			s := &domain.Shtemaran{
 				Name:        names[i].String,
@@ -155,6 +161,67 @@ func (q *categoriesDB) GetCategoriesWithShtems() (domain.Categories, domain.Erro
 	}
 
 	return categories, nil
+}
+
+func (q *categoriesDB) GetShtemsByCategoryLinkName(c_linkName string) ([]*domain.Shtemaran, domain.Error) {
+
+	var result []*domain.Shtemaran
+
+	query := fmt.Sprintf(`
+		SELECT %s, %s, %s, %s, %s, %s 
+		FROM %s
+		JOIN %s
+		ON %s = %s
+		WHERE %s = $1`,
+		shtemsTableComponents.id,
+		shtemsTableComponents.name,
+		shtemsTableComponents.description,
+		shtemsTableComponents.author,
+		shtemsTableComponents.link_name,
+		shtemsTableComponents.image,
+		// FROM TABLE NAME
+		shtemsTableName,
+		// JOIN TABLE NAME
+		categoriesTableName,
+		// ON
+		categoriesTableComponents.c_id,
+		shtemsTableComponents.category,
+		// LINK NAME
+		categoriesTableComponents.link_name,
+	)
+
+	rows, err := q.db.Query(q.ctx, query, c_linkName)
+	if err != nil {
+		return nil, domain.NewError().SetError(err)
+	}
+	defer rows.Close()
+
+	if rows.Next() {
+		var id int64
+		var name, description, author, linkName, image sql.NullString
+
+		if err := rows.Scan(
+			&id,
+			&name,
+			&description,
+			&author,
+			&linkName,
+			&image,
+		); err != nil {
+			return nil, domain.NewError().SetError(err)
+		}
+
+		result = append(result, &domain.Shtemaran{
+			Id:          id,
+			Name:        name.String,
+			Description: description.String,
+			Author:      author.String,
+			LinkName:    linkName.String,
+			Image:       image.String,
+		})
+	}
+
+	return result, nil
 }
 
 func NewCategoriesDB(ctx context.Context, db *postgresclient.PostgresDB) *categoriesDB {

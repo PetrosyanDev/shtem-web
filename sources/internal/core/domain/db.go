@@ -14,4 +14,5 @@ type Category struct {
 	C_id        int64
 	Name        string
 	Description string
+	LinkName    string
 }

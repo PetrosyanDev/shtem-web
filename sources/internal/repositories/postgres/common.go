@@ -17,4 +17,5 @@ type ShtemsDB interface {
 type CategoriesDB interface {
 	GetCategories() ([]*domain.Category, domain.Error)
 	GetCategoriesWithShtems() (domain.Categories, domain.Error)
+	GetShtemsByCategoryLinkName(c_linkName string) ([]*domain.Shtemaran, domain.Error)
 }

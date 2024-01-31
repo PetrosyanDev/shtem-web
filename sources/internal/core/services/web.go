@@ -38,6 +38,10 @@ func (s *webService) SingleShtem(ctx *gin.Context, page string, data *domain.Pag
 	s.templates.Render(ctx, page, data)
 }
 
+func (s *webService) Category(ctx *gin.Context, page string, data *domain.Page) {
+	s.templates.Render(ctx, page, data)
+}
+
 func (s *webService) Page404(ctx *gin.Context, data *domain.Page) {
 	s.templates.SetStatus(ctx, http.StatusNotFound).Render(ctx, "404.html", data)
 }

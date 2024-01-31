@@ -12012,12 +12012,12 @@ div.question-text {
   display: block;
   border-radius: 3px;
   position: relative;
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
   transition: transform 200ms ease-in, box-shadow 200ms ease-in;
 }
 
 .product-image:hover {
-  box-shadow: 0px 11px 18px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 11px 18px rgba(0, 0, 0, 0.1);
   transform: scale(1.025);
 }
 
@@ -12032,7 +12032,7 @@ div.question-text {
 
 .shtem-name {
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
   padding: 10px;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -12042,9 +12042,10 @@ div.question-text {
 
 @media screen and (min-width: 992px) {
   .product-image > img {
-    height: 14rem;
+    height: 16rem;
   }
   .shtem-name {
+    max-width: 250px;
     font-size: 16px;
   }
 }

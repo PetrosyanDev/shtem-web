@@ -28,3 +28,26 @@ func (h *webHandler) Shtems(page string) gin.HandlerFunc {
 		h.webService.Shtems(ctx, page, dto.ShtemsData(shtems, shtemsFromCategory))
 	}
 }
+
+func (h *webHandler) Category(page string) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+
+		categoryName := ctx.Param("categoryName")
+
+		// category, err := h.categoriesService.GetShtemsByCategoryLinkName(categoryName)
+		// if err != nil {
+		// 	log.Printf("Error while geting shtems: %s", err)
+		// 	h.webService.Page404(ctx, dto.NotFoundData())
+		// 	return
+		// }
+
+		shtemarans, err := h.categoriesService.GetShtemsByCategoryLinkName(categoryName)
+		if err != nil {
+			log.Printf("Error while geting shtems: %s", err)
+			h.webService.Page404(ctx, dto.NotFoundData())
+			return
+		}
+
+		h.webService.Category(ctx, page, dto.CategoryData(nil, shtemarans))
+	}
+}
