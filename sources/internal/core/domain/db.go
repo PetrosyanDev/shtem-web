@@ -1,5 +1,16 @@
 package domain
 
+type Question struct {
+	Q_id     int64
+	Bajin    int
+	Mas      int
+	Q_number int
+	Text     string
+	Options  []string
+	Answers  []int
+	ShtemId  int64
+}
+
 type Shtemaran struct {
 	Id          int64
 	Name        string
@@ -16,3 +27,6 @@ type Category struct {
 	Description string
 	LinkName    string
 }
+
+type Categories map[Category][]*Shtemaran
+type CategoriesTpl map[Category][]Shtemaran
