@@ -37,6 +37,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to connect with PostgresDB (%v)", err)
 	}
+	questionsDB := postgresrepository.NewQuestionsDB(appCtx, postgresDB)
 	shtemsDB := postgresrepository.NewShtemsDB(appCtx, postgresDB)
 	categoriesDB := postgresrepository.NewCategoriesDB(appCtx, postgresDB)
 
@@ -47,6 +48,7 @@ func main() {
 		log.Fatalf("failed to load templates (%v)", err)
 	}
 
+	questionsRepository := repositories.NewQuestionsRepository(questionsDB)
 	shtemsRepository := repositories.NewShtemsRepository(shtemsDB)
 	categoriesRepository := repositories.NewCategoriesRepository(categoriesDB)
 
@@ -56,11 +58,12 @@ func main() {
 		log.Fatalf("failed to create WEB service (%v)", err)
 	}
 
+	questionsService := services.NewQuestionsService(questionsRepository)
 	shtemsService := services.NewShtemsService(shtemsRepository)
 	categoriesService := services.NewCategoriesService(categoriesRepository)
 
 	log.Println("init handlers")
-	webHandler := handlers.NewWEBHandler(webService, shtemsService, categoriesService)
+	webHandler := handlers.NewWEBHandler(webService, questionsService, shtemsService, categoriesService)
 
 	webRouter := web.NewWEBRouter(webHandler)
 	webApp, err := web.NewWEBServer(webRouter, opts...)

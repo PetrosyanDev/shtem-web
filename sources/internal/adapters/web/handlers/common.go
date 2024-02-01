@@ -11,6 +11,7 @@ import (
 
 type webHandler struct {
 	webService        ports.WEBService
+	questionsService  ports.QuestionsService
 	shtemsService     ports.ShtemsService
 	categoriesService ports.CategoriesService
 }
@@ -43,8 +44,9 @@ func (h *webHandler) StaticUploads() http.FileSystem {
 
 func NewWEBHandler(
 	webService ports.WEBService,
+	questionsService ports.QuestionsService,
 	shtemsService ports.ShtemsService,
 	categoriesService ports.CategoriesService,
 ) *webHandler {
-	return &webHandler{webService, shtemsService, categoriesService}
+	return &webHandler{webService, questionsService, shtemsService, categoriesService}
 }
