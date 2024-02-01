@@ -4,7 +4,12 @@ package postgresrepository
 import "shtem-web/sources/internal/core/domain"
 
 type QuestionsDB interface {
-	GetShtemNames() ([]string, domain.Error)
+	Create(question *domain.Question) domain.Error
+	Update(question *domain.Question) domain.Error
+	Delete(id int64) domain.Error
+	FindQuestion(question *domain.Question) (*domain.Question, domain.Error)
+	FindBajin(question *domain.Question) ([]*domain.Question, domain.Error)
+	FindByID(id int) (*domain.Question, domain.Error)
 }
 
 type ShtemsDB interface {
