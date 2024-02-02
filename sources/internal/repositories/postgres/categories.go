@@ -279,6 +279,55 @@ func (q *categoriesDB) GetShtemsByCategoryLinkName(c_linkName string) ([]*domain
 	return result, nil
 }
 
+func (q *categoriesDB) GetCategoryByShtemLinkName(s_linkName string) (*domain.Category, domain.Error) {
+
+	var id int64
+	var name, description, linkName sql.NullString
+
+	// FIND DISTINCT SHTEMARAN NAMES
+	query := fmt.Sprintf(`
+		SELECT %s, %s, %s, %s
+		FROM %s
+		JOIN %s
+		ON %s = %s
+		WHERE %s=$1`,
+
+		// SELECT
+		categoriesTableComponents.c_id,
+		categoriesTableComponents.name,
+		categoriesTableComponents.description,
+		categoriesTableComponents.link_name,
+		// FROM
+		categoriesTableName,
+		// JOIN
+		shtemsTableName,
+		// ON
+		categoriesTableComponents.c_id,
+		shtemsTableComponents.category,
+		// WHERE
+		shtemsTableComponents.link_name,
+	)
+
+	err := q.db.QueryRow(q.ctx, query, s_linkName).Scan(
+		&id,
+		&name,
+		&description,
+		&linkName,
+	)
+	if err != nil {
+		return nil, domain.NewError().SetError(err)
+	}
+
+	s := &domain.Category{
+		C_id:        id,
+		Name:        name.String,
+		Description: description.String,
+		LinkName:    linkName.String,
+	}
+
+	return s, nil
+}
+
 func NewCategoriesDB(ctx context.Context, db *postgresclient.PostgresDB) *categoriesDB {
 	return &categoriesDB{ctx, db}
 }
