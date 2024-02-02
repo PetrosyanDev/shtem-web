@@ -9,7 +9,7 @@ func SingleShtemData(category *domain.Category, shtemaran *domain.Shtemaran) *do
 	var (
 		title       = category.Name + " - " + shtemaran.Name + " • shtemaran.am"
 		description = shtemaran.Description
-		socImage    = "uploads/covers/" + shtemaran.Image
+		socImage    = headerDefaultSocialImage
 	)
 	const (
 		app  = "no"
