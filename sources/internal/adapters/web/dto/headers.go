@@ -6,7 +6,7 @@ const (
 	headerDomain             = "shtemaran.am"
 	headerType               = "website"
 	headerTwitterCard        = "summary_large_image"
-	headerDefaultSocialImage = "assets/img/large.png"
+	headerDefaultSocialImage = "assets/img/large.jpg"
 )
 
 const (
