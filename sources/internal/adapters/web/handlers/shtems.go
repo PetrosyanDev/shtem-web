@@ -19,8 +19,6 @@ func (h *webHandler) SingleShtem(page string) gin.HandlerFunc {
 			return
 		}
 
-		log.Println(shtemaran.Keywords)
-
 		category, err := h.categoriesService.GetCategoryByShtemLinkName(shtemName)
 		if err != nil {
 			log.Printf("Error while geting category: %s", err)
