@@ -7,5 +7,4 @@ type ShtemsService interface {
 	GetShtemsByCategoryId(c_id int64) ([]*domain.Shtemaran, domain.Error)
 	GetShtemLinkNames() ([]string, domain.Error)
 	GetShtemByLinkName(name string) (*domain.Shtemaran, domain.Error)
-	GetSiteMap() ([]byte, domain.Error)
 }
