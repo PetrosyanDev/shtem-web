@@ -7,3 +7,4 @@ type Page struct {
 
 const BaseUrl = "https://shtemaran.am/"
 const ShtemsUrl = "https://shtemaran.am/shtems/"
+const CategoryUrl = "https://shtemaran.am/category/"
