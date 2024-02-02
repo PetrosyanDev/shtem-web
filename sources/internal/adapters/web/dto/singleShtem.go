@@ -5,9 +5,9 @@ import (
 	"shtem-web/sources/internal/core/domain"
 )
 
-func SingleShtemData(shtemaran *domain.Shtemaran) *domain.Page {
+func SingleShtemData(category *domain.Category, shtemaran *domain.Shtemaran) *domain.Page {
 	var (
-		title       = shtemaran.Name + " • shtemaran.am"
+		title       = category.Name + " - " + shtemaran.Name + " • shtemaran.am"
 		description = shtemaran.Description
 		socImage    = "uploads/covers/" + shtemaran.Image
 	)
