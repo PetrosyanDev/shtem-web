@@ -19,6 +19,7 @@ type Shtemaran struct {
 	LinkName    string
 	Image       string
 	PDF         string
+	Keywords    []string
 }
 
 type Category struct {

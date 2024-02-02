@@ -16,7 +16,7 @@ func SingleShtemData(category *domain.Category, shtemaran *domain.Shtemaran) *do
 		path = ""
 	)
 
-	kwds := []string{}
+	kwds := append([]string{}, shtemaran.Keywords...)
 	pb := newPageBuilder().
 		AddHeader(title, description, app, kwds...).
 		AddOpenGraphTAG(title, description, path, socImage).
