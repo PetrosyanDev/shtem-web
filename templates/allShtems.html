@@ -2,9 +2,6 @@
 <html lang="en">
     {{ template "header" .}}
     <body>
-        <div style="min-height: 100vh; flex-direction: column; display: flex; justify-content: space-between">
-            {{template "top-nav-bar" .}}{{template "shtems" .}} {{template "footer" .}}
-        </div>
-        {{template "scripts" .}}
+        {{template "top-nav-bar" .}}{{template "shtems" .}} {{template "footer" .}} {{template "scripts" .}}
     </body>
 </html>
