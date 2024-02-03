@@ -67,12 +67,14 @@ run: sass vue-compile js-bootstrap minify test nrun
 # run-tls: sass vue-compile js-bootstrap minify test
 # 	@NONSENCE=${NONSENCE} go run shtem-web/... --tls --cfg secrets/local.json
 
-build: sass vue-compile js-bootstrap minify test pull
+build-unbuild:
 	mkdir -p build/web
 	cd sources/cmd/web && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ../../../build/web/app
 	scp -P ${SSH_PORT} -r build ${DEV_HOST}:${DEV_BASE}/${DEPLOY_DIR}/
 	ssh ${DEV_HOST} -p ${SSH_PORT} "IMG=${IMAGE} TAG=${RELEASE_VERSION} docker-compose -f ${DEPLOY_DIR}/docker/build.yml build"
 	@echo "BUILT IMAGE: ${IMAGE}:${RELEASE_VERSION}"
+
+build: sass vue-compile js-bootstrap minify test pull build-unbuild
 
 ## Building and Deploying on Staging
 
