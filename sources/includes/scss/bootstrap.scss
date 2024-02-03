@@ -1,5 +1,16 @@
 $primary: #508688;
 
+.btn-primary {
+    color: #fff;
+    background-color: $primary;
+    border-color: transparent; /*set the color you want here*/
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+    color: #fff;
+    background-color: $primary;
+    border-color: transparent; /*set the color you want here*/
+}
+
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';
 
 .position-timer {
