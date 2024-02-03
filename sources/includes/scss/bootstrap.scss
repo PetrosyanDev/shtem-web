@@ -1,15 +1,12 @@
 $primary: #508688;
 
-.btn-primary {
-    color: #fff;
-    background-color: $primary;
-    border-color: transparent; /*set the color you want here*/
-}
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
-    color: #fff;
-    background-color: $primary;
-    border-color: transparent; /*set the color you want here*/
-}
+$nav-tabs-border-color: none;
+$nav-tabs-link-hover-border-color: none none none;
+$nav-tabs-link-active-border-color: none none none;
+$input-border-color: none;
+$hr-border-color: none;
+$border-color: none;
+$dropdown-border-color: #ffffff;
 
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';
 
