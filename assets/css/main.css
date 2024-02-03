@@ -1,4 +1,16 @@
 @charset "UTF-8";
+.btn-primary {
+  color: #fff;
+  background-color: #508688;
+  border-color: transparent; /*set the color you want here*/
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+  color: #fff;
+  background-color: #508688;
+  border-color: transparent; /*set the color you want here*/
+}
+
 /*!
  * Bootstrap  v5.3.2 (https://getbootstrap.com/)
  * Copyright 2011-2023 The Bootstrap Authors
