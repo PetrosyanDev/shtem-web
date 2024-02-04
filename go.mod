@@ -9,7 +9,6 @@ require (
 	github.com/gin-contrib/gzip v0.0.6
 	github.com/gin-gonic/gin v1.9.1
 	github.com/jackc/pgx/v5 v5.5.2
-	github.com/lib/pq v1.10.9
 	golang.org/x/text v0.14.0
 )
 
