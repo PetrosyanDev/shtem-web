@@ -74,6 +74,7 @@ func (q *categoriesDB) GetCategories() ([]*domain.Category, domain.Error) {
 
 	return categories, nil
 }
+
 func (q *categoriesDB) GetCategoryByLinkName(c_link_name string) (*domain.Category, domain.Error) {
 	var category *domain.Category
 
@@ -197,6 +198,11 @@ func (q *categoriesDB) GetCategoriesWithShtems() (domain.Categories, domain.Erro
 				Description: c_description.String,
 				LinkName:    c_link_name,
 			}
+
+			if link_names[i].String == "" {
+				continue
+			}
+
 			s := &domain.Shtemaran{
 				Name:        names[i].String,
 				Description: descriptions[i].String,

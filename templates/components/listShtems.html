@@ -2,6 +2,7 @@
 <div class="mt-2 mb-4">
     <div class="row row-cols-2 gx-2 gy-4">
         {{ range $category, $shtems := .Body.Categories}}
+        <!-- prettier-ignore -->
         <section class="col-12 px-3 px-lg-0">
             <div class="category-content d-flex justify-content-between">
                 <h2 class="h3 text-left">{{$category.Name}}</h2>
@@ -12,20 +13,21 @@
                     {{ range $shtems }}
                     <!-- prettier-ignore -->
                     <a 
-                        href="/shtems/{{.LinkName}}" 
-                        class="cover my-2 me-2 scroll-snap text-decoration-none d-flex flex-column" >
+                            href="/shtems/{{.LinkName}}" 
+                            class="cover my-2 me-2 scroll-snap text-decoration-none d-flex flex-column" >
 
-                        <div class="product-image">
-                            <img src="/uploads/covers/{{.Image}}" alt="{{.Name}}" />
-                            <div class="d-flex justify-content-center">
-                                <div class="shtem-name">{{.Name}}</div>
+                            <div class="product-image">
+                                <img src="/uploads/covers/{{.Image}}" alt="{{.Name}}" />
+                                <div class="d-flex justify-content-center">
+                                    <div class="shtem-name">{{.Name}}</div>
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
                     {{end}}
                 </div>
             </div>
         </section>
+        <!-- prettier-ignore -->
         {{end}}
     </div>
 </div>
