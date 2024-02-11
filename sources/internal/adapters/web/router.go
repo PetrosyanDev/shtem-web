@@ -21,6 +21,7 @@ func NewWEBRouter(handler ports.WEBHandler) *gin.Engine {
 	r.GET("/sitemap.xml", handler.SiteMapForAll())
 	r.StaticFileFS("/favicon.ico", faviconFile, handler.Static())
 	r.StaticFileFS("/robots.txt", "robots.txt", handler.Static())
+	r.StaticFileFS("/google6cb2fd08c6c6526b.html", "google6cb2fd08c6c6526b.html", handler.Static())
 
 	r.GET("/", handler.Home("home.html"))
 	r.GET("/shtems", handler.Shtems("allShtems.html"))
