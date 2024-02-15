@@ -134,7 +134,8 @@ func (q *shtemsDB) GetShtems() ([]*domain.Shtemaran, domain.Error) {
 	// FIND DISTINCT SHTEMARAN NAMES
 	query := fmt.Sprintf(`
 		SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s 
-		FROM %s`,
+		FROM %s
+		ORDER BY %s`,
 		shtemsTableComponents.id,
 		shtemsTableComponents.name,
 		shtemsTableComponents.description,
@@ -147,6 +148,7 @@ func (q *shtemsDB) GetShtems() ([]*domain.Shtemaran, domain.Error) {
 		shtemsTableComponents.has_quiz,
 		shtemsTableComponents.has_pdf,
 		shtemsTableName, // TABLE NAME
+		shtemsTableComponents.link_name,
 	)
 
 	rows, err := q.db.Query(q.ctx, query)
@@ -205,9 +207,11 @@ func (q *shtemsDB) GetShtemLinkNames() ([]string, domain.Error) {
 	// FIND DISTINCT SHTEMARAN NAMES
 	query := fmt.Sprintf(`
 		SELECT DISTINCT %s
-		FROM %s`,
+		FROM %s
+		ORDER BY %s`,
 		shtemsTableComponents.link_name,
 		shtemsTableName, // TABLE NAME
+		shtemsTableComponents.link_name,
 	)
 
 	rows, err := q.db.Query(q.ctx, query)
@@ -243,7 +247,8 @@ func (q *shtemsDB) GetShtemsByCategoryId(c_id int64) ([]*domain.Shtemaran, domai
 		SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
 		FROM %s
 		JOIN %s
-		ON %s = $1`,
+		ON %s = $1
+		ORDER BY %s DESC`,
 		shtemsTableComponents.id,
 		shtemsTableComponents.name,
 		shtemsTableComponents.description,
@@ -258,6 +263,7 @@ func (q *shtemsDB) GetShtemsByCategoryId(c_id int64) ([]*domain.Shtemaran, domai
 		shtemsTableName,                // TABLE NAME
 		categoriesTableName,            // JOIN TABLE NAME
 		shtemsTableComponents.category, // MATCH
+		shtemsTableComponents.name,     // ORDER BY
 	)
 
 	rows, err := q.db.Query(q.ctx, query, c_id)

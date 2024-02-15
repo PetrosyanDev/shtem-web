@@ -67,25 +67,16 @@ func (h *webHandler) getSiteMap() ([]byte, domain.Error) {
 		return nil, err
 	}
 
+	// SHTEMARAN QUIZES
 	for _, url := range allSingleShtemsPDFURLs {
-		if url.PDF != "" && url.PDF != " " {
+		if url.HasQuiz {
 			siteMap.URLs = append(siteMap.URLs, domain.SiteMapURL{
-				Loc:        domain.BaseUrl + "uploads/pdf/" + url.PDF,
-				ChangeFreq: domain.SiteMapFreqYearly,
+				Loc:        domain.ShtemsUrl + url.LinkName + "/quiz",
+				ChangeFreq: domain.SiteMapFreqMonthly,
 				LastMod:    time.Now().UTC().Format("2006-01-02"),
 				Priority:   domain.SiteMapPriorityMedium,
 			})
 		}
-	}
-
-	// SHTEMARAN QUIZES
-	for _, url := range allSingleShtemsURLs {
-		siteMap.URLs = append(siteMap.URLs, domain.SiteMapURL{
-			Loc:        domain.ShtemsUrl + url + "/quiz",
-			ChangeFreq: domain.SiteMapFreqMonthly,
-			LastMod:    time.Now().UTC().Format("2006-01-02"),
-			Priority:   domain.SiteMapPriorityMedium,
-		})
 	}
 
 	// CATEGORIES

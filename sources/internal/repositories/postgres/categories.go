@@ -6,6 +6,7 @@ import (
 	"fmt"
 	postgresclient "shtem-web/sources/internal/clients/postgres"
 	"shtem-web/sources/internal/core/domain"
+	"sort"
 )
 
 var categoriesTableName = "categories"
@@ -213,6 +214,12 @@ func (q *categoriesDB) GetCategoriesWithShtems() (domain.Categories, domain.Erro
 
 			categories[c] = append(categories[c], s)
 		}
+
+		for _, items := range categories {
+			sort.Slice(items, func(i, j int) bool {
+				return items[i].LinkName < items[j].LinkName
+			})
+		}
 	}
 
 	if err := rows.Err(); err != nil {
@@ -231,7 +238,8 @@ func (q *categoriesDB) GetShtemsByCategoryLinkName(c_linkName string) ([]*domain
 		FROM %s
 		JOIN %s
 		ON %s = %s
-		WHERE %s = $1`,
+		WHERE %s = $1
+		ORDER BY %s`,
 		shtemsTableComponents.id,
 		shtemsTableComponents.name,
 		shtemsTableComponents.description,
@@ -247,6 +255,7 @@ func (q *categoriesDB) GetShtemsByCategoryLinkName(c_linkName string) ([]*domain
 		shtemsTableComponents.category,
 		// LINK NAME
 		categoriesTableComponents.link_name,
+		shtemsTableComponents.link_name,
 	)
 
 	rows, err := q.db.Query(q.ctx, query, c_linkName)
