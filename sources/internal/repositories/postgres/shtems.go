@@ -11,7 +11,7 @@ import (
 
 var shtemsTableName = "shtems"
 
-var shtemsTableComponents = struct {
+type shtemsTable struct {
 	id          string
 	name        string
 	description string
@@ -21,7 +21,11 @@ var shtemsTableComponents = struct {
 	pdf         string
 	category    string
 	keywords    string
-}{
+	has_quiz    string
+	has_pdf     string
+}
+
+var shtemsTableComponents = shtemsTable{
 	id:          shtemsTableName + ".id",
 	name:        shtemsTableName + ".name",
 	description: shtemsTableName + ".description",
@@ -29,9 +33,25 @@ var shtemsTableComponents = struct {
 	link_name:   shtemsTableName + ".link_name",
 	image:       shtemsTableName + ".image",
 	pdf:         shtemsTableName + ".pdf",
-	category:    shtemsTableName + ".category",
 	keywords:    shtemsTableName + ".keywords",
+	category:    shtemsTableName + ".category",
+	has_quiz:    shtemsTableName + ".has_quiz",
+	has_pdf:     shtemsTableName + ".has_pdf",
 }
+
+// var shtemsTableComponentsNon = shtemsTable{
+// 	id:          "id",
+// 	name:        "name",
+// 	description: "description",
+// 	author:      "author",
+// 	link_name:   "link_name",
+// 	image:       "image",
+// 	pdf:         "pdf",
+// 	keywords:    "keywords",
+// 	category:    "category",
+// 	has_quiz:    "has_quiz",
+// 	has_pdf:     "has_pdf",
+// }
 
 type shtemsDB struct {
 	ctx context.Context
@@ -43,7 +63,7 @@ func (q *shtemsDB) GetShtemByLinkName(name string) (*domain.Shtemaran, domain.Er
 	var result *domain.Shtemaran
 
 	query := fmt.Sprintf(`
-		SELECT %s, %s, %s, %s, %s, %s, %s, %s 
+		SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
 		FROM %s 
 		WHERE %s=$1
 		LIMIT 1`,
@@ -55,6 +75,9 @@ func (q *shtemsDB) GetShtemByLinkName(name string) (*domain.Shtemaran, domain.Er
 		shtemsTableComponents.image,
 		shtemsTableComponents.pdf,
 		shtemsTableComponents.keywords,
+		shtemsTableComponents.category,
+		shtemsTableComponents.has_quiz,
+		shtemsTableComponents.has_pdf,
 		shtemsTableName,                 // TABLE NAME
 		shtemsTableComponents.link_name, // LINK NAME
 	)
@@ -66,9 +89,10 @@ func (q *shtemsDB) GetShtemByLinkName(name string) (*domain.Shtemaran, domain.Er
 	defer rows.Close()
 
 	if rows.Next() {
-		var id int64
+		var id, category int64
 		var name, description, author, linkName, image, pdf sql.NullString
 		var keywords []string
+		var has_quiz, has_pdf bool
 
 		if err := rows.Scan(
 			&id,
@@ -79,6 +103,9 @@ func (q *shtemsDB) GetShtemByLinkName(name string) (*domain.Shtemaran, domain.Er
 			&image,
 			&pdf,
 			&keywords,
+			&category,
+			&has_quiz,
+			&has_pdf,
 		); err != nil {
 			return nil, domain.NewError().SetError(err)
 		}
@@ -92,6 +119,9 @@ func (q *shtemsDB) GetShtemByLinkName(name string) (*domain.Shtemaran, domain.Er
 			Image:       image.String,
 			PDF:         pdf.String,
 			Keywords:    keywords,
+			Category:    category,
+			HasQuiz:     has_quiz,
+			HasPDF:      has_pdf,
 		}
 	}
 
@@ -103,8 +133,9 @@ func (q *shtemsDB) GetShtems() ([]*domain.Shtemaran, domain.Error) {
 
 	// FIND DISTINCT SHTEMARAN NAMES
 	query := fmt.Sprintf(`
-		SELECT %s, %s, %s, %s, %s, %s, %s
+		SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s 
 		FROM %s`,
+		shtemsTableComponents.id,
 		shtemsTableComponents.name,
 		shtemsTableComponents.description,
 		shtemsTableComponents.author,
@@ -112,6 +143,9 @@ func (q *shtemsDB) GetShtems() ([]*domain.Shtemaran, domain.Error) {
 		shtemsTableComponents.image,
 		shtemsTableComponents.pdf,
 		shtemsTableComponents.keywords,
+		shtemsTableComponents.category,
+		shtemsTableComponents.has_quiz,
+		shtemsTableComponents.has_pdf,
 		shtemsTableName, // TABLE NAME
 	)
 
@@ -122,22 +156,29 @@ func (q *shtemsDB) GetShtems() ([]*domain.Shtemaran, domain.Error) {
 	defer rows.Close()
 
 	for rows.Next() {
+		var id, category int64
 		var name, description, author, linkName, image, pdf sql.NullString
 		var keywords []string
+		var has_quiz, has_pdf bool
 
 		if err := rows.Scan(
+			&id,
 			&name,
-			&author,
 			&description,
+			&author,
 			&linkName,
 			&image,
 			&pdf,
 			&keywords,
+			&category,
+			&has_quiz,
+			&has_pdf,
 		); err != nil {
 			return nil, domain.NewError().SetError(err)
 		}
 
 		shtemarans = append(shtemarans, &domain.Shtemaran{
+			Id:          id,
 			Name:        name.String,
 			Description: description.String,
 			Author:      author.String,
@@ -145,6 +186,9 @@ func (q *shtemsDB) GetShtems() ([]*domain.Shtemaran, domain.Error) {
 			Image:       image.String,
 			PDF:         pdf.String,
 			Keywords:    keywords,
+			Category:    category,
+			HasQuiz:     has_quiz,
+			HasPDF:      has_pdf,
 		})
 	}
 
@@ -196,15 +240,21 @@ func (q *shtemsDB) GetShtemsByCategoryId(c_id int64) ([]*domain.Shtemaran, domai
 
 	// FIND DISTINCT SHTEMARAN NAMES
 	query := fmt.Sprintf(`
-		SELECT %s, %s, %s, %s, %s
+		SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
 		FROM %s
 		JOIN %s
 		ON %s = $1`,
+		shtemsTableComponents.id,
 		shtemsTableComponents.name,
 		shtemsTableComponents.description,
 		shtemsTableComponents.author,
 		shtemsTableComponents.link_name,
 		shtemsTableComponents.image,
+		shtemsTableComponents.pdf,
+		shtemsTableComponents.keywords,
+		shtemsTableComponents.category,
+		shtemsTableComponents.has_quiz,
+		shtemsTableComponents.has_pdf,
 		shtemsTableName,                // TABLE NAME
 		categoriesTableName,            // JOIN TABLE NAME
 		shtemsTableComponents.category, // MATCH
@@ -217,24 +267,39 @@ func (q *shtemsDB) GetShtemsByCategoryId(c_id int64) ([]*domain.Shtemaran, domai
 	defer rows.Close()
 
 	for rows.Next() {
-		var name, description, author, linkName, image sql.NullString
+		var id, category int64
+		var name, description, author, linkName, image, pdf sql.NullString
+		var keywords []string
+		var has_quiz, has_pdf bool
 
 		if err := rows.Scan(
+			&id,
 			&name,
-			&author,
 			&description,
+			&author,
 			&linkName,
 			&image,
+			&pdf,
+			&keywords,
+			&category,
+			&has_quiz,
+			&has_pdf,
 		); err != nil {
 			return nil, domain.NewError().SetError(err)
 		}
 
 		shtemarans = append(shtemarans, &domain.Shtemaran{
+			Id:          id,
 			Name:        name.String,
-			Author:      author.String,
 			Description: description.String,
+			Author:      author.String,
 			LinkName:    linkName.String,
 			Image:       image.String,
+			PDF:         pdf.String,
+			Keywords:    keywords,
+			Category:    category,
+			HasQuiz:     has_quiz,
+			HasPDF:      has_pdf,
 		})
 	}
 
