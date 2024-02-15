@@ -20,6 +20,9 @@ type Shtemaran struct {
 	Image       string
 	PDF         string
 	Keywords    []string
+	Category    int64
+	HasQuiz     bool
+	HasPDF      bool
 }
 
 type Category struct {
