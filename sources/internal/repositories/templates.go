@@ -21,7 +21,13 @@ type htmlTemplates struct {
 	*template.Template
 }
 
-var templateFuncs = map[string]any{}
+var templateFuncs = map[string]any{
+	"noescape": noescape,
+}
+
+func noescape(str string) template.HTML {
+	return template.HTML(str)
+}
 
 func (t *htmlTemplates) SetStatus(ctx *gin.Context, status int) ports.TemplatesRepo {
 	ctx.Set("rspStatus", status)
