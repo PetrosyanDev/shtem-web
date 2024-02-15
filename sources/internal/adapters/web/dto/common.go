@@ -4,6 +4,9 @@ package dto
 import (
 	"fmt"
 	"shtem-web/sources/internal/core/domain"
+	"strings"
+
+	"golang.org/x/net/html"
 )
 
 type pageBuilder struct {
@@ -15,14 +18,42 @@ func FormatRelativeURL(path *string) string {
 	return fmt.Sprintf("cdn/%s", *path)
 }
 
+func extractText(node *html.Node) string {
+	var result string
+	if node.Type == html.TextNode {
+		result += node.Data
+	}
+	for child := node.FirstChild; child != nil; child = child.NextSibling {
+		result += extractText(child)
+	}
+	return result
+}
+
 func (b *pageBuilder) AddHeader(title, description, app string, keywords ...string) *pageBuilder {
 	b.page.Header.Title = title
-	b.page.Header.Description = description
+
 	b.page.Header.AppCapable = app
 	b.page.Header.IconLarge = headerIconLarge
 	b.page.Header.IconSmall = headerIconSmall
 	keywords = append(keywords, headerDefaultKwds...)
 	b.page.Header.PopulateKeywords(keywords...)
+
+	// description
+	reader := strings.NewReader(description)
+	doc, err := html.Parse(reader)
+	if err != nil {
+		fmt.Println("Error parsing HTML:", err)
+		return b
+	}
+
+	description = extractText(doc)
+
+	if len(description) > 320 {
+		description = description[:320]
+	}
+
+	b.page.Header.Description = description
+
 	return b
 }
 
