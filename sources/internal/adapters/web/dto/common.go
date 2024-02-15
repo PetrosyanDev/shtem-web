@@ -68,6 +68,8 @@ func (b *pageBuilder) AddSingleShtem(shtemaran *domain.Shtemaran) *pageBuilder {
 		LinkName:    shtemaran.LinkName,
 		Image:       shtemaran.Image,
 		PDF:         shtemaran.PDF,
+		HasQuiz:     shtemaran.HasQuiz,
+		HasPDF:      shtemaran.HasPDF,
 	}
 
 	return b
@@ -82,6 +84,8 @@ func (b *pageBuilder) AddShtemNames(shtems []*domain.Shtemaran) *pageBuilder {
 			LinkName:    n.LinkName,
 			Image:       n.Image,
 			PDF:         n.PDF,
+			HasQuiz:     n.HasQuiz,
+			HasPDF:      n.HasPDF,
 		})
 	}
 
@@ -130,6 +134,8 @@ func (b *pageBuilder) AddCategoryShtemNames(shtems []*domain.Shtemaran) *pageBui
 			LinkName:    n.LinkName,
 			Image:       n.Image,
 			PDF:         n.PDF,
+			HasQuiz:     n.HasQuiz,
+			HasPDF:      n.HasPDF,
 		})
 	}
 
