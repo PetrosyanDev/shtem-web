@@ -5,14 +5,14 @@
             <div class="w-100 mb-4">
                 <div class="position-relative book-detail-image mx-auto">
                     <a class="d-block w-100" href="#">
-                        <img class="w-100" alt="{{.Body.CurrentShtem.Name}}" src="/uploads/covers/{{.Body.CurrentShtem.Image}}" />
+                        <img class="w-100" alt="{{.Body.CurrentShtem.Name}}" src="{{.Body.CurrentShtem.Image}}" />
                     </a>
                     <div class="d-flex justify-content-center g-3 mt-4">
                         <div>
                             {{if .Body.CurrentShtem.HasPDF}}
                             <a
                                 class="btn btn-secondary text-white me-2"
-                                href="/uploads/pdf/{{.Body.CurrentShtem.PDF}}"
+                                href="{{.Body.CurrentShtem.PDF}}"
                                 role="button"
                                 target="_blank"
                                 >Open PDF</a
@@ -40,14 +40,14 @@
             </div>
             <div class="col d-lg-none justify-content-between">
                 <div class="mx-auto book-detail-image">
-                    <img src="/uploads/covers/{{.Body.CurrentShtem.Image}}" class="w-100" alt="Book Photo" />
+                    <img src="{{.Body.CurrentShtem.Image}}" class="w-100" alt="Book Photo" />
                 </div>
                 <div class="d-flex justify-content-center g-3 my-4">
                     <div>
                         {{if .Body.CurrentShtem.HasPDF}}
                         <a
                             class="btn btn-secondary text-white me-2"
-                            href="/uploads/pdf/{{.Body.CurrentShtem.PDF}}"
+                            href="{{.Body.CurrentShtem.PDF}}"
                             role="button"
                             target="_blank"
                             >Open PDF</a
