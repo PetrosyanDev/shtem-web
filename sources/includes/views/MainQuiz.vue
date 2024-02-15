@@ -11,7 +11,7 @@
                             </h4>
                         </div>
                         <div class="question-text">
-                            <div class="ql-editor">{{ currentQuestion.text }}</div>
+                            <div class="ql-editor" v-html="currentQuestion.text"></div>
                         </div>
                     </div>
                     <div class="mt-4 question-answer row gap-2">
