@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid global-container">
+    <div v-if="bajins != null" class="container-fluid global-container">
         <!-- Header -->
         <h5>Ընտրեք բաժին</h5>
 
@@ -10,7 +10,7 @@
                     class="form-check-input me-1"
                     type="radio"
                     :id="'flexRadioDefault' + bajin.number"
-                    :value="bajin.name"
+                    :value="bajin.number"
                     v-model="selectedBajin"
                 />
                 <label class="form-check-label" :for="'flexRadioDefault' + bajin.number">{{ bajin.name }}</label>
@@ -57,28 +57,69 @@
         </div>
 
         <div class="col col-md-6 col-lg-4 mx-auto">
-            <button data-v-610dfcc7="" type="button" class="mt-3 btn btn-primary text-white w-100" style="border-radius: 50px">
+            <button
+                data-v-610dfcc7=""
+                type="button"
+                class="mt-3 btn btn-primary text-white w-100"
+                style="border-radius: 50px"
+                :onclick="startQuiz"
+            >
                 Սկսել
             </button>
+        </div>
+    </div>
+    <div v-else class="container-fluid global-container">
+        <div class="w-100 justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const selectedBajin = ref()
 const randomSwitch = ref(false)
 const skippableSwitch = ref(false)
 const showNumberSwitch = ref(false)
+const bajins = ref()
 
-const bajins = [
-    { name: 'Հնչյունափոխություն', number: 1 },
-    { name: 'Բառագիտություն', number: 2 },
-    { name: 'Ձևաբանություն', number: 3 },
-    { name: 'Շարահյուսություն', number: 4 },
-    { name: 'Կապակցված խոսք', number: 5 }
-]
+const shtemName: string = window.location.href.split('/')[window.location.href.split('/').length - 2] || ''
+
+function loadBajins() {
+    const opts = {
+        method: 'POST',
+        headers: {
+            'X-Shtem-Api-Key': 'someKey'
+        }
+    }
+
+    fetch('https://shtemaran.am/api/v1/shtems/get-shtem-bajin/' + shtemName, opts)
+        .then((responce) => responce.json())
+        .then((data) => {
+            if (data.error) {
+                return
+            }
+            // console.log(data.data)
+            bajins.value = data.data
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+}
+
+const startQuiz = () => {
+    // TODO CHECK IF CHOSEN
+    // TODO CHECK IF CHOSEN
+    // TODO CHECK IF CHOSEN
+    console.log(selectedBajin.value, randomSwitch.value, skippableSwitch.value, showNumberSwitch.value)
+}
+
+onMounted(() => {
+    loadBajins()
+})
 </script>
 
 <style scoped>
