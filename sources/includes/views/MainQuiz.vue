@@ -4,13 +4,17 @@
             <div class="col flex-fill">
                 <div v-if="currentQuestion.text" class="col mx-auto bg-light bg-gradient rounded question-body">
                     <div class="w-100">
-                        <div class="queston-title">
+                        <div class="queston-title d-flex justify-content-between align-items-center">
                             <Stopwatch class="position-timer" :minutes="true" ref="stopwatchRef" />
                             <h4 v-if="showNumberSwitch" class="text-center m-0">
                                 Բաժին {{ currentQuestion.bajin }} Մաս {{ currentQuestion.mas }} Համար {{ currentQuestion.number }}
                             </h4>
-                            <h4 v-else class="d-none d-sm-block text-center m-0">____</h4>
+                            <h4 v-else class="d-none d-sm-block text-center m-0">{{ currentQuestion.number }}</h4>
+                            <button class="btn btn-primary text-white me-2" @click="loadQuestion" style="border-radius: 50px">
+                                Skip
+                            </button>
                         </div>
+
                         <div class="question-text">
                             <div class="ql-editor" v-html="currentQuestion.text"></div>
                         </div>
@@ -47,8 +51,8 @@ const params = new URLSearchParams(queryString)
 
 const selectedBajin = Number(params.get('bajin'))
 // const randomSwitch = params.get('random')
-// const skippableSwitch = params.get('skippable')
-const showNumberSwitch = ref(params.get('sn') === 'true' || params.get('sn') === '')
+// const skippableSwitch = ref(params.get('skippable') === 'true')
+const showNumberSwitch = ref(params.get('sn') === 'true')
 //
 
 const shtemName: string = window.location.href.split('/')[window.location.href.split('/').length - 2] || ''

@@ -4,12 +4,10 @@ $primary: #508688;
 
 .position-timer {
     position: relative;
-    margin-bottom: 1rem;
     justify-content: center;
 }
 @media (min-width: 562px) {
     .position-timer {
-        position: absolute;
         margin-left: 1rem;
     }
 }

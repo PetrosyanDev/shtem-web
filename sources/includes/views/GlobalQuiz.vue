@@ -39,10 +39,10 @@
                     data-bs-parent="#advancedAccordion"
                 >
                     <div class="accordion-body">
-                        <div class="form-check form-switch mb-2">
+                        <!-- <div class="form-check form-switch mb-2">
                             <input class="form-check-input" type="checkbox" id="randomSwitch" v-model="randomSwitch" />
                             <label class="form-check-label" for="randomSwitch">Պատահական</label>
-                        </div>
+                        </div> -->
                         <div class="form-check form-switch mb-2">
                             <input class="form-check-input" type="checkbox" id="skippableSwitch" v-model="skippableSwitch" />
                             <label class="form-check-label" for="skippableSwitch">Հնարավոր է բաց թողնել հարցը</label>
@@ -57,13 +57,7 @@
         </div>
 
         <div class="col col-md-6 col-lg-4 mx-auto">
-            <button
-                data-v-610dfcc7=""
-                type="button"
-                class="mt-3 btn btn-primary text-white w-100"
-                style="border-radius: 50px"
-                :onclick="startQuiz"
-            >
+            <button type="button" class="mt-3 btn btn-primary text-white w-100" style="border-radius: 50px" :onclick="startQuiz">
                 Սկսել
             </button>
         </div>
@@ -83,9 +77,9 @@ import { ref, onMounted } from 'vue'
 const isBajinSelected = ref(true)
 
 const selectedBajin = ref()
-const randomSwitch = ref(false)
+// const randomSwitch = ref(false)
 const skippableSwitch = ref(false)
-const showNumberSwitch = ref(false)
+const showNumberSwitch = ref(true)
 const bajins = ref()
 
 const shtemName: string = window.location.href.split('/')[window.location.href.split('/').length - 2] || ''
@@ -120,12 +114,10 @@ const startQuiz = () => {
         return
     }
 
-    console.log(shtemName, selectedBajin.value, randomSwitch.value, skippableSwitch.value, showNumberSwitch.value)
-
     // Define the type for query parameters
     interface QueryParams {
         bajin: string
-        random: string
+        // random: string
         skippable: string
         sn: string
     }
@@ -136,7 +128,7 @@ const startQuiz = () => {
     const quizPath = '/quiz/'
     const queryParams: QueryParams = {
         bajin: selectedBajin.value,
-        random: String(randomSwitch.value),
+        // random: String(randomSwitch.value),
         skippable: String(skippableSwitch.value),
         sn: String(showNumberSwitch.value)
     }
