@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeMount } from 'vue'
 import Question from './Models'
 import Stopwatch from './StopWatch.vue'
 
@@ -45,14 +45,14 @@ let questionCounter = ref(0)
 const queryString = window.location.search
 const params = new URLSearchParams(queryString)
 
-const selectedBajin = params.get('bajin')
+const selectedBajin = Number(params.get('bajin'))
 // const randomSwitch = params.get('random')
 // const skippableSwitch = params.get('skippable')
-const showNumberSwitch = ref(params.get('sn') === 'true')
+const showNumberSwitch = ref(params.get('sn') === 'true' || params.get('sn') === '')
 //
 
 const shtemName: string = window.location.href.split('/')[window.location.href.split('/').length - 2] || ''
-const currentQuestion = ref(new Question(shtemName, Number(selectedBajin), 1, 0, '', [''], [0]))
+const currentQuestion = ref(new Question(shtemName, selectedBajin, 1, 0, '', [''], [0]))
 
 let Questions: Question[] = []
 
@@ -156,6 +156,12 @@ const onOptionClicked = (choice: any, item: any) => {
         console.log('cant select question')
     }
 }
+
+onBeforeMount(() => {
+    if (selectedBajin == 0) {
+        window.location.href = `https://shtemaran.am/shtems/${shtemName}/build-quiz`
+    }
+})
 
 onMounted(() => {
     loadBajin()
