@@ -4,18 +4,25 @@
             <div class="col flex-fill">
                 <div v-if="currentQuestion.text" class="col mx-auto bg-light bg-gradient rounded question-body">
                     <div class="w-100">
-                        <div class="queston-title d-flex justify-content-between align-items-center">
+                        <div
+                            class="queston-title d-flex flex-column flex-sm-row justify-content-between align-items-center gap-1"
+                        >
                             <Stopwatch class="position-timer" :minutes="true" ref="stopwatchRef" />
-                            <h4 v-if="showNumberSwitch" class="text-center m-0">
-                                Բաժին {{ currentQuestion.bajin }} Մաս {{ currentQuestion.mas }} Համար {{ currentQuestion.number }}
+                            <h4 class="text-center m-0">
+                                Բաժին {{ currentQuestion.bajin }} Մաս {{ currentQuestion.mas }} Համար
+                                {{ currentQuestion.number }}
                             </h4>
-                            <h4 v-else class="d-none d-sm-block text-center m-0">{{ currentQuestion.number }}</h4>
-                            <button class="btn btn-primary text-white me-2" @click="loadQuestion" style="border-radius: 50px">
+                            <button
+                                v-if="skippableSwitch"
+                                class="d-none d-sm-block btn btn-primary text-white me-2"
+                                @click="loadQuestion"
+                                style="border-radius: 50px"
+                            >
                                 Skip
                             </button>
                         </div>
 
-                        <div class="question-text">
+                        <div class="question-text mt-4">
                             <div class="ql-editor" v-html="currentQuestion.text"></div>
                         </div>
                     </div>
@@ -26,6 +33,14 @@
                             </label>
                         </div>
                     </div>
+                    <button
+                        v-if="skippableSwitch"
+                        class="w-100 mt-4 d-block d-sm-none btn btn-primary text-white me-2"
+                        @click="loadQuestion"
+                        style="border-radius: 50px"
+                    >
+                        Skip
+                    </button>
                 </div>
                 <div v-else class="col mx-auto bg-light bg-gradient rounded question-body justify-content-center">
                     <div class="w-100 d-flex justify-content-center">
@@ -51,7 +66,7 @@ const params = new URLSearchParams(queryString)
 
 const selectedBajin = Number(params.get('bajin'))
 // const randomSwitch = params.get('random')
-// const skippableSwitch = ref(params.get('skippable') === 'true')
+const skippableSwitch = ref(params.get('skippable') === 'true')
 const showNumberSwitch = ref(params.get('sn') === 'true')
 //
 
