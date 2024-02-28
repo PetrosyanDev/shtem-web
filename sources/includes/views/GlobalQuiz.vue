@@ -69,7 +69,7 @@
         </div>
     </div>
     <div v-else class="container-fluid global-container">
-        <div class="w-100 justify-content-center">
+        <div class="w-100 d-flex justify-content-center">
             <div class="spinner-border text-primary" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
@@ -132,6 +132,7 @@ const startQuiz = () => {
 
     // Extracting values for better readability
     const shtemUrl = 'https://shtemaran.am/shtems/'
+    // const shtemUrl = 'http://localhost:9999/shtems/'
     const quizPath = '/quiz/'
     const queryParams: QueryParams = {
         bajin: selectedBajin.value,
