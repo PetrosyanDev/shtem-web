@@ -2,7 +2,6 @@
     <div v-if="bajins != null" class="container-fluid global-container">
         <!-- Header -->
         <h5>Ընտրեք բաժին</h5>
-
         <!-- Radio button group -->
         <div class="ms-4">
             <div v-for="bajin in bajins" :key="bajin.number">
@@ -15,6 +14,7 @@
                 />
                 <label class="form-check-label" :for="'flexRadioDefault' + bajin.number">{{ bajin.name }}</label>
             </div>
+            <label v-if="!isBajinSelected && !selectedBajin" class="mt-2 form-label text-danger">Բաժինը ընտրված չէ</label>
         </div>
 
         <!-- Advanced accordion -->
@@ -80,6 +80,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 
+const isBajinSelected = ref(true)
+
 const selectedBajin = ref()
 const randomSwitch = ref(false)
 const skippableSwitch = ref(false)
@@ -112,9 +114,40 @@ function loadBajins() {
 
 const startQuiz = () => {
     // TODO CHECK IF CHOSEN
-    // TODO CHECK IF CHOSEN
-    // TODO CHECK IF CHOSEN
-    console.log(selectedBajin.value, randomSwitch.value, skippableSwitch.value, showNumberSwitch.value)
+
+    if (!selectedBajin.value) {
+        isBajinSelected.value = false
+        return
+    }
+
+    console.log(shtemName, selectedBajin.value, randomSwitch.value, skippableSwitch.value, showNumberSwitch.value)
+
+    // Define the type for query parameters
+    interface QueryParams {
+        bajin: string
+        random: string
+        skippable: string
+        sn: string
+    }
+
+    // Extracting values for better readability
+    const shtemUrl = 'https://shtemaran.am/shtems/'
+    const quizPath = '/quiz/'
+    const queryParams: QueryParams = {
+        bajin: selectedBajin.value,
+        random: String(randomSwitch.value),
+        skippable: String(skippableSwitch.value),
+        sn: String(showNumberSwitch.value)
+    }
+
+    // Constructing the query string
+    const queryString = new URLSearchParams(queryParams as unknown as Record<string, string>).toString()
+
+    // Combining all parts to form the new URL
+    const newUrl = `${shtemUrl}${shtemName}${quizPath}?${queryString}`
+
+    // Redirecting to the new URL
+    window.location.href = newUrl
 }
 
 onMounted(() => {
