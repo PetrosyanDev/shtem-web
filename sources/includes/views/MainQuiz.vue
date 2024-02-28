@@ -6,9 +6,10 @@
                     <div class="w-100">
                         <div class="queston-title">
                             <Stopwatch class="position-timer" :minutes="true" ref="stopwatchRef" />
-                            <h4 class="text-center m-0">
+                            <h4 v-if="showNumberSwitch" class="text-center m-0">
                                 Բաժին {{ currentQuestion.bajin }} Մաս {{ currentQuestion.mas }} Համար {{ currentQuestion.number }}
                             </h4>
+                            <h4 v-else class="d-none d-sm-block text-center m-0">____</h4>
                         </div>
                         <div class="question-text">
                             <div class="ql-editor" v-html="currentQuestion.text"></div>
@@ -40,9 +41,19 @@ import Stopwatch from './StopWatch.vue'
 let canClick = true
 let questionCounter = ref(0)
 
+// PARAMETERS
+const queryString = window.location.search
+const params = new URLSearchParams(queryString)
+
+const selectedBajin = params.get('bajin')
+// const randomSwitch = params.get('random')
+// const skippableSwitch = params.get('skippable')
+const showNumberSwitch = ref(params.get('sn') === 'true')
+//
+
 const shtemName: string = window.location.href.split('/')[window.location.href.split('/').length - 2] || ''
-// const bajinCounter: string = window.location.href.split('/')[window.location.href.split('/').length - 2] || ''
-const currentQuestion = ref(new Question(shtemName, 1, 1, 0, '', [''], [0]))
+const currentQuestion = ref(new Question(shtemName, Number(selectedBajin), 1, 0, '', [''], [0]))
+
 let Questions: Question[] = []
 
 const stopwatchRef = ref<InstanceType<typeof Stopwatch> | null>(null)
