@@ -18,7 +18,7 @@
                                 @click="loadQuestion"
                                 style="border-radius: 50px"
                             >
-                                Skip
+                                Բաց թողնել
                             </button>
                         </div>
 
