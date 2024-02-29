@@ -39,10 +39,10 @@
                     data-bs-parent="#advancedAccordion"
                 >
                     <div class="accordion-body">
-                        <!-- <div class="form-check form-switch mb-2">
+                        <div class="form-check form-switch mb-2">
                             <input class="form-check-input" type="checkbox" id="randomSwitch" v-model="randomSwitch" />
                             <label class="form-check-label" for="randomSwitch">Պատահական</label>
-                        </div> -->
+                        </div>
                         <div class="form-check form-switch mb-2">
                             <input class="form-check-input" type="checkbox" id="skippableSwitch" v-model="skippableSwitch" />
                             <label class="form-check-label" for="skippableSwitch">Հնարավոր է բաց թողնել հարցը</label>
@@ -77,7 +77,7 @@ import { ref, onMounted } from 'vue'
 const isBajinSelected = ref(true)
 
 const selectedBajin = ref()
-// const randomSwitch = ref(false)
+const randomSwitch = ref(false)
 const skippableSwitch = ref(false)
 const showNumberSwitch = ref(true)
 const bajins = ref()
@@ -117,7 +117,7 @@ const startQuiz = () => {
     // Define the type for query parameters
     interface QueryParams {
         bajin: string
-        // random: string
+        random: string
         skippable: string
         sn: string
     }
@@ -128,7 +128,7 @@ const startQuiz = () => {
     const quizPath = '/quiz/'
     const queryParams: QueryParams = {
         bajin: selectedBajin.value,
-        // random: String(randomSwitch.value),
+        random: String(randomSwitch.value),
         skippable: String(skippableSwitch.value),
         sn: String(showNumberSwitch.value)
     }

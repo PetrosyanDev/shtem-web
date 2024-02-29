@@ -76,6 +76,12 @@ func (h *webHandler) getSiteMap() ([]byte, domain.Error) {
 				LastMod:    time.Now().UTC().Format("2006-01-02"),
 				Priority:   domain.SiteMapPriorityMedium,
 			})
+			siteMap.URLs = append(siteMap.URLs, domain.SiteMapURL{
+				Loc:        domain.ShtemsUrl + url.LinkName + "/build-quiz",
+				ChangeFreq: domain.SiteMapFreqMonthly,
+				LastMod:    time.Now().UTC().Format("2006-01-02"),
+				Priority:   domain.SiteMapPriorityLow,
+			})
 		}
 	}
 
