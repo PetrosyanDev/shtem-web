@@ -39,7 +39,7 @@
                         @click="loadQuestion"
                         style="border-radius: 50px"
                     >
-                        Skip
+                        Բաց թողնել
                     </button>
                 </div>
                 <div v-else class="col mx-auto bg-light bg-gradient rounded question-body justify-content-center">
