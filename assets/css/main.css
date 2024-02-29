@@ -11860,11 +11860,6 @@ textarea.form-control-lg {
   justify-content: center;
 }
 
-@media (min-width: 562px) {
-  .position-timer {
-    margin-left: 1rem;
-  }
-}
 .text-default {
   color: #508688;
 }

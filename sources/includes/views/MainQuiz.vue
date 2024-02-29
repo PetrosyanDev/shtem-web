@@ -5,16 +5,16 @@
                 <div v-if="currentQuestion.text" class="col mx-auto bg-light bg-gradient rounded question-body">
                     <div class="w-100">
                         <div
-                            class="queston-title d-flex flex-column flex-sm-row justify-content-between align-items-center gap-1"
+                            class="queston-title d-flex flex-column flex-sm-row justify-content-between align-items-center gap-1 mx-md-3"
                         >
                             <Stopwatch class="position-timer" :minutes="true" ref="stopwatchRef" />
-                            <h4 v-if="showNumberSwitch" class="text-center m-0">
+                            <h4 v-if="showNumberSwitch" class="text-center m-0 h5">
                                 Բաժին {{ currentQuestion.bajin }} Մաս {{ currentQuestion.mas }} Համար
                                 {{ currentQuestion.number }}
                             </h4>
                             <button
                                 v-if="skippableSwitch"
-                                class="d-none d-sm-block btn btn-primary text-white me-2"
+                                class="d-none d-sm-block btn btn-primary text-white"
                                 @click="loadQuestion"
                                 style="border-radius: 50px"
                             >

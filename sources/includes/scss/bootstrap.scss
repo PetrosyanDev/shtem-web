@@ -6,11 +6,6 @@ $primary: #508688;
     position: relative;
     justify-content: center;
 }
-@media (min-width: 562px) {
-    .position-timer {
-        margin-left: 1rem;
-    }
-}
 
 .text-default {
     color: $primary;
