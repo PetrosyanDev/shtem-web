@@ -8,7 +8,7 @@
                             class="queston-title d-flex flex-column flex-sm-row justify-content-between align-items-center gap-1"
                         >
                             <Stopwatch class="position-timer" :minutes="true" ref="stopwatchRef" />
-                            <h4 class="text-center m-0">
+                            <h4 v-if="showNumberSwitch" class="text-center m-0">
                                 Բաժին {{ currentQuestion.bajin }} Մաս {{ currentQuestion.mas }} Համար
                                 {{ currentQuestion.number }}
                             </h4>
@@ -57,72 +57,64 @@ import { ref, onMounted, onBeforeMount } from 'vue'
 import Question from './Models'
 import Stopwatch from './StopWatch.vue'
 
-let canClick = true
-let questionCounter = ref(0)
-
 // PARAMETERS
 const queryString = window.location.search
 const params = new URLSearchParams(queryString)
 
 const selectedBajin = Number(params.get('bajin'))
-// const randomSwitch = params.get('random')
+const randomSwitch = ref(params.get('random') === 'true')
 const skippableSwitch = ref(params.get('skippable') === 'true')
 const showNumberSwitch = ref(params.get('sn') === 'true')
-//
 
-const shtemName: string = window.location.href.split('/')[window.location.href.split('/').length - 2] || ''
+// GLOBAL
+const shtemName: string = window.location.href.split('/').slice(-2)[0] || ''
 const currentQuestion = ref(new Question(shtemName, selectedBajin, 1, 0, '', [''], [0]))
 
+const stopwatchRef = ref<InstanceType<typeof Stopwatch> | null>(null)
+let canClick = true
+const questionCounter = ref(0)
+
+// QUESTIONS
 let Questions: Question[] = []
 
-const stopwatchRef = ref<InstanceType<typeof Stopwatch> | null>(null)
-
 function loadBajin() {
-    canClick = true
-
-    // Other
-
-    var payload = {
-        shtemaran: currentQuestion.value.shtemaran,
-        bajin: currentQuestion.value.bajin,
-        mas: 1,
-        number: 1
-    }
-
+    canClick = false
+    const payload = { shtemaran: currentQuestion.value.shtemaran, bajin: currentQuestion.value.bajin }
     const opts = {
         method: 'POST',
-        headers: {
-            'X-Shtem-Api-Key': 'someKey'
-        },
+        headers: { 'X-Shtem-Api-Key': 'someKey' },
         body: JSON.stringify(payload)
     }
 
     fetch('https://shtemaran.am/api/v1/questions/findBajin', opts)
-        .then((responce) => responce.json())
+        .then((response) => response.json())
         .then((data) => {
             if (data.error) {
                 currentQuestion.value.text = data.error
                 currentQuestion.value.options = []
                 currentQuestion.value.number += 1
-                return
+            } else {
+                Questions = data.data
+
+                if (randomSwitch.value) {
+                    shuffleQuestions()
+                }
+
+                loadQuestion()
             }
-            Questions = data.data
-            loadQuestion()
         })
         .catch((error) => {
-            currentQuestion.value.number += 1
             currentQuestion.value.text = error
             currentQuestion.value.options = []
+            currentQuestion.value.number += 1
         })
 }
 
 const loadQuestion = () => {
     canClick = true
-
     itemsRef = []
 
     if (Questions.length > questionCounter.value) {
-        // load question
         currentQuestion.value = Questions[questionCounter.value]
         questionCounter.value++
         if (stopwatchRef.value) {
@@ -136,6 +128,8 @@ const loadQuestion = () => {
         if (stopwatchRef.value) {
             stopwatchRef.value.reset()
         }
+        showNumberSwitch.value = false
+        skippableSwitch.value = false
     }
 }
 
@@ -168,11 +162,9 @@ const onOptionClicked = (choice: any, item: any) => {
             return
         }
         canClick = false
-        // TODO go to next question
         clearSelected(divContainer)
     } else {
-        // Cant select option
-        console.log('cant select question')
+        console.log('Cannot select option')
     }
 }
 
@@ -185,6 +177,13 @@ onBeforeMount(() => {
 onMounted(() => {
     loadBajin()
 })
+
+function shuffleQuestions() {
+    for (let i = Questions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        ;[Questions[i], Questions[j]] = [Questions[j], Questions[i]]
+    }
+}
 </script>
 
 <style></style>
