@@ -1,16 +1,16 @@
 {{define "listShtems"}}
 <div class="mt-2 mb-4">
     <div class="row row-cols-2 gx-2 gy-4">
-        {{ range $category, $shtems := .Body.Categories}}
+        {{ range .Body.Categories}}
         <!-- prettier-ignore -->
         <section class="col-12 px-3 px-lg-0">
             <div class="category-content d-flex justify-content-between">
-                <h2 class="h3 text-left">{{$category.Name}}</h2>
-                <a href="/category/{{$category.LinkName}}">Տեսնել Բոլորը</a>
+                <h2 class="h3 text-left">{{.Category.Name}}</h2>
+                <a href="/category/{{.Category.LinkName}}">Տեսնել Բոլորը</a>
             </div>
             <div class="linear-product-listing position-relative">
                 <div class="items d-flex overflow-scroll-x">
-                    {{ range $shtems }}
+                    {{ range .Shtemarans }}
                     <!-- prettier-ignore -->
                     <a 
                             href="/shtems/{{.LinkName}}" 

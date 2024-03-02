@@ -30,7 +30,18 @@ type Category struct {
 	Name        string
 	Description string
 	LinkName    string
+	Score       int
 }
 
-type Categories map[Category][]*Shtemaran
-type CategoriesTpl map[Category][]Shtemaran
+type SortedCategory struct {
+	Category   Category
+	Shtemarans []*Shtemaran
+}
+
+type SortedCategoryTpl struct {
+	Category   Category
+	Shtemarans []Shtemaran
+}
+
+type Categories []SortedCategory
+type CategoriesTpl []SortedCategoryTpl

@@ -97,16 +97,20 @@ func (b *pageBuilder) AddShtemNames(shtems []*domain.Shtemaran) *pageBuilder {
 
 func (b *pageBuilder) AddCategories(categories domain.Categories) *pageBuilder {
 
-	newMap := make(domain.CategoriesTpl)
+	allCategories := domain.CategoriesTpl{}
 
-	for key, value := range categories {
-		newMap[key] = make([]domain.Shtemaran, len(value))
+	for _, value := range categories {
 
-		for i, shtem := range value {
-			newMap[key][i] = *shtem // Dereference the pointer
+		shtemarans := []domain.Shtemaran{}
+		for _, shtem := range value.Shtemarans {
+			shtemarans = append(shtemarans, *shtem)
 		}
+		allCategories = append(allCategories, domain.SortedCategoryTpl{
+			Category:   value.Category,
+			Shtemarans: shtemarans,
+		})
 	}
-	b.page.Body.Categories = newMap
+	b.page.Body.Categories = allCategories
 
 	return b
 }

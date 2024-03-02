@@ -16,11 +16,13 @@ var categoriesTableComponents = struct {
 	name        string
 	description string
 	link_name   string
+	score       string
 }{
 	c_id:        categoriesTableName + ".c_id",
 	name:        categoriesTableName + ".name",
 	description: categoriesTableName + ".description",
 	link_name:   categoriesTableName + ".link_name",
+	score:       categoriesTableName + ".score",
 }
 
 type categoriesDB struct {
@@ -34,12 +36,14 @@ func (q *categoriesDB) GetCategories() ([]*domain.Category, domain.Error) {
 	// FIND DISTINCT SHTEMARAN NAMES
 	query := fmt.Sprintf(`
 		SELECT %s, %s, %s, %s
-		FROM %s`,
+		FROM %s
+		ORDER BY %s DESC`,
 		categoriesTableComponents.c_id,
 		categoriesTableComponents.name,
 		categoriesTableComponents.description,
 		categoriesTableComponents.link_name,
-		categoriesTableName, // TABLE NAME
+		categoriesTableName,             // TABLE NAME
+		categoriesTableComponents.score, // SORT
 	)
 
 	rows, err := q.db.Query(q.ctx, query)
@@ -128,7 +132,7 @@ func (q *categoriesDB) GetCategoryByLinkName(c_link_name string) (*domain.Catego
 }
 
 func (q *categoriesDB) GetCategoriesWithShtems() (domain.Categories, domain.Error) {
-	categories := make(domain.Categories)
+	categories := domain.Categories{}
 
 	// FIND DISTINCT SHTEMARAN NAMES
 	query := fmt.Sprintf(`
@@ -137,6 +141,7 @@ func (q *categoriesDB) GetCategoriesWithShtems() (domain.Categories, domain.Erro
 			%s AS category,
 			%s AS c_description,
 			%s AS c_link_name,
+			%s AS c_score,
 			ARRAY_AGG(%s) AS names,
 			ARRAY_AGG(%s) AS descriptions,
 			ARRAY_AGG(%s) AS link_names,
@@ -151,6 +156,7 @@ func (q *categoriesDB) GetCategoriesWithShtems() (domain.Categories, domain.Erro
 		categoriesTableComponents.name,
 		categoriesTableComponents.description,
 		categoriesTableComponents.link_name,
+		categoriesTableComponents.score,
 		shtemsTableComponents.name,
 		shtemsTableComponents.description,
 		shtemsTableComponents.link_name,
@@ -174,7 +180,7 @@ func (q *categoriesDB) GetCategoriesWithShtems() (domain.Categories, domain.Erro
 	defer rows.Close()
 
 	for rows.Next() {
-		var arraysCount int
+		var arraysCount, c_score int
 		var category, c_link_name string
 		var c_description sql.NullString
 		var names, descriptions, link_names, images, authors []sql.NullString
@@ -184,6 +190,7 @@ func (q *categoriesDB) GetCategoriesWithShtems() (domain.Categories, domain.Erro
 			&category,
 			&c_description,
 			&c_link_name,
+			&c_score,
 			&names,
 			&descriptions,
 			&link_names,
@@ -193,12 +200,16 @@ func (q *categoriesDB) GetCategoriesWithShtems() (domain.Categories, domain.Erro
 			return nil, domain.NewError().SetError(err)
 		}
 
+		c := domain.Category{
+			Name:        category,
+			Description: c_description.String,
+			LinkName:    c_link_name,
+			Score:       c_score,
+		}
+
+		shtemarans := []*domain.Shtemaran{}
+
 		for i := 0; i < arraysCount; i++ {
-			c := domain.Category{
-				Name:        category,
-				Description: c_description.String,
-				LinkName:    c_link_name,
-			}
 
 			if link_names[i].String == "" {
 				continue
@@ -212,21 +223,21 @@ func (q *categoriesDB) GetCategoriesWithShtems() (domain.Categories, domain.Erro
 				Author:      authors[i].String,
 			}
 
-			categories[c] = append(categories[c], s)
+			shtemarans = append(shtemarans, s)
 		}
 
-		for _, items := range categories {
-			sort.Slice(items, func(i, j int) bool {
-				return items[i].LinkName < items[j].LinkName
-			})
-		}
+		categories = append(categories, domain.SortedCategory{
+			Category:   c,
+			Shtemarans: shtemarans,
+		})
+
 	}
 
 	if err := rows.Err(); err != nil {
 		return nil, domain.NewError().SetError(err)
 	}
 
-	return categories, nil
+	return sortByScore(categories), nil
 }
 
 func (q *categoriesDB) GetShtemsByCategoryLinkName(c_linkName string) ([]*domain.Shtemaran, domain.Error) {
@@ -345,4 +356,19 @@ func (q *categoriesDB) GetCategoryByShtemLinkName(s_linkName string) (*domain.Ca
 
 func NewCategoriesDB(ctx context.Context, db *postgresclient.PostgresDB) *categoriesDB {
 	return &categoriesDB{ctx, db}
+}
+
+func sortByScore(categories domain.Categories) domain.Categories {
+	// Define a custom sorting function
+	sort.SliceStable(categories, func(i, j int) bool {
+		return categories[i].Category.Score > categories[j].Category.Score
+	})
+
+	for _, sortedCategory := range categories {
+		sort.Slice(sortedCategory.Shtemarans, func(i, j int) bool {
+			return sortedCategory.Shtemarans[i].LinkName < sortedCategory.Shtemarans[j].LinkName
+		})
+	}
+
+	return categories
 }
