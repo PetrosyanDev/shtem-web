@@ -48,7 +48,6 @@ func NewWEBHandler(
 	questionsService ports.QuestionsService,
 	shtemsService ports.ShtemsService,
 	categoriesService ports.CategoriesService,
-	filesService ports.FilesService,
 ) *webHandler {
-	return &webHandler{webService, questionsService, shtemsService, categoriesService, filesService}
+	return &webHandler{webService, questionsService, shtemsService, categoriesService, nil}
 }
