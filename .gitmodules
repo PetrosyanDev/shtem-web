@@ -1,0 +1,3 @@
+[submodule "shtem-idls"]
+	path = shtem-idls
+	url = https://github.com/PetrosyanDev/shtem-idls.git
