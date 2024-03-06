@@ -35,8 +35,13 @@ deps:
 	go mod tidy -compat=1.21.3
 	go mod vendor
 
+proto:
+	@mkdir -p sources/pkg
+	protoc -I=shtem-idls/shtem-storage --go_out=sources/pkg --go-grpc_out=sources/pkg shtem-idls/shtem-storage/storage.proto
+
+
 ## Running Tests on Local Machine
-test:
+test: proto
 	go test -cover shtem-web/...
 
 ## Compiling SASS

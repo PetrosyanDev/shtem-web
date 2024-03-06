@@ -17,6 +17,11 @@ type Configs struct {
 		Pass    string `json:"dbPass"`
 		// TLS     bool   `json:"tls"`
 	} `json:"postgres"`
+	Storage struct {
+		FileServiceKey string `json:"fileServiceKey"`
+		HeaderKey      string `json:"headerKey"`
+		Addr           string `json:"address"`
+	} `json:"storage"`
 }
 
 func NewConfigs(args []string) (*Configs, error) {

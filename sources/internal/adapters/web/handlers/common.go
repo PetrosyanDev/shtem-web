@@ -14,6 +14,7 @@ type webHandler struct {
 	questionsService  ports.QuestionsService
 	shtemsService     ports.ShtemsService
 	categoriesService ports.CategoriesService
+	filesService      ports.FilesService
 }
 
 func (h *webHandler) Home(page string) gin.HandlerFunc {
@@ -47,6 +48,7 @@ func NewWEBHandler(
 	questionsService ports.QuestionsService,
 	shtemsService ports.ShtemsService,
 	categoriesService ports.CategoriesService,
+	filesService ports.FilesService,
 ) *webHandler {
-	return &webHandler{webService, questionsService, shtemsService, categoriesService}
+	return &webHandler{webService, questionsService, shtemsService, categoriesService, filesService}
 }
