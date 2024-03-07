@@ -10,6 +10,7 @@ import (
 	"shtem-web/sources/internal/adapters/web"
 	"shtem-web/sources/internal/adapters/web/handlers"
 	postgresclient "shtem-web/sources/internal/clients/postgres"
+	storageclient "shtem-web/sources/internal/clients/storage"
 	"shtem-web/sources/internal/configs"
 	"shtem-web/sources/internal/core/services"
 	"shtem-web/sources/internal/repositories"
@@ -53,13 +54,13 @@ func main() {
 	categoriesRepository := repositories.NewCategoriesRepository(categoriesDB)
 
 	log.Println("init repositories")
-	// storageClient, err := storageclient.NewStorageClient(appCtx, cfg)
-	// if err != nil {
-	// 	log.Fatalf("failed to connect with Storage (%v)", err)
-	// }
+	storageClient, err := storageclient.NewStorageClient(appCtx, cfg)
+	if err != nil {
+		log.Fatalf("failed to connect with Storage (%v)", err)
+	}
 
 	log.Println("init services")
-	// filesService := services.NewFilesService(storageClient)
+	filesService := services.NewFilesService(storageClient)
 	webService, err := services.NewWEBService(embeds.Assets, embeds.Uploads, templatesRepo)
 	if err != nil {
 		log.Fatalf("failed to create WEB service (%v)", err)
@@ -70,7 +71,7 @@ func main() {
 	categoriesService := services.NewCategoriesService(categoriesRepository)
 
 	log.Println("init handlers")
-	webHandler := handlers.NewWEBHandler(webService, questionsService, shtemsService, categoriesService)
+	webHandler := handlers.NewWEBHandler(webService, questionsService, shtemsService, categoriesService, filesService)
 
 	webRouter := web.NewWEBRouter(webHandler)
 	webApp, err := web.NewWEBServer(webRouter, opts...)
