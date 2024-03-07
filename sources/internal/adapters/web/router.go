@@ -40,6 +40,8 @@ func NewWEBRouter(handler ports.WEBHandler) *gin.Engine {
 		st.StaticFS("/", handler.Static())
 	}
 
+	r.GET("/cdn/:group/:key", handler.CDN())
+
 	r.NoRoute(handler.Page404())
 	r.NoMethod(func(ctx *gin.Context) { ctx.String(http.StatusMethodNotAllowed, "") })
 	return r

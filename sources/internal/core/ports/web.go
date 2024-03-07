@@ -29,6 +29,7 @@ type WEBHandler interface {
 	About(page string) gin.HandlerFunc
 	Page404() gin.HandlerFunc
 	Static() http.FileSystem
+	CDN() gin.HandlerFunc
 	StaticUploads() http.FileSystem
 	SiteMapForAll() gin.HandlerFunc
 }
