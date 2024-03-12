@@ -53,7 +53,7 @@ func main() {
 	shtemsRepository := repositories.NewShtemsRepository(shtemsDB)
 	categoriesRepository := repositories.NewCategoriesRepository(categoriesDB)
 
-	log.Println("init repositories")
+	log.Println("init clients")
 	storageClient, err := storageclient.NewStorageClient(appCtx, cfg)
 	if err != nil {
 		log.Fatalf("failed to connect with Storage (%v)", err)

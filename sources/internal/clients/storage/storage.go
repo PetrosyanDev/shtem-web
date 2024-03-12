@@ -67,7 +67,6 @@ ReadLoop:
 
 func NewStorageClient(ctx context.Context, cfg *configs.Configs) (*StorageClient, error) {
 	log.Println("connecting to Storage")
-	log.Println(cfg.Storage)
 	cx, cancel := context.WithTimeout(ctx, 10*time.Second)
 	defer cancel()
 	creds := grpc.WithTransportCredentials(insecure.NewCredentials())

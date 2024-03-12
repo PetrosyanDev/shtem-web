@@ -17,7 +17,7 @@ services:
 
 secrets:
     web_shtem_app_cfg:
-        name: web_shtem_app_cfg_v7
+        name: web_shtem_app_cfg_v8
         file: ${DIR}/secrets.json
 
 networks:
