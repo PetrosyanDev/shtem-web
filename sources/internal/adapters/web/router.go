@@ -23,7 +23,7 @@ func NewWEBRouter(handler ports.WEBHandler) *gin.Engine {
 	r.StaticFileFS("/robots.txt", "robots.txt", handler.Static())
 	r.StaticFileFS("/google6cb2fd08c6c6526b.html", "google6cb2fd08c6c6526b.html", handler.Static())
 
-	r.GET("/", handler.Home("home.html"))
+	r.GET("/", handler.Home("allShtems.html"))
 	r.GET("/shtems/", handler.Shtems("allShtems.html"))
 	r.GET("/shtems/:shtemName", handler.SingleShtem("singleShtem.html"))
 	r.GET("/shtems/:shtemName/quiz", handler.Quiz("quiz.html"))

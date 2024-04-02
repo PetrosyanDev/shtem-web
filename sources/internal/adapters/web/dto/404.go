@@ -14,7 +14,6 @@ func NotFoundData() *domain.Page {
 
 	pb := newPageBuilder().
 		AddHeader(title, description, app).
-		AddTopMenuItem("ԳԼԽԱՎՈՐ", "/", false).
-		AddTopMenuItem("ՇՏԵՄԵՐ", "/shtems", false)
+		AddTopMenuItem("ԳԼԽԱՎՈՐ", "/", false)
 	return pb.Page()
 }

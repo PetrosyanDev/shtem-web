@@ -17,7 +17,6 @@ func AboutData() *domain.Page {
 		AddHeader(title, description, app, kwds...).
 		AddOpenGraphTAG(title, description, path, socImage).
 		AddTwitterTAG(title, description, path, socImage).
-		AddTopMenuItem("ԳԼԽԱՎՈՐ", "/", false).
-		AddTopMenuItem("ՇՏԵՄԵՐ", "/shtems", false)
+		AddTopMenuItem("ԳԼԽԱՎՈՐ", "/", false)
 	return pb.Page()
 }
