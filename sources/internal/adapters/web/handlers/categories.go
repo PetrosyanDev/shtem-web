@@ -15,11 +15,6 @@ func (h *webHandler) Shtems(page string) gin.HandlerFunc {
 			log.Printf("Error while geting shtems: %s", err)
 		}
 
-		// categories, err := h.categoriesService.GetCategories()
-		// if err != nil {
-		// 	log.Printf("Error while GetCategories: %s", err)
-		// }
-
 		shtemsFromCategory, err := h.categoriesService.GetCategoriesWithShtems()
 		if err != nil {
 			log.Printf("Error while GetShtemsByCategoryId: %s", err)

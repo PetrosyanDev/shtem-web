@@ -24,7 +24,6 @@ func ShtemsData(shtemNames []*domain.Shtemaran, categories domain.Categories) *d
 		AddOpenGraphTAG(title, description, path, socImage).
 		AddTwitterTAG(title, description, path, socImage).
 		AddTopMenuItem("ԳԼԽԱՎՈՐ", "/", false).
-		AddTopMenuItem("ՇՏԵՄԵՐ", "/shtems", true).
 		AddShtemNames(shtemNames).
 		AddCategories(categories)
 

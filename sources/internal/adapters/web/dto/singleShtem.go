@@ -53,7 +53,6 @@ func SingleShtemData(category *domain.Category, shtemaran *domain.Shtemaran) *do
 		AddOpenGraphTAG(title, description, path, socImage).
 		AddTwitterTAG(title, description, path, socImage).
 		AddTopMenuItem("ԳԼԽԱՎՈՐ", "/", false).
-		AddTopMenuItem("ՇՏԵՄԵՐ", "/shtems", true).
 		AddSingleShtem(shtemaran)
 
 	return pb.Page()
