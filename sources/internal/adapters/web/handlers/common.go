@@ -2,6 +2,7 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
 	"shtem-web/sources/internal/adapters/web/dto"
 	"shtem-web/sources/internal/core/ports"
@@ -19,7 +20,20 @@ type webHandler struct {
 
 func (h *webHandler) Home(page string) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		h.webService.Home(ctx, page, dto.HomeData())
+
+		shtems, err := h.shtemsService.GetShtems()
+		if err != nil {
+			log.Printf("Error while geting shtems: %s", err)
+		}
+
+		shtemsFromCategory, err := h.categoriesService.GetCategoriesWithShtems()
+		if err != nil {
+			log.Printf("Error while GetShtemsByCategoryId: %s", err)
+		}
+
+		// h.webService.Shtems(ctx, page, dto.ShtemsData(shtems, shtemsFromCategory))
+
+		h.webService.Home(ctx, page, dto.HomeData(shtems, shtemsFromCategory))
 	}
 }
 
