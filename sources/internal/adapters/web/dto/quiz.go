@@ -7,8 +7,8 @@ import (
 
 func QuizData() *domain.Page {
 	const (
-		title       = "shtemaran.am • Learning Fast | The Best Way to Save Time"
-		description = "Welcome to shtemaran.am"
+		title       = "shtemaran.am • Սովորիր արագ | Ժամանակը խնայելու լավագույն միջոցը"
+		description = "Բարի գալուստ shtemaran.am, այստեղ դուք կգտնեք ձեր նախընտրած ցանկացած շտեմարան"
 		app         = "no"
 		path        = ""
 		socImage    = headerDefaultSocialImage
