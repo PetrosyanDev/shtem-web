@@ -1,0 +1,86 @@
+div.top-bar {
+  height: 65px;
+  background-color: #508688;
+  box-shadow: 0 0 10px 5px rgba(80, 134, 136, 0.4);
+}
+
+img.top-bar-logo, svg.top-bar-logo {
+  height: 65px !important;
+  max-width: 190px;
+  fill: white !important;
+}
+
+img.top-bar-icon, svg.top-bar-icon {
+  height: 35px !important;
+}
+
+div.top-menu {
+  height: 65px;
+  width: 100%;
+}
+
+div.top-menu-item {
+  width: 135px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+div.top-menu-item-text {
+  width: 100%;
+}
+
+div.top-menu-item-text a {
+  width: 100% !important;
+  text-decoration: none !important;
+  color: #d0d0d0;
+  transition: all 0.4s;
+}
+
+div.top-menu-item-text a.current {
+  color: #ffffff !important;
+  margin-bottom: 3px;
+}
+
+div.top-menu-item .top-menu-item-text a:hover {
+  color: #ffffff !important;
+}
+
+div.top-menu-item-line {
+  height: 2px;
+  width: 100%;
+  border-radius: 50rem;
+  transition: all 0.4s;
+}
+
+.bg-nav-item-current {
+  background-color: #ffffff;
+}
+
+.bg-nav-item-noncurrent {
+  background-color: #d0d0d0;
+}
+
+div.top-right {
+  height: 65px;
+  width: 100%;
+}
+
+div.top-right button svg {
+  height: 100%;
+}
+
+div.top-right button svg path {
+  fill: white !important;
+}
+
+button.top-button {
+  background-color: transparent;
+  border: none;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+  background-color: #508688;
+}/*# sourceMappingURL=topbar.css.map */

@@ -1,0 +1,50 @@
+.product-image {
+  display: block;
+  border-radius: 3px;
+  position: relative;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 200ms ease-in, box-shadow 200ms ease-in;
+}
+
+.product-image:hover {
+  box-shadow: 0px 11px 18px rgba(0, 0, 0, 0.1);
+  transform: scale(1.025);
+}
+
+.product-image > img {
+  height: 11rem;
+  background-color: rgba(255, 255, 255, 0.2666666667);
+  border-radius: 3px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  min-width: 100%;
+  max-width: none;
+}
+
+.shtem-name {
+  text-align: center;
+  font-size: 14px;
+  padding: 10px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 200px;
+}
+
+@media screen and (min-width: 992px) {
+  .product-image > img {
+    height: 16rem;
+  }
+  .shtem-name {
+    max-width: 250px;
+    font-size: 16px;
+  }
+}
+.scroll-snap {
+  scroll-snap-align: start;
+}
+
+.overflow-scroll-x {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}/*# sourceMappingURL=shtems.css.map */

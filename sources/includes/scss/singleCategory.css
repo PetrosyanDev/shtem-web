@@ -1,0 +1,25 @@
+div.small-container {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.book-category-detail-image {
+  width: 200px;
+}
+
+@media screen and (max-width: 768px) {
+  .book-category-detail-image {
+    width: 150px;
+  }
+}
+@media screen and (max-width: 576px) {
+  .book-category-detail-image {
+    width: 120px;
+  }
+}
+@media screen and (max-width: 460px) {
+  .book-category-detail-image {
+    width: 96px;
+  }
+}/*# sourceMappingURL=singleCategory.css.map */
