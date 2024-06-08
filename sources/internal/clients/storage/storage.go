@@ -16,7 +16,7 @@ import (
 
 const (
 	chunkSize       = 4 << 10 // 4Kb
-	downloadTimeout = 5 * time.Minute
+	downloadTimeout = 3 * time.Minute
 )
 
 type StorageClient struct {
