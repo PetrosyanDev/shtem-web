@@ -16,12 +16,22 @@ const (
 	MimeMOV  MimeType = "video/mov"
 )
 
+type FileCachePolicy int
+
+const (
+	FileCachePolicyNever FileCachePolicy = iota
+	FileCachePolicyMinimal
+	FileCachePolicyMedium
+	FileCachePolicyMaximal
+)
+
 type File struct {
-	Key       string
-	OwnerID   string
-	Mime      MimeType
-	CreatedAt time.Time
-	data      []byte
+	Key         string
+	OwnerID     string
+	CachePolicy FileCachePolicy
+	Mime        MimeType
+	CreatedAt   time.Time
+	data        []byte
 }
 
 func (f *File) Close() error {

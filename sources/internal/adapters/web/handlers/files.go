@@ -21,8 +21,9 @@ func (h *webHandler) CDN() gin.HandlerFunc {
 			return
 		}
 		file := domain.File{
-			Key:     key,
-			OwnerID: group,
+			Key:         key,
+			OwnerID:     group,
+			CachePolicy: domain.FileCachePolicyMedium,
 		}
 		if err := h.filesService.Download(&file); err != nil {
 			log.Printf("webHandler:CDN: (%v)", err)
