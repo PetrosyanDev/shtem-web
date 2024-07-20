@@ -2,7 +2,7 @@
 <html lang="en">
     {{ template "header" .}}
     <body>
-        {{template "top-nav-bar" .}}
+        {{template "ads"}} {{template "top-nav-bar" .}}
 
         <style>
             .main {
@@ -23,9 +23,27 @@
                 content: '';
                 height: 30px;
                 width: 50px;
-                background-image: -webkit-repeating-radial-gradient(center center, #508688, #508688 1px, transparent 0px, transparent 100%);
-                background-image: -moz-repeating-radial-gradient(center center, #508688, #508688 1px, transparent 0px, transparent 100%);
-                background-image: -ms-repeating-radial-gradient(center center, #508688, #508688 1px, transparent 0px, transparent 100%);
+                background-image: -webkit-repeating-radial-gradient(
+                    center center,
+                    #508688,
+                    #508688 1px,
+                    transparent 0px,
+                    transparent 100%
+                );
+                background-image: -moz-repeating-radial-gradient(
+                    center center,
+                    #508688,
+                    #508688 1px,
+                    transparent 0px,
+                    transparent 100%
+                );
+                background-image: -ms-repeating-radial-gradient(
+                    center center,
+                    #508688,
+                    #508688 1px,
+                    transparent 0px,
+                    transparent 100%
+                );
                 -webkit-background-size: 6px 6px;
                 -moz-background-size: 6px 6px;
                 background-size: 6px 6px;
@@ -80,7 +98,9 @@
 
                             <li>
                                 <span class="title">Վեբկայք</span>
-                                <span class="value"><a class="ex-link" target="_blank" href="https://shtemaran.am:2222">Click Here!</a></span>
+                                <span class="value"
+                                    ><a class="ex-link" target="_blank" href="https://shtemaran.am:2222">Click Here!</a></span
+                                >
                             </li>
                         </ul>
                     </div>
