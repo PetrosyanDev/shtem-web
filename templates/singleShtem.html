@@ -3,7 +3,8 @@
     {{ template "header" .}}
     <body>
         <div style="min-height: 100dvh; flex-direction: column; display: flex; justify-content: space-between">
-            {{template "top-nav-bar" .}} {{template "single-shtem" .}}
+            {{template "top-nav-bar" .}}
+            <div>{{template "banner_ads"}} {{template "single-shtem" .}}</div>
             <div>{{template "footer" .}}</div>
         </div>
         {{template "scripts" .}}
