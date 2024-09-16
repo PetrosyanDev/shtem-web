@@ -16,7 +16,7 @@ services:
         command: ./cmd/web/app --cfg /run/secrets/web_shtem_dev_app_cfg
 
 secrets:
-    web_shtem_app_cfg:
+    web_shtem_dev_app_cfg:
         name: web_shtem_dev_app_cfg_v1
         file: ${DIR}/secrets.json
 
