@@ -80,6 +80,13 @@ build-unbuild:
 	ssh ${DEV_HOST} -p ${SSH_PORT} "IMG=${IMAGE} TAG=${RELEASE_VERSION} docker-compose -f ${DEPLOY_DIR}/docker/build.yml build"
 	@echo "BUILT IMAGE: ${IMAGE}:${RELEASE_VERSION}"
 
+build-dev-unbuild:
+	mkdir -p build/web
+	cd sources/cmd/web && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ../../../build/web/app
+	scp -P ${SSH_PORT} -r build ${DEV_HOST}:${DEV_BASE}/${DEPLOY_DIR}/
+	ssh ${DEV_HOST} -p ${SSH_PORT} "IMG=${IMAGE_DEV} TAG=1.0.0 docker-compose -f ${DEPLOY_DIR}/docker/build-dev.yml build"
+	@echo "BUILT IMAGE: ${IMAGE}:${RELEASE_VERSION}"
+
 build: sass vue-compile js-bootstrap minify test pull build-unbuild
 
 ## Building and Deploying on Staging
