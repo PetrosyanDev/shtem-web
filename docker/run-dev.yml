@@ -1,0 +1,25 @@
+# Erik Petrosyan ©
+version: '3.8'
+
+services:
+    shtem-web-dev:
+        image: ${IMG}:${TAG}
+        user: erik:erik
+        deploy:
+            replicas: 1
+        environment:
+            - GIN_MODE=${MODE}
+        secrets:
+            - web_shtem_dev_app_cfg
+        networks:
+            - erik_internal_net
+        command: ./cmd/web/app --cfg /run/secrets/web_shtem_dev_app_cfg
+
+secrets:
+    web_shtem_app_cfg:
+        name: web_shtem_dev_app_cfg_v1
+        file: ${DIR}/secrets.json
+
+networks:
+    erik_internal_net:
+        driver: overlay
