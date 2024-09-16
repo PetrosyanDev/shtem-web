@@ -85,7 +85,7 @@ build-dev-unbuild:
 	cd sources/cmd/web && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ../../../build/web/app
 	scp -P ${SSH_PORT} -r build ${DEV_HOST}:${DEV_BASE}/${DEPLOY_DIR}/
 	ssh ${DEV_HOST} -p ${SSH_PORT} "IMG=${IMAGE_DEV} TAG=1.0.0 docker-compose -f ${DEPLOY_DIR}/docker/build-dev.yml build"
-	@echo "BUILT IMAGE: ${IMAGE}:${RELEASE_VERSION}"
+	@echo "BUILT IMAGE: ${IMAGE_DEV}:1.0.0"
 
 build: sass vue-compile js-bootstrap minify test pull build-unbuild
 
@@ -99,7 +99,7 @@ deploy-dev-unbuild:
 	# powershell -nop -c "& {sleep 2}"
 	ssh ${DEV_HOST} -p ${SSH_PORT} "IMG=${IMAGE_DEV} TAG=1.0.0 DIR=${DEV_BASE}/${DEPLOY_DIR} MODE=debug docker stack deploy -c ${DEPLOY_DIR}/docker/run-dev.yml erik --with-registry-auth"
 
-	# ssh ${PRD_HOST} -p ${SSH_PORT} "rm -f ${DEPLOY_DIR}/secrets.json"
+	ssh ${PRD_HOST} -p ${SSH_PORT} "rm -f ${DEPLOY_DIR}/secrets.json"
 	@echo "DEPLOYED on STAGING! VERSION is: 1.0.0"
 
 deploy-unbuild:     
