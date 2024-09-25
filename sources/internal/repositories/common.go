@@ -20,8 +20,6 @@ type ShtemsRepository interface {
 
 type CategoriesRepository interface {
 	GetCategories() ([]*domain.Category, domain.Error)
-	GetCategoryByLinkName(c_link_name string) (*domain.Category, domain.Error)
-	GetCategoryByShtemLinkName(s_linkName string) (*domain.Category, domain.Error)
-	GetCategoriesWithShtems() (domain.Categories, domain.Error)
-	GetShtemsByCategoryLinkName(c_linkName string) ([]*domain.Shtemaran, domain.Error)
+	GetCategoryByLinkName(linkName string) (*domain.Category, domain.Error)
+	GetCategoryByID(id int64) (*domain.Category, domain.Error)
 }

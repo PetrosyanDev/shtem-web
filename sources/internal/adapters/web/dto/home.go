@@ -3,7 +3,7 @@ package dto
 
 import "shtem-web/sources/internal/core/domain"
 
-func HomeData(shtemNames []*domain.Shtemaran, categories domain.Categories) *domain.Page {
+func HomeData(shtemNames []*domain.Shtemaran, categories *domain.Categories) *domain.Page {
 	const (
 		title       = "shtemaran.am • Սովորիր արագ | Ժամանակը խնայելու լավագույն միջոցը"
 		description = "Բարի գալուստ shtemaran.am, այստեղ դուք կգտնեք ձեր նախընտրած ցանկացած շտեմարան"

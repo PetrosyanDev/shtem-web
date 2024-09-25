@@ -15,14 +15,8 @@ func (p *categoriesRepository) GetCategories() ([]*domain.Category, domain.Error
 func (p *categoriesRepository) GetCategoryByLinkName(c_link_name string) (*domain.Category, domain.Error) {
 	return p.db.GetCategoryByLinkName(c_link_name)
 }
-func (p *categoriesRepository) GetCategoriesWithShtems() (domain.Categories, domain.Error) {
-	return p.db.GetCategoriesWithShtems()
-}
-func (p *categoriesRepository) GetShtemsByCategoryLinkName(c_linkName string) ([]*domain.Shtemaran, domain.Error) {
-	return p.db.GetShtemsByCategoryLinkName(c_linkName)
-}
-func (p *categoriesRepository) GetCategoryByShtemLinkName(s_linkName string) (*domain.Category, domain.Error) {
-	return p.db.GetCategoryByShtemLinkName(s_linkName)
+func (p *categoriesRepository) GetCategoryByID(id int64) (*domain.Category, domain.Error) {
+	return p.db.GetCategoryByID(id)
 }
 
 func NewCategoriesRepository(db postgresrepository.CategoriesDB) *categoriesRepository {

@@ -95,18 +95,18 @@ func (b *pageBuilder) AddShtemNames(shtems []*domain.Shtemaran) *pageBuilder {
 
 // CATEGORIES
 
-func (b *pageBuilder) AddCategories(categories domain.Categories) *pageBuilder {
+func (b *pageBuilder) AddCategories(categories *domain.Categories) *pageBuilder {
 
 	allCategories := domain.CategoriesTpl{}
 
-	for _, value := range categories {
+	for _, value := range *categories {
 
 		shtemarans := []domain.Shtemaran{}
 		for _, shtem := range value.Shtemarans {
 			shtemarans = append(shtemarans, *shtem)
 		}
 		allCategories = append(allCategories, domain.SortedCategoryTpl{
-			Category:   value.Category,
+			Category:   *value.Category,
 			Shtemarans: shtemarans,
 		})
 	}

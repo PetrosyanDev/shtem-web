@@ -5,6 +5,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"log"
 	postgresclient "shtem-web/sources/internal/clients/postgres"
 	"shtem-web/sources/internal/core/domain"
 )
@@ -246,8 +247,7 @@ func (q *shtemsDB) GetShtemsByCategoryId(c_id int64) ([]*domain.Shtemaran, domai
 	query := fmt.Sprintf(`
 		SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
 		FROM %s
-		JOIN %s
-		ON %s = $1
+		WHERE %s = $1
 		ORDER BY %s DESC`,
 		shtemsTableComponents.id,
 		shtemsTableComponents.name,
@@ -261,7 +261,6 @@ func (q *shtemsDB) GetShtemsByCategoryId(c_id int64) ([]*domain.Shtemaran, domai
 		shtemsTableComponents.has_quiz,
 		shtemsTableComponents.has_pdf,
 		shtemsTableName,                // TABLE NAME
-		categoriesTableName,            // JOIN TABLE NAME
 		shtemsTableComponents.category, // MATCH
 		shtemsTableComponents.name,     // ORDER BY
 	)
@@ -293,6 +292,8 @@ func (q *shtemsDB) GetShtemsByCategoryId(c_id int64) ([]*domain.Shtemaran, domai
 		); err != nil {
 			return nil, domain.NewError().SetError(err)
 		}
+
+		log.Println(linkName)
 
 		shtemarans = append(shtemarans, &domain.Shtemaran{
 			Id:          id,

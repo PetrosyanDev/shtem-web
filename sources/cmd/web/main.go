@@ -68,7 +68,7 @@ func main() {
 
 	questionsService := services.NewQuestionsService(questionsRepository)
 	shtemsService := services.NewShtemsService(shtemsRepository)
-	categoriesService := services.NewCategoriesService(categoriesRepository)
+	categoriesService := services.NewCategoriesService(categoriesRepository, shtemsRepository)
 
 	log.Println("init handlers")
 	webHandler := handlers.NewWEBHandler(webService, questionsService, shtemsService, categoriesService, filesService)

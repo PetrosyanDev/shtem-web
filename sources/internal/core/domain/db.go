@@ -34,7 +34,7 @@ type Category struct {
 }
 
 type SortedCategory struct {
-	Category   Category
+	Category   *Category
 	Shtemarans []*Shtemaran
 }
 
