@@ -88,6 +88,7 @@ build-dev-unbuild:
 	@echo "BUILT IMAGE: ${IMAGE_DEV}:1.0.0"
 
 build: sass vue-compile js-bootstrap minify test pull build-unbuild
+build-dev: sass vue-compile js-bootstrap minify test pull build-dev-unbuild
 
 ## Building and Deploying on Staging
 
@@ -114,7 +115,7 @@ deploy-unbuild:
 	@echo "DEPLOYED on STAGING! VERSION is: ${RELEASE_VERSION}"
 
 
-deploy-dev: build deploy-dev-unbuild
+deploy-dev: build-dev deploy-dev-unbuild
 
 deploy: build deploy-unbuild
 
