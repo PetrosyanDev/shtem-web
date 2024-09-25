@@ -2,7 +2,9 @@
 <html lang="en">
     {{ template "header" .}}
     <body>
-        {{template "top-nav-bar" .}}{{template "shtems" .}} {{template "footer" .}} {{template "floor_ads"}} {{template "scripts"
-        .}}
+        <div style="min-height: 100dvh; flex-direction: column; display: flex; justify-content: space-between">
+            {{template "top-nav-bar" .}}{{template "temp" .}} {{template "footer" .}}
+        </div>
+        {{template "scripts" .}}
     </body>
 </html>

@@ -1,7 +1,6 @@
 package services
 
 import (
-	"log"
 	"shtem-web/sources/internal/core/domain"
 	"shtem-web/sources/internal/repositories"
 )
@@ -51,8 +50,6 @@ func (s *categoriesService) GetCategoriesWithShtems() (*domain.Categories, domai
 
 		curr.Category = c
 		curr.Shtemarans = shtems
-
-		log.Println(c.LinkName, c.C_id, shtems)
 
 		final = append(final, curr)
 	}
