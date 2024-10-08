@@ -13,6 +13,14 @@ div.global-container {
 
 }
 
+.radius-m {
+    border-radius: 16px;
+}
+
+.radius-l {
+    border-radius: 50px;
+}
+
 @import 'topbar.scss';
 @import 'emails.scss';
 @import 'quiz.scss';

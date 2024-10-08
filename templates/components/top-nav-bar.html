@@ -6,14 +6,15 @@
             <div class="d-none d-xl-flex col-1 flex-fill global-container"></div>
             <div class="col flex-fill">
                 <div class="row" style="height: 100%">
-                    <div class="col-2">{{template "top-logo"}}</div>
-                    <div class="col-8">{{template "top-menu" .}}</div>
-                    <div class="col-2">
+                    <div class="col-2 col-lg-3">{{template "top-logo"}}</div>
+                    <div class="col">{{template "top-menu" .}}</div>
+                    <div class="col-2 d-none d-sm-flex d-lg-none">
                         <div class="d-flex justify-content-end align-items-center top-right">
                             <div class="d-none d-sm-flex d-lg-none me-2 text-white">{{.Body.TopMenu.CurrentName}}</div>
                             {{template "top-menu-mob" .}}
                         </div>
                     </div>
+                    <div class="col-3 d-none d-lg-flex my-auto">{{template "search" .}}</div>
                 </div>
             </div>
             <div class="d-none d-xl-flex col-1 flex-fill"></div>

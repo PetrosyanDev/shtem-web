@@ -11878,6 +11878,14 @@ div.global-container {
   margin-right: auto;
 }
 
+.radius-m {
+  border-radius: 16px;
+}
+
+.radius-l {
+  border-radius: 50px;
+}
+
 div.top-bar {
   height: 65px;
   background-color: #508688;
@@ -12037,21 +12045,21 @@ div.question-text {
 
 .product-image {
   display: block;
-  border-radius: 3px;
+  border-radius: 16px;
   position: relative;
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
   transition: transform 200ms ease-in, box-shadow 200ms ease-in;
 }
 
 .product-image:hover {
-  box-shadow: 0px 11px 18px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 6px 6px rgba(0, 0, 0, 0.15);
   transform: scale(1.025);
 }
 
 .product-image > img {
   height: 11rem;
   background-color: rgba(255, 255, 255, 0.2666666667);
-  border-radius: 3px;
+  border-radius: 16px 16px 0px 0px;
   object-fit: cover;
   min-width: 100%;
   max-width: none;
@@ -12083,6 +12091,12 @@ div.question-text {
 .overflow-scroll-x {
   overflow-x: scroll;
   overflow-y: hidden;
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+.overflow-scroll-x::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
 }
 
 .cover-image {
