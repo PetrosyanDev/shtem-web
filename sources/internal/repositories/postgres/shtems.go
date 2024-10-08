@@ -5,7 +5,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"log"
 	postgresclient "shtem-web/sources/internal/clients/postgres"
 	"shtem-web/sources/internal/core/domain"
 )
@@ -292,8 +291,6 @@ func (q *shtemsDB) GetShtemsByCategoryId(c_id int64) ([]*domain.Shtemaran, domai
 		); err != nil {
 			return nil, domain.NewError().SetError(err)
 		}
-
-		log.Println(linkName)
 
 		shtemarans = append(shtemarans, &domain.Shtemaran{
 			Id:          id,

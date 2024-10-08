@@ -1,0 +1,28 @@
+.subscribe-section {
+  text-align: center;
+  max-width: 750px;
+  margin: auto;
+}
+.subscribe-section h2 {
+  color: #719596;
+  font-weight: bold;
+}
+.subscribe-btn {
+  background: linear-gradient(101deg, #B1C5C6, #508688);
+  color: white;
+  border: none;
+  border-radius: 50px; /* Fully rounded */
+  padding: 10px 50px;
+  font-size: 1.2rem; /* Slightly larger text */
+}
+.subscribe-btn:hover {
+  background: linear-gradient(101deg, #A0B7B8, #447476); /* Darker hover effect */
+}
+.form-control {
+  width: 250px; /* Smaller input field */
+  padding: 10px 16px; /* Adjust input field padding */
+  border-radius: 50px 0 0 50px;
+}
+.form-control:focus {
+  box-shadow: none;
+}
