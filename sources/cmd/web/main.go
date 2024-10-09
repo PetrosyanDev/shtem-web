@@ -41,6 +41,7 @@ func main() {
 	questionsDB := postgresrepository.NewQuestionsDB(appCtx, postgresDB)
 	shtemsDB := postgresrepository.NewShtemsDB(appCtx, postgresDB)
 	categoriesDB := postgresrepository.NewCategoriesDB(appCtx, postgresDB)
+	emailsDB := postgresrepository.NewEmailsDB(appCtx, postgresDB)
 
 	log.Println("init repositories")
 
@@ -52,6 +53,7 @@ func main() {
 	questionsRepository := repositories.NewQuestionsRepository(questionsDB)
 	shtemsRepository := repositories.NewShtemsRepository(shtemsDB)
 	categoriesRepository := repositories.NewCategoriesRepository(categoriesDB)
+	emailsRepository := repositories.NewEmailsRepository(emailsDB)
 
 	log.Println("init clients")
 	storageClient, err := storageclient.NewStorageClient(appCtx, cfg)
@@ -69,9 +71,10 @@ func main() {
 	questionsService := services.NewQuestionsService(questionsRepository)
 	shtemsService := services.NewShtemsService(shtemsRepository)
 	categoriesService := services.NewCategoriesService(categoriesRepository, shtemsRepository)
+	emailsService := services.NewEmailsService(emailsRepository)
 
 	log.Println("init handlers")
-	webHandler := handlers.NewWEBHandler(webService, questionsService, shtemsService, categoriesService, filesService)
+	webHandler := handlers.NewWEBHandler(webService, questionsService, shtemsService, categoriesService, emailsService, filesService)
 
 	webRouter := web.NewWEBRouter(webHandler)
 	webApp, err := web.NewWEBServer(webRouter, opts...)

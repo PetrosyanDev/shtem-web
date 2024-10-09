@@ -1,5 +1,7 @@
 package domain
 
+import "time"
+
 type Question struct {
 	Q_id     int64
 	Bajin    int
@@ -45,3 +47,9 @@ type SortedCategoryTpl struct {
 
 type Categories []SortedCategory
 type CategoriesTpl []SortedCategoryTpl
+
+type Email struct {
+	Id        int64
+	Email     string
+	CreatedAt time.Time
+}

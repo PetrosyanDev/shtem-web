@@ -27,6 +27,7 @@ type WEBHandler interface {
 	SingleShtem(page string) gin.HandlerFunc
 	Category(page string) gin.HandlerFunc
 	About(page string) gin.HandlerFunc
+	EmailSubmit() gin.HandlerFunc
 	Page404() gin.HandlerFunc
 	Static() http.FileSystem
 	CDN() gin.HandlerFunc

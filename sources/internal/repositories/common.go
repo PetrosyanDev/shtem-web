@@ -23,3 +23,8 @@ type CategoriesRepository interface {
 	GetCategoryByLinkName(linkName string) (*domain.Category, domain.Error)
 	GetCategoryByID(id int64) (*domain.Category, domain.Error)
 }
+
+type EmailsRepository interface {
+	InsertEmail(email string) domain.Error
+	GetAllEmails() ([]*domain.Email, domain.Error)
+}
