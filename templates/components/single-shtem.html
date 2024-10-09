@@ -1,37 +1,15 @@
 {{define "single-shtem"}}
-<div class="container-fluid bg-white d-flex">
-    <div class="row row-cols-lg-2 global-container bg-light py-5">
-        <div class="justify-content-lg-end d-none d-lg-block mt-4">
-            <div class="w-100 mb-4">
-                <div class="position-relative book-detail-image mx-auto">
-                    <a class="d-block w-100" href="#">
-                        <img class="w-100" alt="{{.Body.CurrentShtem.Name}}" src="{{.Body.CurrentShtem.Image}}" />
-                    </a>
-                    <div class="d-flex justify-content-center g-3 mt-4">
-                        <div>
-                            {{if .Body.CurrentShtem.HasPDF}}
-                            <a
-                                class="btn btn-secondary text-white me-2"
-                                href="{{.Body.CurrentShtem.PDF}}"
-                                role="button"
-                                target="_blank"
-                                >Բացել PDF-ը</a
-                            >
-                            {{end}} {{if .Body.CurrentShtem.HasQuiz}}
-                            <a
-                                class="btn btn-success text-white"
-                                href="/shtems/{{.Body.CurrentShtem.LinkName}}/build-quiz"
-                                role="button"
-                                target="_blank"
-                                >Սովորել</a
-                            >
-                            {{end}}
-                        </div>
-                    </div>
-                </div>
+<div class="container-fluid bg-white d-flex flex-column">
+    <div class="mt-5">{{template "lgEmail" .}}</div>
+    <div class="row global-container justify-content-center justify-content-lg-between w-100 my-5 mx-auto">
+        <div class="col col-md-8 col-lg-4 d-none d-lg-block p-0">
+            <div class="position-relative">
+                <a class="d-block w-100" href="#">
+                    <img class="w-100 radius-m shadow" alt="{{.Body.CurrentShtem.Name}}" src="{{.Body.CurrentShtem.Image}}" />
+                </a>
             </div>
         </div>
-        <div>
+        <div class="col col-md-8 col-lg-6">
             <div class="mb-4">
                 <h1 class="h2">{{.Body.CurrentShtem.Name}}</h1>
                 <div class="text-gray text-sm">
@@ -39,36 +17,29 @@
                 </div>
             </div>
             <div class="col d-lg-none justify-content-between">
-                <div class="mx-auto book-detail-image">
-                    <img src="{{.Body.CurrentShtem.Image}}" class="w-100" alt="Book Photo" />
+                <div class="mx-auto">
+                    <img class="w-100 radius-m shadow" alt="{{.Body.CurrentShtem.Name}}" src="{{.Body.CurrentShtem.Image}}" />
                 </div>
-                <div class="d-flex justify-content-center g-3 my-4">
-                    <div>
-                        {{if .Body.CurrentShtem.HasPDF}}
-                        <a
-                            class="btn btn-secondary text-white me-2"
-                            href="{{.Body.CurrentShtem.PDF}}"
-                            role="button"
-                            target="_blank"
-                            >Բացել PDF-ը</a
-                        >
-                        {{end}} {{if .Body.CurrentShtem.HasQuiz}}
-                        <a
-                            class="btn btn-success text-white"
-                            href="/shtems/{{.Body.CurrentShtem.LinkName}}/build-quiz"
-                            role="button"
-                            target="_blank"
-                            >Սովորել</a
-                        >
-                        {{end}}
-                    </div>
-                </div>
+                {{template "single-shtem-btns" .Body.CurrentShtem}}
             </div>
-            <div class="mb-4">
+            <div class="my-4">
                 <h3 class="h4 mb-2">Նկարագրություն</h3>
                 <div class="ql-editor">{{noescape .Body.CurrentShtem.Description}}</div>
             </div>
+            <div class="d-none d-lg-block">{{template "single-shtem-btns" .Body.CurrentShtem}}</div>
         </div>
+    </div>
+</div>
+{{end}} {{define "single-shtem-btns"}}
+<div class="d-flex justify-content-start g-3 mt-4">
+    <div>
+        {{if .HasPDF}}
+        <a class="btn btn-pdf text-white me-2 radius-l fw-bold" href="{{.PDF}}" type="button" target="_blank">Բացել PDF-ը</a>
+        {{end}} {{if .HasQuiz}}
+        <a class="btn btn-quiz text-white radius-l fw-bold" href="/shtems/{{.LinkName}}/build-quiz" type="button" target="_blank"
+            >Սովորել</a
+        >
+        {{end}}
     </div>
 </div>
 {{end}}

@@ -3,7 +3,7 @@
   max-width: 750px;
   margin: auto;
 }
-.subscribe-section h2 {
+.subscribe-section .h2, .subscribe-section .h4 {
   color: #719596;
   font-weight: bold;
 }
@@ -12,10 +12,20 @@
   color: white;
   border: none;
   border-radius: 50px; /* Fully rounded */
-  padding: 10px 50px;
+  padding: 10px 40px;
   font-size: 1.2rem; /* Slightly larger text */
 }
 .subscribe-btn:hover {
+  background: linear-gradient(101deg, #A0B7B8, #447476); /* Darker hover effect */
+}
+.subscribe-btn-sm {
+  background: linear-gradient(101deg, #B1C5C6, #508688);
+  color: white;
+  border: none;
+  border-radius: 50px; /* Fully rounded */
+  padding: 8px 14px;
+}
+.subscribe-btn-sm:hover {
   background: linear-gradient(101deg, #A0B7B8, #447476); /* Darker hover effect */
 }
 .form-control {

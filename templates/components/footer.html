@@ -1,7 +1,8 @@
 {{define "footer"}}
-<footer class="bg-body-tertiary text-center">
+<footer class="row flex-column text-center global-container" style="background-color: rgba(0, 0, 0, 0.05)">
+    <div class="mt-4 px-5">{{template "smEmail" .}}</div>
     <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05)">
+    <div class="text-center p-3">
         ©
         <script>
             document.write(new Date().getFullYear())

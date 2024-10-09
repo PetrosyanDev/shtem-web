@@ -21,6 +21,71 @@ div.global-container {
     border-radius: 50px;
 }
 
+.btn-pdf {
+    background-color: #FFBD12;
+    color: white;
+    padding: 12px 16px;
+}
+
+.btn-pdf:hover {
+    background-color: #e6aa10; /* Darken the color slightly on hover */
+    color: white;
+}
+
+.btn-pdf:focus, .btn-pdf.focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(255, 189, 18, 0.5);
+}
+
+.btn-pdf:active {
+    background-color: #d69c0f;
+    border-color: #c2850e;
+    color: white;
+}
+
+.btn-pdf:active:focus, .btn-pdf.active:focus {
+    box-shadow: 0 0 0 0.25rem rgba(255, 189, 18, 0.5);
+}
+
+.btn-pdf:disabled, .btn-pdf.disabled {
+    opacity: 0.65;
+    background-color: #FFBD12;
+    color: white;
+}
+
+.btn-quiz {
+    background-color: #0FB700;
+    color: white;
+    padding: 12px 16px;
+}
+
+.btn-quiz:hover {
+    background-color: #0ea500; /* Darken the color slightly on hover */
+    color: white;
+}
+
+.btn-quiz:focus, .btn-quiz.focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(15, 183, 0, 0.5);
+}
+
+.btn-quiz:active {
+    background-color: #0da300;
+    border-color: #0b9200;
+    color: white;
+}
+
+.btn-quiz:active:focus, .btn-quiz.active:focus {
+    box-shadow: 0 0 0 0.25rem rgba(15, 183, 0, 0.5);
+}
+
+.btn-quiz:disabled, .btn-quiz.disabled {
+    opacity: 0.65;
+    background-color: #0FB700;
+    color: white;
+}
+
+
 @import 'topbar.scss';
 @import 'emails.scss';
 @import 'quiz.scss';
