@@ -1,3 +1,9 @@
 {{define "shtems"}}
-<div class="container-fluid global-container mt-5">{{template "lgEmail" .}} {{template "listShtems" .}}</div>
+<div class="container-fluid global-container mt-5">
+    {{template "lgEmail" .}}
+    <div class="w-100 text-center my-5">
+        <p id="no-found" class="h3">Շտեմարաններ չեն գտնվել</p>
+    </div>
+    {{template "listShtems" .}}
+</div>
 {{end}}
