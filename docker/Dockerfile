@@ -5,6 +5,7 @@ LABEL version="1.0"
 LABEL author="ERIK_PETROSYAN"
 LABEL description="Shtemaran.am web server"
 
+RUN apt-get update && apt-get install -y ca-certificates
 RUN addgroup --system erik && adduser --system --ingroup erik erik
 COPY --chown=erik:erik ./build/web/ /home/erik/cmd/web/
 WORKDIR /home/erik/
