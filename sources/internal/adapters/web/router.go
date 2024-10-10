@@ -26,6 +26,7 @@ func NewWEBRouter(handler ports.WEBHandler) *gin.Engine {
 	r.POST("/email", handler.EmailSubmit())
 
 	r.GET("/", handler.Home("allShtems.html"))
+	r.GET("/blog", handler.Blog("blog.html"))
 	r.GET("/shtems/", handler.Shtems("allShtems.html"))
 	r.GET("/shtems/:shtemName", handler.SingleShtem("singleShtem.html"))
 	r.GET("/shtems/:shtemName/quiz", handler.Quiz("quiz.html"))

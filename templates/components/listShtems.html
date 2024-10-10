@@ -6,7 +6,7 @@
         <section class="col-12">
             <div class="category-content d-flex justify-content-between">
                 <h2 class="h3 text-left">{{.Category.Name}}</h2>
-                <a href="/category/{{.Category.LinkName}}" type="button" class="btn btn-outline-primary radius-l">Տեսնել Բոլորը</a>
+                <a href="/category/{{.Category.LinkName}}" type="button" class="btn btn-outline-primary radius-l d-none d-md-block">Տեսնել Բոլորը</a>
             </div>
             <div class="linear-product-listing position-relative">
                 <div class="items d-flex overflow-scroll-x">
@@ -26,6 +26,7 @@
                     {{end}}
                 </div>
             </div>
+            <a href="/category/{{.Category.LinkName}}" style="max-width: 180px;" type="button" class="btn btn-outline-primary radius-l d-block d-md-none mt-3">Տեսնել Բոլորը</a>
         </section>
         <!-- prettier-ignore -->
         {{end}}

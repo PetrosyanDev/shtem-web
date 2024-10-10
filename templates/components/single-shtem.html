@@ -16,7 +16,7 @@
                     <span>{{.Body.CurrentShtem.Author}} (Հեղինակ) </span>
                 </div>
             </div>
-            <div class="col d-lg-none justify-content-between">
+            <div class="col-10 col-md-12 d-lg-none justify-content-between mx-auto">
                 <div class="mx-auto">
                     <img class="w-100 radius-m shadow" alt="{{.Body.CurrentShtem.Name}}" src="{{.Body.CurrentShtem.Image}}" />
                 </div>
@@ -31,7 +31,7 @@
     </div>
 </div>
 {{end}} {{define "single-shtem-btns"}}
-<div class="d-flex justify-content-start g-3 mt-4">
+<div class="d-flex justify-content-center justify-content-md-start g-3 mt-4">
     <div>
         {{if .HasPDF}}
         <a class="btn btn-pdf text-white me-2 radius-l fw-bold" href="{{.PDF}}" type="button" target="_blank">Բացել PDF-ը</a>
