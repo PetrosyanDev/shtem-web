@@ -8,21 +8,15 @@ require (
 	github.com/gin-contrib/cors v1.5.0
 	github.com/gin-contrib/gzip v0.0.6
 	github.com/gin-gonic/gin v1.9.1
-	github.com/jackc/pgconn v1.14.3
+	github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1
 	github.com/jackc/pgx/v5 v5.5.2
+	github.com/khaaleoo/gin-rate-limiter v1.0.0
 	golang.org/x/text v0.17.0
 	google.golang.org/grpc v1.67.1
 )
 
 require (
-	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
-	github.com/jackc/pgio v1.0.0 // indirect
-	github.com/jackc/pgproto3/v2 v2.3.3 // indirect
-)
-
-require (
 	github.com/jackc/puddle/v2 v2.2.1 // indirect
-	github.com/khaaleoo/gin-rate-limiter v1.0.0 // indirect
 	golang.org/x/sync v0.8.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240814211410-ddb44dafa142 // indirect

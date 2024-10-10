@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"shtem-web/sources/internal/adapters/web/dto"
+	telegramclient "shtem-web/sources/internal/clients/telegram"
 	"shtem-web/sources/internal/core/ports"
 
 	"github.com/gin-gonic/gin"
@@ -12,6 +13,7 @@ import (
 
 type webHandler struct {
 	webService        ports.WEBService
+	tgClient          *telegramclient.Client
 	questionsService  ports.QuestionsService
 	shtemsService     ports.ShtemsService
 	categoriesService ports.CategoriesService
@@ -71,6 +73,8 @@ func (h *webHandler) EmailSubmit() gin.HandlerFunc {
 			return
 		}
 
+		h.tgClient.NotifyOnEmail("NEW EMAIL", req.Email)
+
 		// Email submitted successfully
 		ctx.JSON(http.StatusOK, gin.H{"success": true, "message": "Email submitted successfully"})
 	}
@@ -92,11 +96,12 @@ func (h *webHandler) StaticUploads() http.FileSystem {
 
 func NewWEBHandler(
 	webService ports.WEBService,
+	tgClient *telegramclient.Client,
 	questionsService ports.QuestionsService,
 	shtemsService ports.ShtemsService,
 	categoriesService ports.CategoriesService,
 	emailsService ports.EmailsService,
 	filesService ports.FilesService,
 ) *webHandler {
-	return &webHandler{webService, questionsService, shtemsService, categoriesService, emailsService, filesService}
+	return &webHandler{webService, tgClient, questionsService, shtemsService, categoriesService, emailsService, filesService}
 }

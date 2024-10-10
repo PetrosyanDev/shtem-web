@@ -11,6 +11,7 @@ import (
 	"shtem-web/sources/internal/adapters/web/handlers"
 	postgresclient "shtem-web/sources/internal/clients/postgres"
 	storageclient "shtem-web/sources/internal/clients/storage"
+	telegramclient "shtem-web/sources/internal/clients/telegram"
 	"shtem-web/sources/internal/configs"
 	"shtem-web/sources/internal/core/services"
 	"shtem-web/sources/internal/repositories"
@@ -60,6 +61,10 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to connect with Storage (%v)", err)
 	}
+	telegramClient, err := telegramclient.NewTelegamClient(cfg)
+	if err != nil {
+		log.Fatalf("failed to create Telegram client (%v)", err)
+	}
 
 	log.Println("init services")
 	filesService := services.NewFilesService(storageClient)
@@ -74,7 +79,7 @@ func main() {
 	emailsService := services.NewEmailsService(emailsRepository)
 
 	log.Println("init handlers")
-	webHandler := handlers.NewWEBHandler(webService, questionsService, shtemsService, categoriesService, emailsService, filesService)
+	webHandler := handlers.NewWEBHandler(webService, telegramClient, questionsService, shtemsService, categoriesService, emailsService, filesService)
 
 	webRouter := web.NewWEBRouter(webHandler)
 	webApp, err := web.NewWEBServer(webRouter, opts...)

@@ -22,6 +22,10 @@ type Configs struct {
 		HeaderKey      string `json:"headerKey"`
 		Addr           string `json:"address"`
 	} `json:"storage"`
+	Telegram struct {
+		Token         string `json:"token"`
+		SystemChannel int64  `json:"systemChannel"`
+	} `json:"telegram"`
 }
 
 func NewConfigs(args []string) (*Configs, error) {
