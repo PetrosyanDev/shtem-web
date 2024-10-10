@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+    {{ template "header" .}}
+    <body>
+        <div style="min-height: 100dvh; flex-direction: column; display: flex; justify-content: space-between">
+            {{template "top-nav-bar" .}}
+
+            <div class="container-fluid global-container">
+                <div class="my-5 main-title text-center"><h1>🚧 Կառուցման փուլ 🚧</h1></div>
+            </div>
+
+            {{template "footer" .}}
+        </div>
+        {{template "scripts" .}}
+    </body>
+</html>

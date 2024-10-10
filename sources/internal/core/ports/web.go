@@ -10,6 +10,7 @@ import (
 
 type WEBService interface {
 	Home(ctx *gin.Context, page string, data *domain.Page)
+	Blog(ctx *gin.Context, page string, data *domain.Page)
 	Shtems(ctx *gin.Context, page string, data *domain.Page)
 	About(ctx *gin.Context, page string, data *domain.Page)
 	Quiz(ctx *gin.Context, page string, data *domain.Page)
@@ -22,6 +23,7 @@ type WEBService interface {
 
 type WEBHandler interface {
 	Home(page string) gin.HandlerFunc
+	Blog(page string) gin.HandlerFunc
 	Shtems(page string) gin.HandlerFunc
 	Quiz(page string) gin.HandlerFunc
 	SingleShtem(page string) gin.HandlerFunc

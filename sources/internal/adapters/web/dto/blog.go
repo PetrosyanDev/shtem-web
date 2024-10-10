@@ -1,17 +1,11 @@
 // Erik Petrosyan ©
 package dto
 
-import (
-	"shtem-web/sources/internal/core/domain"
-)
+import "shtem-web/sources/internal/core/domain"
 
-type ShtemsResponse struct {
-	Data []string `json:"data"`
-}
-
-func ShtemsData(shtemNames []*domain.Shtemaran, categories *domain.Categories) *domain.Page {
+func BlogData() *domain.Page {
 	const (
-		title       = "shtemaran.am • Սովորիր արագ | Ժամանակը խնայելու լավագույն միջոցը"
+		title       = "shtemaran.am Բլոգ • Սովորիր արագ | Ժամանակը խնայելու լավագույն միջոցը"
 		description = "Բարի գալուստ shtemaran.am, այստեղ դուք կգտնեք ձեր նախընտրած ցանկացած շտեմարան"
 		app         = "no"
 		path        = ""
@@ -23,11 +17,7 @@ func ShtemsData(shtemNames []*domain.Shtemaran, categories *domain.Categories) *
 		AddHeader(title, description, app, kwds...).
 		AddOpenGraphTAG(title, description, path, socImage).
 		AddTwitterTAG(title, description, path, socImage).
-		AddTopMenuItem("ԳԼԽԱՎՈՐ", "/", true).
-		AddTopMenuItem("ԲԼՈԳ", "/blog", false).
-		AddShtemNames(shtemNames).
-		AddCategories(categories)
-
+		AddTopMenuItem("ԳԼԽԱՎՈՐ", "/", false).
+		AddTopMenuItem("ԲԼՈԳ", "/blog", true)
 	return pb.Page()
-
 }

@@ -38,6 +38,11 @@ func (h *webHandler) Home(page string) gin.HandlerFunc {
 	}
 }
 
+func (h *webHandler) Blog(page string) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		h.webService.Blog(ctx, page, dto.BlogData())
+	}
+}
 func (h *webHandler) About(page string) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		h.webService.About(ctx, page, dto.AboutData())

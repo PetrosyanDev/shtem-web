@@ -23,6 +23,9 @@ type webService struct {
 func (s *webService) Home(ctx *gin.Context, page string, data *domain.Page) {
 	s.templates.Render(ctx, page, data)
 }
+func (s *webService) Blog(ctx *gin.Context, page string, data *domain.Page) {
+	s.templates.Render(ctx, page, data)
+}
 func (s *webService) Shtems(ctx *gin.Context, page string, data *domain.Page) {
 	s.templates.Render(ctx, page, data)
 }
