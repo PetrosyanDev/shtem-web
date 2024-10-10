@@ -96,8 +96,8 @@ deploy-dev-unbuild:
 	scp -P ${SSH_PORT} secrets/dev.json ${PRD_HOST}:${PRD_BASE}/${DEPLOY_DIR}/secrets.json
 	scp -P ${SSH_PORT} -r docker ${PRD_HOST}:${PRD_BASE}/${DEPLOY_DIR}/
 
-	# ssh ${DEV_HOST} -p ${SSH_PORT} "docker service rm erik_${IMAGE_DEV}"
-	# powershell -nop -c "& {sleep 2}"
+	ssh ${DEV_HOST} -p ${SSH_PORT} "docker service rm erik_${IMAGE_DEV}"
+	powershell -nop -c "& {sleep 2}"
 	ssh ${DEV_HOST} -p ${SSH_PORT} "IMG=${IMAGE_DEV} TAG=1.0.0 DIR=${DEV_BASE}/${DEPLOY_DIR} MODE=debug docker stack deploy -c ${DEPLOY_DIR}/docker/run-dev.yml erik --with-registry-auth"
 
 	ssh ${PRD_HOST} -p ${SSH_PORT} "rm -f ${DEPLOY_DIR}/secrets.json"
@@ -107,8 +107,8 @@ deploy-unbuild:
 	scp -P ${SSH_PORT} secrets/prd.json ${PRD_HOST}:${PRD_BASE}/${DEPLOY_DIR}/secrets.json
 	scp -P ${SSH_PORT} -r docker ${PRD_HOST}:${PRD_BASE}/${DEPLOY_DIR}/
 
-	# ssh ${PRD_HOST} -p ${SSH_PORT} "docker service rm erik_${DEPLOY_DIR}"
-	# powershell -nop -c "& {sleep 2}"
+	ssh ${PRD_HOST} -p ${SSH_PORT} "docker service rm erik_${DEPLOY_DIR}"
+	powershell -nop -c "& {sleep 2}"
 	ssh ${PRD_HOST} -p ${SSH_PORT} "IMG=${IMAGE} TAG=${RELEASE_VERSION} DIR=${DEV_BASE}/${DEPLOY_DIR} MODE=debug docker stack deploy -c ${DEPLOY_DIR}/docker/run.yml erik --with-registry-auth"
 
 	ssh ${PRD_HOST} -p ${SSH_PORT} "rm -f ${DEPLOY_DIR}/secrets.json"
