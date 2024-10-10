@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	chunkSize       = 4 << 10 // 4Kb
+	chunkSize       = 16 << 10 // 4Kb
 	downloadTimeout = 3 * time.Minute
 )
 
