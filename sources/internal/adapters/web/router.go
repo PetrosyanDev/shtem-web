@@ -29,6 +29,7 @@ func NewWEBRouter(handler ports.WEBHandler) *gin.Engine {
 	r.GET("/blog", handler.Blog("blog.html"))
 	r.GET("/shtems/", handler.Shtems("allShtems.html"))
 	r.GET("/shtems/:shtemName", handler.SingleShtem("singleShtem.html"))
+	r.GET("/shtems/:shtemName/sponsor", handler.SingleShtemSponsor())
 	r.GET("/shtems/:shtemName/quiz", handler.Quiz("quiz.html"))
 	r.GET("/shtems/:shtemName/build-quiz", handler.Home("quizBuilder.html"))
 	r.GET("/category/:categoryName", handler.Category("singleCategory.html"))

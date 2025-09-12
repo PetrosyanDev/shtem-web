@@ -48,3 +48,14 @@ func (c *Client) Notify(text string) {
 		log.Println(err)
 	}
 }
+
+func (c *Client) NotifyOnSponsor(path, sponsor string) {
+	msgText := fmt.Sprintf("New Click:\nShtemaran: %s\nSponsor Link: %s", path, sponsor)
+
+	msg := tgbotapi.NewMessage(c.cfg.Telegram.SystemChannel, msgText)
+
+	_, err := c.Send(msg)
+	if err != nil {
+		log.Println(err)
+	}
+}

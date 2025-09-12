@@ -27,6 +27,7 @@ type WEBHandler interface {
 	Shtems(page string) gin.HandlerFunc
 	Quiz(page string) gin.HandlerFunc
 	SingleShtem(page string) gin.HandlerFunc
+	SingleShtemSponsor() gin.HandlerFunc
 	Category(page string) gin.HandlerFunc
 	About(page string) gin.HandlerFunc
 	EmailSubmit() gin.HandlerFunc
