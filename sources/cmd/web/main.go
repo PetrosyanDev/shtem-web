@@ -14,6 +14,7 @@ import (
 	telegramclient "shtem-web/sources/internal/clients/telegram"
 	"shtem-web/sources/internal/configs"
 	"shtem-web/sources/internal/core/services"
+	"shtem-web/sources/internal/reporting"
 	"shtem-web/sources/internal/repositories"
 	postgresrepository "shtem-web/sources/internal/repositories/postgres"
 	"shtem-web/sources/internal/system"
@@ -81,6 +82,9 @@ func main() {
 	emailsService := services.NewEmailsService(emailsRepository)
 	sponsorHitsService := services.NewSponsorHitsService(sponsorHitsRepository)
 
+	log.Println("init reporters")
+	sponsorReporter := reporting.NewSponsorReporter(sponsorHitsService, telegramClient)
+
 	log.Println("init handlers")
 	webHandler := handlers.NewWEBHandler(webService, telegramClient, questionsService, shtemsService, categoriesService, emailsService, sponsorHitsService, filesService)
 
@@ -93,6 +97,8 @@ func main() {
 	toStop := []system.Service{webApp}
 	wg.Add(len(toStop))
 	go system.HandleGracefullExit(appCtx, wg, toStop...)
+	sponsorReporter.SendDailyReport()
+	go sponsorReporter.StartDaily()
 
 	if err := webApp.Start(); err != nil && err != http.ErrServerClosed {
 		log.Fatalf("failed to run WEB server (%v)", err)
