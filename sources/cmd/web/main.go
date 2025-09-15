@@ -43,6 +43,7 @@ func main() {
 	shtemsDB := postgresrepository.NewShtemsDB(appCtx, postgresDB)
 	categoriesDB := postgresrepository.NewCategoriesDB(appCtx, postgresDB)
 	emailsDB := postgresrepository.NewEmailsDB(appCtx, postgresDB)
+	sponsorHitsDB := postgresrepository.NewSponsorHitsDB(appCtx, postgresDB)
 
 	log.Println("init repositories")
 
@@ -55,6 +56,7 @@ func main() {
 	shtemsRepository := repositories.NewShtemsRepository(shtemsDB)
 	categoriesRepository := repositories.NewCategoriesRepository(categoriesDB)
 	emailsRepository := repositories.NewEmailsRepository(emailsDB)
+	sponsorHitsRepository := repositories.NewSponsorHitsRepository(sponsorHitsDB)
 
 	log.Println("init clients")
 	storageClient, err := storageclient.NewStorageClient(appCtx, cfg)
@@ -77,9 +79,10 @@ func main() {
 	shtemsService := services.NewShtemsService(shtemsRepository)
 	categoriesService := services.NewCategoriesService(categoriesRepository, shtemsRepository)
 	emailsService := services.NewEmailsService(emailsRepository)
+	sponsorHitsService := services.NewSponsorHitsService(sponsorHitsRepository)
 
 	log.Println("init handlers")
-	webHandler := handlers.NewWEBHandler(webService, telegramClient, questionsService, shtemsService, categoriesService, emailsService, filesService)
+	webHandler := handlers.NewWEBHandler(webService, telegramClient, questionsService, shtemsService, categoriesService, emailsService, sponsorHitsService, filesService)
 
 	webRouter := web.NewWEBRouter(webHandler)
 	webApp, err := web.NewWEBServer(webRouter, opts...)

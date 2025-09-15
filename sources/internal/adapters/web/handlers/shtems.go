@@ -1,14 +1,18 @@
 package handlers
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"log"
+	"os"
 	"shtem-web/sources/internal/adapters/web/dto"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
 
 const (
-	mathSponsor = "https://mathmind.am/?utm_source=shtemaran.am"
+	mathSponsor = "https://mathmind.am/index/trackVisit/shtemaran"
 )
 
 func (h *webHandler) SingleShtem(page string) gin.HandlerFunc {
@@ -60,8 +64,22 @@ func (h *webHandler) SingleShtemSponsor() gin.HandlerFunc {
 }
 
 func (h *webHandler) sponsor(ctx *gin.Context, path string, sponsorURL string) {
+	// send TG notification
 	h.tgClient.NotifyOnSponsor(path, sponsorURL)
-	ctx.Redirect(301, sponsorURL)
+
+	// tracking
+	clientID, _ := ctx.Cookie("cid")
+	ipH := hashIP(clientIP(ctx))
+	ua := ctx.GetHeader("User-Agent")
+
+	err := h.sponsorHitsService.InsertSponsorHit(path, sponsorURL, clientID, ipH, ua)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	// redirect
+	ctx.Redirect(302, sponsorURL) // 302 avoids caching
 }
 
 func (h *webHandler) Quiz(page string) gin.HandlerFunc {
@@ -78,4 +96,20 @@ func (h *webHandler) Quiz(page string) gin.HandlerFunc {
 
 		h.webService.Shtems(ctx, page, dto.QuizData())
 	}
+}
+
+func clientIP(c *gin.Context) string {
+	if ip := c.GetHeader("CF-Connecting-IP"); ip != "" {
+		return ip
+	}
+	if xff := c.GetHeader("X-Forwarded-For"); xff != "" {
+		return strings.TrimSpace(strings.Split(xff, ",")[0])
+	}
+	return c.ClientIP()
+}
+
+func hashIP(ip string) string {
+	salt := os.Getenv("IP_HASH_SALT")
+	sum := sha256.Sum256([]byte(salt + "|" + ip))
+	return hex.EncodeToString(sum[:])
 }

@@ -12,13 +12,14 @@ import (
 )
 
 type webHandler struct {
-	webService        ports.WEBService
-	tgClient          *telegramclient.Client
-	questionsService  ports.QuestionsService
-	shtemsService     ports.ShtemsService
-	categoriesService ports.CategoriesService
-	emailsService     ports.EmailsService
-	filesService      ports.FilesService
+	webService         ports.WEBService
+	tgClient           *telegramclient.Client
+	questionsService   ports.QuestionsService
+	shtemsService      ports.ShtemsService
+	categoriesService  ports.CategoriesService
+	emailsService      ports.EmailsService
+	sponsorHitsService ports.SponsorHitsService
+	filesService       ports.FilesService
 }
 
 func (h *webHandler) Home(page string) gin.HandlerFunc {
@@ -101,7 +102,8 @@ func NewWEBHandler(
 	shtemsService ports.ShtemsService,
 	categoriesService ports.CategoriesService,
 	emailsService ports.EmailsService,
+	sponsorHitsService ports.SponsorHitsService,
 	filesService ports.FilesService,
 ) *webHandler {
-	return &webHandler{webService, tgClient, questionsService, shtemsService, categoriesService, emailsService, filesService}
+	return &webHandler{webService, tgClient, questionsService, shtemsService, categoriesService, emailsService, sponsorHitsService, filesService}
 }
