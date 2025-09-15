@@ -29,3 +29,9 @@ type EmailsDB interface {
 	InsertEmail(email string) domain.Error
 	GetAllEmails() ([]*domain.Email, domain.Error)
 }
+
+type SponsorHitsDB interface {
+	InsertSponsorHit(path, sponsorURL, clientID, ipHash, ua string) domain.Error
+	GetDailyUniqueCount(path string, date string) (int64, domain.Error)
+	GetDistinctPaths() ([]string, domain.Error)
+}
