@@ -64,9 +64,6 @@ func (h *webHandler) SingleShtemSponsor() gin.HandlerFunc {
 }
 
 func (h *webHandler) sponsor(ctx *gin.Context, path string, sponsorURL string) {
-	// send TG notification
-	h.tgClient.NotifyOnSponsor(path, sponsorURL)
-
 	// tracking
 	clientID, _ := ctx.Cookie("cid")
 	ipH := hashIP(clientIP(ctx))
@@ -79,7 +76,7 @@ func (h *webHandler) sponsor(ctx *gin.Context, path string, sponsorURL string) {
 	}
 
 	// redirect
-	ctx.Redirect(302, sponsorURL) // 302 avoids caching
+	ctx.Redirect(302, sponsorURL)
 }
 
 func (h *webHandler) Quiz(page string) gin.HandlerFunc {
