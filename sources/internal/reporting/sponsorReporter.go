@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	hour = 13
+	hour = 15
 	min  = 0
 	sec  = 0
 )
@@ -26,19 +26,26 @@ func NewSponsorReporter(svc ports.SponsorHitsService, tg *telegramclient.Client)
 }
 
 func (r *SponsorReporter) StartDaily() {
+	loc, err := time.LoadLocation("Asia/Yerevan")
+	if err != nil {
+		log.Fatalf("failed to load timezone: %v", err)
+	}
+
 	for {
-		now := time.Now()
-		next := time.Date(now.Year(), now.Month(), now.Day(), hour, min, sec, 0, now.Location())
+		now := time.Now().In(loc)
+		next := time.Date(now.Year(), now.Month(), now.Day(), hour, min, sec, 0, loc)
 		if now.After(next) {
 			next = next.Add(24 * time.Hour)
 		}
+
 		time.Sleep(time.Until(next))
 		r.SendDailyReport()
 	}
 }
 
 func (r *SponsorReporter) SendDailyReport() {
-	date := time.Now().Format("2006-01-02")
+	loc, _ := time.LoadLocation("Asia/Yerevan")
+	date := time.Now().In(loc).Format("2006-01-02")
 
 	paths, err := r.svc.GetDistinctPaths()
 	if err != nil {
